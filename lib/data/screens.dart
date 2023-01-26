@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../pages/home/home.dart';
 import '../pages/stats/stats.dart';
@@ -7,15 +8,29 @@ import '../pages/schedule/schedule.dart';
 import '../models/screen.dart';
 
 List<Screen> screens = [
-  Screen.route('/', 'Home', Home()),
-  Screen('/stats', 'Stats', Stats(), Icons.vertical_align_bottom_rounded,
-      MaterialStatePropertyAll<Color>(Colors.orange)),
+  Screen.home(GetPage(
+    name: '/',
+    page: () => Home(),
+  )),
   Screen(
-      '/schedule',
-      "Modifier l'horaire",
-      Schedule(),
-      Icons.calendar_month_outlined,
-      MaterialStatePropertyAll<Color>(Colors.green)),
-  Screen('/settings', 'Préférences', Stats(), Icons.settings,
-      MaterialStatePropertyAll<Color>(Colors.red)),
+      Icons.settings,
+      MaterialStatePropertyAll<Color>(Colors.red),
+      GetPage(
+        name: '/settings',
+        page: () => Settings(),
+      )),
+  Screen(
+      Icons.vertical_align_bottom_rounded,
+      MaterialStatePropertyAll<Color>(Colors.green),
+      GetPage(
+        name: '/stats',
+        page: () => Stats(),
+      )),
+  Screen(
+      Icons.calendar_month_rounded,
+      MaterialStatePropertyAll<Color>(Colors.orange),
+      GetPage(
+        name: '/schedule',
+        page: () => Schedule(),
+      )),
 ];

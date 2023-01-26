@@ -6,10 +6,6 @@ import 'hours_display.dart';
 import 'average_circle.dart';
 import '../../widgets/full_width_button.dart';
 
-import '../stats/stats.dart';
-import '../schedule/schedule.dart';
-import '../settings/settings.dart';
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,16 +29,16 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ...screens.where((screen) => screen.route != '/').map(
-                        (screen) => FullWidthButton(screen.widget, screen.name,
-                            screen.iconData, screen.color)),
+                    ...screens
+                        .where((screen) => screen.getPage.name != '/')
+                        .map((screen) => FullWidthButton(
+                            screen.getPage.page(),
+                            screen.getPage.name,
+                            screen.iconData,
+                            screen.color)),
                   ],
                 ),
               ],
             )));
-  }
-
-  _navigate(BuildContext context, String path) {
-    Navigator.pushNamed(context, path);
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Screen {
-  String route;
-  String name;
-  Widget widget;
   late IconData iconData;
   late MaterialStatePropertyAll<Color> color;
+  late GetPage getPage;
 
-  Screen(this.route, this.name, this.widget, this.iconData, this.color);
-  Screen.route(this.route, this.name, this.widget);
+  Screen(this.iconData, this.color, this.getPage);
+  Screen.home(this.getPage);
 }
