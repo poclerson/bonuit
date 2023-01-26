@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sommeil/styles.dart';
 import 'nav_bar.dart';
 import 'pages/home/home.dart';
 import 'pages/stats/stats.dart';
@@ -12,20 +13,18 @@ List<Screen> screens = [
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: _routes(),
-      home: Home(),
-      // builder: (context, child) {
-      //   return Overlay(
-      //     initialEntries: [
-      //       OverlayEntry(
-      //           builder: (context) => Scaffold(
-      //                 bottomNavigationBar: NavBar(),
-      //               ))
-      //     ],
-      //   );
-      // },
-    );
+    return MaterialApp(onGenerateRoute: _routes(), home: Home(), theme: _theme()
+        // builder: (context, child) {
+        //   return Overlay(
+        //     initialEntries: [
+        //       OverlayEntry(
+        //           builder: (context) => Scaffold(
+        //                 bottomNavigationBar: NavBar(),
+        //               ))
+        //     ],
+        //   );
+        // },
+        );
   }
 
   RouteFactory _routes() {
@@ -35,5 +34,14 @@ class App extends StatelessWidget {
 
       return MaterialPageRoute(builder: (BuildContext context) => screen);
     };
+  }
+
+  ThemeData _theme() {
+    return ThemeData(
+        appBarTheme: AppBarTheme(toolbarTextStyle: AppBarTextStyle),
+        textTheme: TextTheme(
+            titleMedium: TitleTextStyle,
+            bodyMedium: BodyTextStyle,
+            displayMedium: DisplayTextStyle));
   }
 }
