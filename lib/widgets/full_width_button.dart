@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../styles.dart';
-import '../pages/stats/stats.dart';
 
 class FullWidthButton extends StatelessWidget {
   Widget _widget;
@@ -16,9 +15,13 @@ class FullWidthButton extends StatelessWidget {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => _widget));
       },
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(_text), Icon(_icon)]),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(_text),
+        Icon(
+          _icon,
+          size: 40,
+        )
+      ]),
       style: ButtonTextStyle.copyWith(backgroundColor: _color),
     );
   }
