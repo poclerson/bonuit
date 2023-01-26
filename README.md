@@ -1,16 +1,11 @@
-# sommeil
+# Gestionnaire de sommeil en Flutter
+Ce projet est réalisé dans le cadre d'un cours au collège de Maisonneuve en tant que projet de fin d'études.
 
-A new Flutter project.
+## Fonctionnalités
+Fonctionnalités à intégrer
 
-## Getting Started
+- Pouvoir estimer la quantité de sommeil que l’utilisateur obtient chaque nuit automatiquement (détecter lorsque l’appareil mobile arrête d’être utilisé). Je ne sais pas encore si cette fonctionnalité sera possible sous iOS, puisque Apple est reconnue pour ne pas laisser beaucoup de contrôle sur leur système d’opération.
 
-This project is a starting point for a Flutter application.
+- Permettre à l’utilisateur de créer des alarmes pour chaque jour de la semaine réutilisables (par exemple, on pourrait avoir l’alarme « Travail » lundi, mardi et mercredi et l’alarme « École » jeudi et vendredi, qui auraient toutes deux des horaires différents)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Gérer les heures de sommeil de l’utilisateur. C’est-à-dire que si, par exemple, l’utilisateur décide qu’il doit dormir 8 heures par nuit et que son alarme du lendemain est à 7 heures, un rappel de coucher devra se déclencher automatiquement pour 23 heures.
