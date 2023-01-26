@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../data/screens.dart';
+
 import 'hours_display.dart';
 import 'average_circle.dart';
 import '../../widgets/full_width_button.dart';
@@ -31,18 +33,9 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FullWidthButton(
-                        Stats(),
-                        'Statistiques',
-                        Icons.align_vertical_bottom_rounded,
-                        MaterialStatePropertyAll<Color>(Colors.green)),
-                    FullWidthButton(
-                        Schedule(),
-                        "Modifier l'horaire",
-                        Icons.calendar_today_outlined,
-                        MaterialStatePropertyAll<Color>(Colors.red)),
-                    FullWidthButton(Settings(), 'Préférences', Icons.settings,
-                        MaterialStatePropertyAll<Color>(Colors.orange)),
+                    ...screens.where((screen) => screen.route != '/').map(
+                        (screen) => FullWidthButton(screen.widget, screen.name,
+                            screen.iconData, screen.color)),
                   ],
                 ),
               ],

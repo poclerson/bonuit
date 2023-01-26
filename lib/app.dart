@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sommeil/styles.dart';
-import 'widgets/nav_bar.dart';
-import 'pages/home/home.dart';
-import 'pages/stats/stats.dart';
-import 'models/screen.dart';
 
-List<Screen> screens = [
-  Screen('/', 'Home', Home()),
-  Screen('/stats', 'Stats', Stats())
-];
+import 'package:sommeil/styles.dart';
+
+import 'pages/home/home.dart';
+import 'data/screens.dart';
 
 class App extends StatelessWidget {
   @override
