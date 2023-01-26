@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../nav_bar.dart';
-import '../../models/hour.dart';
+import '../../models/json.dart';
+import 'hours_display.dart';
+import '../../widgets/full_width_button.dart';
+import '../stats/stats.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -9,18 +11,29 @@ class Home extends StatelessWidget {
         body: Container(
             padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(30.0, 10.0, 10.0, 10.0),
-                  child: Text(
-                    Hour.now(),
-                    style: Theme.of(context).textTheme.displayMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                )
+                  child: HoursDisplay('10h23'),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FullWidthButton(Stats(), 'Statistiques', Icons.abc,
+                        MaterialStatePropertyAll<Color>(Colors.green)),
+                    FullWidthButton(Stats(), "Modifier l'horaire", Icons.abc,
+                        MaterialStatePropertyAll<Color>(Colors.red)),
+                    FullWidthButton(Stats(), 'Préférences', Icons.abc,
+                        MaterialStatePropertyAll<Color>(Colors.orange)),
+                  ],
+                ),
               ],
             )));
+  }
+
+  _navigate(BuildContext context, String path) {
+    Navigator.pushNamed(context, path);
   }
 }

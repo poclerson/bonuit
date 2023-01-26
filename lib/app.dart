@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sommeil/styles.dart';
-import 'nav_bar.dart';
+import 'widgets/nav_bar.dart';
 import 'pages/home/home.dart';
 import 'pages/stats/stats.dart';
 import 'models/screen.dart';
@@ -13,7 +13,8 @@ List<Screen> screens = [
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(onGenerateRoute: _routes(), home: Home(), theme: _theme()
+    return MaterialApp(
+        onGenerateRoute: _routes(), home: Home(), theme: appThemeData
         // builder: (context, child) {
         //   return Overlay(
         //     initialEntries: [
@@ -34,14 +35,5 @@ class App extends StatelessWidget {
 
       return MaterialPageRoute(builder: (BuildContext context) => screen);
     };
-  }
-
-  ThemeData _theme() {
-    return ThemeData(
-        appBarTheme: AppBarTheme(toolbarTextStyle: AppBarTextStyle),
-        textTheme: TextTheme(
-            titleMedium: TitleTextStyle,
-            bodyMedium: BodyTextStyle,
-            displayMedium: DisplayTextStyle));
   }
 }
