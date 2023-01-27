@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../data/screens.dart';
-import '../../models/screen.dart';
 
-import 'hours_display.dart';
+import '../../widgets/title_display.dart';
 import 'average_circle.dart';
 import '../../widgets/full_width_button.dart';
 
@@ -19,7 +19,7 @@ class Home extends StatelessWidget {
               children: [
                 Container(
                   child: Column(
-                    children: [HoursDisplay('10h23'), Text('nuit dernière')],
+                    children: [TitleDisplay('10h23'), Text('nuit dernière')],
                   ),
                 ),
                 Row(
@@ -33,8 +33,11 @@ class Home extends StatelessWidget {
                     ...screens
                         .where((screen) =>
                             screen.getPage.name != '/') // Enlever Home
-                        .map((screen) => FullWidthButton(screen.getPage.name,
-                            screen.iconData, screen.color)),
+                        .map((screen) => FullWidthButton(
+                            screen.title,
+                            screen.iconData,
+                            screen.color,
+                            () => Get.toNamed(screen.getPage.name))),
                   ],
                 ),
               ],

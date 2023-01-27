@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const String DefaultFont = 'Roboto';
 
 const DisplayTextSize = 96.0;
+const DisplayTextSizeSmall = 64.0;
 const LargeTextSize = 26.0;
 const MediumTextSize = 20.0;
 const BodyTextSize = 16.0;
@@ -17,6 +18,12 @@ const DisplayTextStyle = TextStyle(
     fontFamily: DefaultFont,
     fontWeight: FontWeight.w900,
     fontSize: DisplayTextSize,
+    color: Colors.black);
+
+const DisplayTextStyleSmall = TextStyle(
+    fontFamily: DefaultFont,
+    fontWeight: FontWeight.w700,
+    fontSize: DisplayTextSizeSmall,
     color: Colors.black);
 
 const TitleTextStyle = TextStyle(

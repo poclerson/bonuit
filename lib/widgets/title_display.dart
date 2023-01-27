@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import '../styles.dart';
 
-class HoursDisplay extends StatelessWidget {
+class TitleDisplay extends StatelessWidget {
   final String text;
-  HoursDisplay(this.text);
+  TextStyle? textStyle;
+  TitleDisplay(this.text);
+  TitleDisplay.styleWith(this.text, this.textStyle);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.fromLTRB(30.0, 10.0, 10.0, 10.0),
         child: Text(
-          '10h23',
-          style: Theme.of(context).textTheme.displayMedium?.copyWith(
+          text,
+          style: (textStyle ?? DisplayTextStyle).copyWith(
               foreground: Paint()
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = 2),
