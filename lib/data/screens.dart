@@ -13,24 +13,30 @@ List<Screen> screens = [
     page: () => Home(),
   )),
   Screen(
-      Icons.settings,
-      MaterialStatePropertyAll<Color>(Colors.red),
-      GetPage(
-        name: '/settings',
-        page: () => Settings(),
-      )),
+    Icons.settings,
+    MaterialStatePropertyAll<Color>(Colors.red),
+    GetPage(
+      name: '/settings',
+      page: () => Settings(),
+    ),
+    // 'Préférences',
+  ),
   Screen(
-      Icons.vertical_align_bottom_rounded,
-      MaterialStatePropertyAll<Color>(Colors.green),
-      GetPage(
-        name: '/stats',
-        page: () => Stats(),
-      )),
+    Icons.vertical_align_bottom_rounded,
+    MaterialStatePropertyAll<Color>(Colors.green),
+    GetPage(
+      name: '/stats',
+      page: () => Stats(),
+    ),
+    // 'Statistiques',
+  ),
   Screen(
-      Icons.calendar_month_rounded,
-      MaterialStatePropertyAll<Color>(Colors.orange),
-      GetPage(
-        name: '/schedule',
-        page: () => Schedule(),
-      )),
+    Icons.calendar_month_rounded,
+    MaterialStatePropertyAll<Color>(Colors.orange),
+    GetPage(
+      name: '/schedule',
+      page: () => Schedule(),
+    ),
+    // "Modifier l'horaire",
+  ),
 ];

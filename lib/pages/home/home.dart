@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/screens.dart';
+import '../../models/screen.dart';
 
 import 'hours_display.dart';
 import 'average_circle.dart';
@@ -30,12 +31,10 @@ class Home extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ...screens
-                        .where((screen) => screen.getPage.name != '/')
-                        .map((screen) => FullWidthButton(
-                            screen.getPage.page(),
-                            screen.getPage.name,
-                            screen.iconData,
-                            screen.color)),
+                        .where((screen) =>
+                            screen.getPage.name != '/') // Enlever Home
+                        .map((screen) => FullWidthButton(screen.getPage.name,
+                            screen.iconData, screen.color)),
                   ],
                 ),
               ],
