@@ -13,4 +13,14 @@ class Date {
     'novembre',
     'décembre'
   ];
+
+  static List<String> weekdays = [
+    'lundi',
+    'mardi',
+    'mercredi',
+    'jeudi',
+    'vendredi',
+    'samedi',
+    'dimanche'
+  ];
 }

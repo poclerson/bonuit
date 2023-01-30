@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Travail",
+        "color": "0xffeeeeee",
+        "songURL": "https://allo.com",
+        "sleepTime": "1969-07-20 20:18:04Z",
+        "wakeTime": "1969-07-20 20:18:04Z"
+    },
+    {
+        "name": "École",
+        "color": "0xffee0000",
+        "songURL": "https://allo.com",
+        "sleepTime": "1969-07-20 20:18:04Z",
+        "wakeTime": "1969-07-20 20:18:04Z"
+    },
+    {
+        "name": "Bureau",
+        "color": "0xff00ee00",
+        "songURL": "https://allo.com",
+        "sleepTime": "1969-07-20 20:18:04Z",
+        "wakeTime": "1969-07-20 20:18:04Z"
+    },
+    {
+        "name": "Congé",
+        "color": "0xff0000ee",
+        "songURL": "https://allo.com",
+        "sleepTime": "1969-07-20 20:18:04Z",
+        "wakeTime": "1969-07-20 20:18:04Z"
+    }
+]

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../pages/home/home.dart';
 import '../pages/stats/stats.dart';
 import '../pages/settings/settings.dart';
-import '../pages/schedule/schedule.dart';
+import '../pages/schedules/schedules.dart';
 import '../models/screen.dart';
 
 List<Screen> screens = [
@@ -36,7 +36,7 @@ List<Screen> screens = [
     MaterialStatePropertyAll<Color>(Colors.orange),
     GetPage(
       name: '/schedule',
-      page: () => Schedule(),
+      page: () => Schedules(),
     ),
   ),
 ];
