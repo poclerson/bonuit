@@ -75,13 +75,27 @@ class _SchedulesState extends State<Schedules> {
               future: Schedule.getAll(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Wrap(
-                    alignment: WrapAlignment.center,
-                    children: [
-                      ...snapshot.data!
-                          .map((schedule) => DraggableScheduleBox(schedule))
-                          .toList()
-                    ],
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width / 3,
+                    child: CustomScrollView(
+                      scrollDirection: Axis.horizontal,
+                      slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.all(0),
+                          sliver: SliverGrid.count(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1 / 3,
+                            children: [
+                              ...snapshot.data!
+                                  .map((schedule) =>
+                                      DraggableScheduleBox(schedule))
+                                  .toList()
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 } else {
                   return Wrap(

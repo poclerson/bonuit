@@ -16,9 +16,26 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
   Widget build(BuildContext context) {
     return LongPressDraggable<Schedule>(
         data: _schedule,
-        feedback: Text(_schedule.name[0].toUpperCase()),
+        feedback: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: _schedule.color,
+          ),
+          child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                _schedule.name[0].toUpperCase(),
+                style: TextStyle(
+                    color: Colors.black, decoration: TextDecoration.none),
+              )),
+        ),
         child: Container(
             decoration: BoxDecoration(color: _schedule.color),
-            child: Text(_schedule.name)));
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(_schedule.name),
+            )));
   }
 }

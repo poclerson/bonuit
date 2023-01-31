@@ -34,7 +34,6 @@ class Weekday {
         weekdays.firstWhere((weekday) => weekday.day == day);
     int index = weekdays.indexOf(weekdayToChange);
     weekdays[index].schedule = newSchedule;
-    inspect(index);
     final json =
         jsonEncode(weekdays.map((weekday) => weekday.toJson()).toList());
     localFile.write(json);
