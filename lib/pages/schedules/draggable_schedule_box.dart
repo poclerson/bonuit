@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import '../../models/schedule.dart';
 
 class DraggableScheduleBox extends StatefulWidget {
-  final String _text;
-  final Color _color;
-  DraggableScheduleBox(this._text, this._color);
+  final Schedule _schedule;
+  DraggableScheduleBox(this._schedule);
   @override
   _DraggableScheduleBoxState createState() =>
-      _DraggableScheduleBoxState(_text, _color);
+      _DraggableScheduleBoxState(_schedule);
 }
 
 class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
-  String _text;
-  Color _color;
-  _DraggableScheduleBoxState(this._text, this._color);
+  Schedule _schedule;
+  _DraggableScheduleBoxState(this._schedule);
   @override
   Widget build(BuildContext context) {
-    return LongPressDraggable(
-        child: Text(_text), feedback: Text(_text[0].toUpperCase()));
+    return LongPressDraggable<Schedule>(
+        data: _schedule,
+        feedback: Text(_schedule.name[0].toUpperCase()),
+        child: Container(
+            decoration: BoxDecoration(color: _schedule.color),
+            child: Text(_schedule.name)));
   }
 }

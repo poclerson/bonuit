@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
+import 'local_files.dart';
 
 class Schedule {
-  static const url = 'assets/schedule.json';
+  static var localFile = LocalFiles('schedule');
   late String name;
   late Color color;
   late String songURL;
@@ -23,44 +22,26 @@ class Schedule {
     wakeTime = DateTime.parse(json['wakeTime']);
   }
 
-  static Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  static Future<File> get _localFile async {
-    final path = await _localPath;
-    File('$path/schedule.json').create(recursive: true);
-    return File('$path/schedule.json');
-  }
-
-  static Future<List<Schedule>> getAllSchedules() async {
-    final file = await _localFile;
-    final contents = await file.readAsString();
-    List<dynamic> json = await jsonDecode(contents);
+  static Future<List<Schedule>> getAll() async {
+    final json = await localFile.readAll();
 
     return json.map((element) => Schedule.fromJson(element)).toList();
   }
 
-  static Map<String, dynamic> toJson(Schedule schedule) {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = schedule.name;
-    data['color'] = schedule.color.toString();
-    data['songURL'] = schedule.songURL;
-    data['sleepTime'] = schedule.sleepTime.toString();
-    data['wakeTime'] = schedule.wakeTime.toString();
-
+    data['name'] = name;
+    data['color'] = color.toString().substring(6, 16);
+    data['songURL'] = songURL;
+    data['sleepTime'] = sleepTime.toString();
+    data['wakeTime'] = wakeTime.toString();
     return data;
   }
 
-  static void addSchedule(
-      {required String name,
-      required Color color,
-      String songURL = 'https://allo.com',
-      required DateTime sleepTime,
-      required DateTime wakeTime}) async {
-    final file = await _localFile;
-    file.writeAsStringSync(json
-        .encode(toJson(Schedule(name, color, songURL, sleepTime, wakeTime))));
+  Future<void> add() async {
+    final schedules = await getAll();
+    schedules.add(this);
+    localFile.write(
+        jsonEncode(schedules.map((schedule) => schedule.toJson()).toList()));
   }
 }
