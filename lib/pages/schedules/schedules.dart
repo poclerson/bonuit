@@ -17,15 +17,28 @@ class Schedules extends StatefulWidget {
 }
 
 class _SchedulesState extends State<Schedules> {
+  DateTime now = DateTime.now();
+  late int amountOfDaysInCurrentMonth =
+      DateTime(now.year, now.month + 1, 0).day;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Semaine du ' +
-            DateTime.now().day.toString() +
+            DateTime.now()
+                .subtract(Duration(days: DateTime.now().weekday - 1))
+                .day
+                .toString() +
             ' ' +
-            Date.months[DateTime.now().month]),
+            Date.months[DateTime(
+                        now.year,
+                        now.weekday + now.day > amountOfDaysInCurrentMonth
+                            ? now.month - 1
+                            : now.month,
+                        0)
+                    .month]
+                .toString()),
         backgroundColor: Colors.black,
       ),
       bottomNavigationBar: NavBar(ElevatedButton(

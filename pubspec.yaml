@@ -35,6 +35,7 @@ dependencies:
   intl:
   path_provider:
   google_fonts: ^3.0.1
+  progressive_time_picker:
 
 
   # The following adds the Cupertino Icons font to your application.

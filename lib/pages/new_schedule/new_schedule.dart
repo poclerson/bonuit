@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/nav_bar.dart';
 import '../../widgets/colorpicker.dart';
-import 'time_picker.dart';
+import 'package:progressive_time_picker/progressive_time_picker.dart';
 
 class NewSchedule extends StatelessWidget {
   @override
@@ -31,6 +31,12 @@ class NewSchedule extends StatelessWidget {
                 Divider(
                   color: Colors.white,
                 ),
+                TimePicker(
+                  initTime: PickedTime(h: 0, m: 0),
+                  endTime: PickedTime(h: 6, m: 0),
+                  onSelectionChange: (start, end, isDisableRange) {},
+                  onSelectionEnd: (start, end, isDisableRange) {},
+                )
               ])),
     );
   }
