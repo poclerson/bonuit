@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/screens.dart';
-
-import '../../widgets/title_display.dart';
 import 'average_circle.dart';
-import '../../widgets/full_width_button.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -19,27 +16,39 @@ class Home extends StatelessWidget {
               children: [
                 Container(
                   child: Column(
-                    children: [TitleDisplay('10h23'), Text('nuit dernière')],
+                    children: [
+                      Text(
+                        '10h23',
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                      Text('nuit dernière')
+                    ],
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [AverageCircle(), AverageCircle()],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ...screens
-                        .where((screen) =>
-                            screen.getPage.name != '/') // Enlever Home
-                        .map((screen) => FullWidthButton(
-                            screen.title,
-                            screen.iconData,
-                            screen.color,
-                            () => Get.toNamed(screen.getPage.name))),
-                  ],
-                ),
+                Container(
+                  padding: EdgeInsets.only(bottom: 100),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ...screens
+                          .where((screen) =>
+                              screen.getPage.name != '/') // Enlever Home
+                          .map((screen) => IconButton(
+                                onPressed: () =>
+                                    Get.toNamed(screen.getPage.name),
+                                icon: Icon(
+                                  screen.iconData,
+                                  size: 50,
+                                ),
+                              )),
+                    ],
+                  ),
+                )
               ],
             )));
   }

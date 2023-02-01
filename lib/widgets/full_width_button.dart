@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../styles.dart';
 
 class FullWidthButton extends StatelessWidget {
   final String _text;
@@ -10,9 +9,8 @@ class FullWidthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return OutlinedButton(
       onPressed: _onButtonPress,
-      style: ButtonTextStyle.copyWith(backgroundColor: _color),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(_text),
         Icon(

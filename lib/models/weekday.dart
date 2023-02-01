@@ -1,7 +1,6 @@
 import 'schedule.dart';
 import 'local_files.dart';
 import 'dart:convert';
-import 'dart:developer';
 
 class Weekday {
   static var localFile = LocalFiles('weekdays');
