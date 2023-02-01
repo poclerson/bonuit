@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'local_files.dart';
+import 'package:progressive_time_picker/progressive_time_picker.dart';
 
 class Schedule {
   static var localFile = LocalFiles('schedule');
@@ -20,6 +21,19 @@ class Schedule {
     songURL = json['songURL'];
     sleepTime = DateTime.parse(json['sleepTime']);
     wakeTime = DateTime.parse(json['wakeTime']);
+  }
+
+  Schedule.pickedTime(
+      {required this.name,
+      required this.color,
+      required this.songURL,
+      required PickedTime sleepTime,
+      required PickedTime wakeTime}) {
+    DateTime now = DateTime.now();
+    this.sleepTime =
+        DateTime(now.year, now.month, now.day, sleepTime.h, sleepTime.m);
+    this.wakeTime =
+        DateTime(now.year, now.month, now.day, wakeTime.h, wakeTime.m);
   }
 
   static Future<List<Schedule>> getAll() async {

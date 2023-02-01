@@ -9,7 +9,6 @@ import '../../widgets/nav_bar.dart';
 import '../new_schedule/new_schedule.dart';
 import 'weekday_block.dart';
 import 'draggable_schedule_box.dart';
-import '../../widgets/prompt.dart';
 
 class Schedules extends StatefulWidget {
   @override
@@ -20,6 +19,7 @@ class _SchedulesState extends State<Schedules> {
   DateTime now = DateTime.now();
   late int amountOfDaysInCurrentMonth =
       DateTime(now.year, now.month + 1, 0).day;
+  late String _appBarText = 'Nouvel horaire';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +44,10 @@ class _SchedulesState extends State<Schedules> {
       bottomNavigationBar: NavBar(ElevatedButton(
           onPressed: (() {
             // Aller vers la page NewSchedule()
-            Get.to(NewSchedule());
+            Get.to(NewSchedule(_appBarText!));
             // Nécessaire pour charger le dialog dans un autre context
             // Sinon, Navigator.pop() retourne à Schedules()
-            showDialog(context: context, builder: (context) => Prompt(true));
+            // f);
           }),
           child: Icon(Icons.add))),
       body: Column(

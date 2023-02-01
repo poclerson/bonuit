@@ -34,9 +34,12 @@ class AppTheme {
 
       /// NAVIGATION ///
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-      ),
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+              color: DarkColorScheme.onBackground,
+              fontSize: 20,
+              fontWeight: FontWeight.w900)),
       bottomAppBarTheme: BottomAppBarTheme(color: DarkColorScheme.background),
 
       /// BOUTONS ///
