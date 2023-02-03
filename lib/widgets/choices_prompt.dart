@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Prompt extends StatelessWidget {
+class TextPrompt extends StatelessWidget {
   final Function(String value) _onTextFieldSubmitted;
-  Prompt(this._onTextFieldSubmitted);
+  TextPrompt(this._onTextFieldSubmitted);
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

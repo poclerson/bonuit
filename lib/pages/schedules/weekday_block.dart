@@ -11,7 +11,7 @@ class WeekdayBlock extends StatefulWidget {
 
 class _WeekdayBlockState extends State<WeekdayBlock> {
   Weekday _weekday;
-  late Color _hoverColor = _weekday.schedule.color;
+  late Color _hoverColor = _weekday.schedule!.color;
 
   _WeekdayBlockState(this._weekday);
 
@@ -45,14 +45,14 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Fin du hover
       onLeave: (schedule) {
         setState(() {
-          _hoverColor = _weekday.schedule.color;
+          _hoverColor = _weekday.schedule!.color;
         });
       },
 
       // Drop
       onAccept: (schedule) {
         setState(() {
-          _weekday.schedule.color = schedule.color;
+          _weekday.schedule!.color = schedule.color;
           _weekday.changeSchedule(schedule);
         });
       },

@@ -19,9 +19,13 @@ class _SchedulesState extends State<Schedules> {
   DateTime now = DateTime.now();
   late int amountOfDaysInCurrentMonth =
       DateTime(now.year, now.month + 1, 0).day;
+
   late String _appBarText = 'Nouvel horaire';
+
+  late Future<List<Schedule>> _schedules;
   @override
   Widget build(BuildContext context) {
+    _schedules = Schedule.getAll();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -44,10 +48,11 @@ class _SchedulesState extends State<Schedules> {
       bottomNavigationBar: NavBar(ElevatedButton(
           onPressed: (() {
             // Aller vers la page NewSchedule()
-            Get.to(NewSchedule(_appBarText!));
-            // Nécessaire pour charger le dialog dans un autre context
-            // Sinon, Navigator.pop() retourne à Schedules()
-            // f);
+            Get.to(NewSchedule(_appBarText!, _schedules, () {
+              setState(() {
+                _schedules = Schedule.getAll();
+              });
+            }));
           }),
           child: Icon(Icons.add))),
       body: Column(
@@ -80,7 +85,7 @@ class _SchedulesState extends State<Schedules> {
                 }
               }),
           FutureBuilder(
-              future: Schedule.getAll(),
+              future: _schedules,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Container(

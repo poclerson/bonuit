@@ -25,8 +25,9 @@ class ColorPicker extends StatelessWidget {
                 .map((color) => TextButton(
                     onPressed: () => _onColorPressed(color),
                     style: Theme.of(context).textButtonTheme.style!.copyWith(
-                        backgroundColor: MaterialStatePropertyAll<Color>(
-                            Colors.transparent)),
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.transparent),
+                        overlayColor: MaterialStatePropertyAll<Color>(color)),
                     child: Container(
                       margin: EdgeInsets.all(10),
                       width: 50,

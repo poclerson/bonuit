@@ -1,23 +1,28 @@
 import 'schedule.dart';
 import 'local_files.dart';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
 class Weekday {
-  static var localFile = LocalFiles('weekdays');
+  static var localFile = LocalFiles('weekdays',
+      '[{"day": "lundi","schedule" : {}},{"day": "mardi","schedule" : {}},{"day": "mercredi","schedule" : {}},{"day": "jeudi","schedule" : {}},{"day": "vendredi","schedule" : { }},{"day": "samedi","schedule" : {}},{"day": "dimanche","schedule" : {}}]');
   late String day;
-  late Schedule schedule;
+  late Schedule? schedule;
 
   Weekday(this.day, this.schedule);
 
   Weekday.fromJson(Map<String, dynamic> json) {
+    debugPrint(json['schedule'].toString());
     day = json['day'];
-    schedule = Schedule.fromJson(json['schedule']);
+    schedule = json['schedule'].toString() != '{}'
+        ? Schedule.fromJson(json['schedule'])
+        : Schedule.minimum();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['day'] = day;
-    data['schedule'] = schedule.toJson();
+    data['schedule'] = schedule!.toJson();
     return data;
   }
 

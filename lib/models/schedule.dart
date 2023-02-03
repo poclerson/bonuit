@@ -9,18 +9,26 @@ class Schedule {
   static var localFile = LocalFiles('schedule');
   late String name;
   late Color color;
-  late String songURL;
-  late DateTime sleepTime;
-  late DateTime wakeTime;
+  String? songURL;
+  String? sleepTime;
+  String? wakeTime;
 
-  Schedule(this.name, this.color, this.songURL, this.sleepTime, this.wakeTime);
+  Schedule(
+      {required this.name,
+      required this.color,
+      required this.songURL,
+      required this.sleepTime,
+      required this.wakeTime});
+
+  Schedule.minimum(
+      [this.name = 'Horaire', this.color = const Color(0xFFAFAFAF)]);
 
   Schedule.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     color = Color(int.parse(json['color']));
     songURL = json['songURL'];
-    sleepTime = DateTime.parse(json['sleepTime']);
-    wakeTime = DateTime.parse(json['wakeTime']);
+    sleepTime = json['sleepTime'];
+    wakeTime = json['wakeTime'];
   }
 
   Schedule.pickedTime(
@@ -29,11 +37,8 @@ class Schedule {
       required this.songURL,
       required PickedTime sleepTime,
       required PickedTime wakeTime}) {
-    DateTime now = DateTime.now();
-    this.sleepTime =
-        DateTime(now.year, now.month, now.day, sleepTime.h, sleepTime.m);
-    this.wakeTime =
-        DateTime(now.year, now.month, now.day, wakeTime.h, wakeTime.m);
+    this.sleepTime = '${sleepTime.h}:${sleepTime.m == 0 ? '00' : sleepTime.m}';
+    this.wakeTime = '${wakeTime.h}:${wakeTime.m == 0 ? '00' : wakeTime.m}';
   }
 
   static Future<List<Schedule>> getAll() async {
@@ -47,8 +52,8 @@ class Schedule {
     data['name'] = name;
     data['color'] = color.toString().substring(6, 16);
     data['songURL'] = songURL;
-    data['sleepTime'] = sleepTime.toString();
-    data['wakeTime'] = wakeTime.toString();
+    data['sleepTime'] = sleepTime;
+    data['wakeTime'] = wakeTime;
     return data;
   }
 

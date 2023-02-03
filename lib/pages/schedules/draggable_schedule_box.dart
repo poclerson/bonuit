@@ -31,8 +31,17 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                     color: Colors.black, decoration: TextDecoration.none),
               )),
         ),
-        child: Container(
-            decoration: BoxDecoration(color: _schedule.color),
+        child: TextButton(
+            style: Theme.of(context).textButtonTheme.style!.copyWith(
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(_schedule.color),
+                foregroundColor: MaterialStatePropertyAll<Color>(
+                    Theme.of(context).colorScheme.onPrimary),
+                overlayColor: MaterialStatePropertyAll<Color>(
+                    HSLColor.fromColor(_schedule.color)
+                        .withLightness(.45)
+                        .toColor())),
+            onPressed: () {},
             child: Align(
               alignment: Alignment.center,
               child: Text(_schedule.name),
