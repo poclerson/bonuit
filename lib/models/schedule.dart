@@ -60,6 +60,16 @@ class Schedule {
   Future<void> add() async {
     final schedules = await getAll();
     schedules.add(this);
+    _write(schedules);
+  }
+
+  Future<void> delete() async {
+    final schedules = await getAll();
+    schedules.removeWhere((schedule) => schedule.name == name);
+    await _write(schedules);
+  }
+
+  Future<void> _write(List<Schedule> schedules) async {
     localFile.write(
         jsonEncode(schedules.map((schedule) => schedule.toJson()).toList()));
   }

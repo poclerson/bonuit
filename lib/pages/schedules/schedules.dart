@@ -25,6 +25,12 @@ class _SchedulesState extends State<Schedules> {
   late Future<List<Schedule>> _schedules;
   @override
   Widget build(BuildContext context) {
+    updateSchedules() {
+      setState(() {
+        _schedules = Schedule.getAll();
+      });
+    }
+
     _schedules = Schedule.getAll();
     return Scaffold(
       appBar: AppBar(
@@ -48,11 +54,7 @@ class _SchedulesState extends State<Schedules> {
       bottomNavigationBar: NavBar(ElevatedButton(
           onPressed: (() {
             // Aller vers la page NewSchedule()
-            Get.to(NewSchedule(_appBarText!, _schedules, () {
-              setState(() {
-                _schedules = Schedule.getAll();
-              });
-            }));
+            Get.to(NewSchedule(_appBarText, _schedules, updateSchedules));
           }),
           child: Icon(Icons.add))),
       body: Column(
@@ -101,8 +103,8 @@ class _SchedulesState extends State<Schedules> {
                             childAspectRatio: 1 / 3,
                             children: [
                               ...snapshot.data!
-                                  .map((schedule) =>
-                                      DraggableScheduleBox(schedule))
+                                  .map((schedule) => DraggableScheduleBox(
+                                      schedule, updateSchedules))
                                   .toList()
                             ],
                           ),

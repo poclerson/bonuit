@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../models/schedule.dart';
+import '../../widgets/choices_prompt.dart';
 
 class DraggableScheduleBox extends StatefulWidget {
   final Schedule _schedule;
-  DraggableScheduleBox(this._schedule);
+  final Function _onDeleted;
+  DraggableScheduleBox(this._schedule, this._onDeleted);
   @override
   _DraggableScheduleBoxState createState() =>
       _DraggableScheduleBoxState(_schedule);
@@ -14,6 +16,7 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
   _DraggableScheduleBoxState(this._schedule);
   @override
   Widget build(BuildContext context) {
+    bool _accepted;
     return LongPressDraggable<Schedule>(
         data: _schedule,
         feedback: Container(
@@ -41,7 +44,13 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                     HSLColor.fromColor(_schedule.color)
                         .withLightness(.45)
                         .toColor())),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: ((context) =>
+                      ChoicesPrompt(_schedule, widget._onDeleted)));
+              setState(() {});
+            },
             child: Align(
               alignment: Alignment.center,
               child: Text(_schedule.name),

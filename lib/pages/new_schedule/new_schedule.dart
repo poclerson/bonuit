@@ -35,7 +35,6 @@ class _NewScheduleState extends State<NewSchedule> {
             ? (_) => showDialog(
                 context: context,
                 builder: (context) => TextPrompt((value) {
-                      debugPrint(value);
                       setState(() {
                         widget._appBarText = value;
                       });
