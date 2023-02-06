@@ -21,7 +21,6 @@ class AppTheme {
 
       /// THEME ///
       colorScheme: DarkColorScheme,
-      brightness: Brightness.dark,
       scaffoldBackgroundColor: DarkColorScheme.background,
       dividerColor: DarkColorScheme.secondary,
 
@@ -67,20 +66,26 @@ class AppTheme {
 
       /// TEXTES ///
       textTheme: TextTheme(
-          // Title medium
-          titleMedium: GoogleFonts.karla(
-              fontWeight: FontWeight.w900,
-              color: DarkColorScheme.background,
-              fontSize: 25),
-          // Body medium
-          bodyMedium: GoogleFonts.familjenGrotesk(
-              fontWeight: FontWeight.w300, color: DarkColorScheme.background),
-          // Display large
+
+          /// DISPLAY
           displayLarge: GoogleFonts.karla(
               letterSpacing: -5,
               fontWeight: FontWeight.w900,
               fontSize: 100,
               color: DarkColorScheme.onBackground),
-          // Display small
-          displaySmall: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w900, fontSize: 80, color: DarkColorScheme.onBackground)));
+          displaySmall: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w900,
+              fontSize: 80,
+              color: DarkColorScheme.onBackground),
+
+          /// LABEL
+          labelLarge: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              color: DarkColorScheme.background),
+
+          /// TITLE
+          titleMedium: GoogleFonts.karla(fontWeight: FontWeight.w900, color: DarkColorScheme.background, fontSize: 25),
+          // BODY
+          bodyMedium: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w300, color: DarkColorScheme.background)));
 }

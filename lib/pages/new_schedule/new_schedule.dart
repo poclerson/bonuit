@@ -6,40 +6,49 @@ import '../../widgets/text_prompt.dart';
 import '../../models/schedule.dart';
 import 'dart:core';
 import 'package:get/get.dart';
+import '../../models/time.dart';
 
 class NewSchedule extends StatefulWidget {
-  String _appBarText;
-  Future<List<Schedule>> _schedules;
-  Function _updateSchedules;
-  NewSchedule(this._appBarText, this._schedules, this._updateSchedules);
+  Schedule schedule;
+  Function updateSchedules;
+  Operation operation;
+  late Schedule oldSchedule = schedule;
+  NewSchedule(
+      {required this.updateSchedules,
+      required this.schedule,
+      required this.operation});
+
   @override
   _NewScheduleState createState() => _NewScheduleState();
 }
 
 class _NewScheduleState extends State<NewSchedule> {
-  Color _appBarTextColor = Colors.white;
-  final PickedTime _defaultSleepTime = PickedTime(h: 0, m: 0);
-  final PickedTime _defaultWakeTime = PickedTime(h: 8, m: 0);
   late PickedTime _sleepTime;
   late PickedTime _wakeTime;
-  late String _timeInterval =
-      pickedTimeIntervalToString(_defaultSleepTime, _defaultWakeTime);
+
   @override
   Widget build(BuildContext context) {
-    _sleepTime = _defaultSleepTime;
-    _wakeTime = _defaultWakeTime;
+    _sleepTime = widget.schedule.sleepTime!.toPickedTime();
+    _wakeTime = widget.schedule.wakeTime!.toPickedTime();
 
     /// Ajouter le Prompt aux fonctions ouvertes onLoad
-    WidgetsBinding.instance
-        .addPostFrameCallback(widget._appBarText == 'Nouvel horaire'
-            ? (_) => showDialog(
-                context: context,
-                builder: (context) => TextPrompt((value) {
+    WidgetsBinding.instance.addPostFrameCallback(widget.schedule.isBase()
+        ? (_) => showDialog(
+            context: context,
+            builder: (context) => TextPrompt(
+                  (value) async {
+                    final schedules = await Schedule.getAll();
+                    bool nameExists =
+                        schedules.any((schedule) => schedule.name == value);
+                    if (!nameExists) {
                       setState(() {
-                        widget._appBarText = value;
+                        widget.schedule.name = value;
                       });
-                    }))
-            : (_) {});
+                    }
+                    return nameExists;
+                  },
+                ))
+        : (_) {});
 
     /// Widgets à être instantiés dans le ListView
     List<Widget> _listViewWidgets = [
@@ -49,7 +58,7 @@ class _NewScheduleState extends State<NewSchedule> {
       ),
       ColorPicker((Color color) {
         setState(() {
-          _appBarTextColor = color;
+          widget.schedule.color = color;
         });
       }),
       Text(
@@ -57,11 +66,12 @@ class _NewScheduleState extends State<NewSchedule> {
         style: Theme.of(context).textTheme.headlineSmall,
       ),
       TimePicker(
-        initTime: _defaultSleepTime,
-        endTime: _defaultWakeTime,
+        initTime: widget.schedule.sleepTime!.toPickedTime(),
+        endTime: widget.schedule.wakeTime!.toPickedTime(),
         onSelectionChange: (sleep, wake, isDisableRange) {
           setState(() {
-            _timeInterval = pickedTimeIntervalToString(sleep, wake);
+            widget.schedule.sleepTime = Time.fromPickedTime(sleep);
+            widget.schedule.wakeTime = Time.fromPickedTime(wake);
           });
         },
         onSelectionEnd: (sleep, wake, isDisableRange) {
@@ -118,22 +128,35 @@ class _NewScheduleState extends State<NewSchedule> {
                 textScaleFactor: .4)),
         child: Align(
           child: Text(
-            _timeInterval,
+            widget.schedule.timeInterval(),
             style: Theme.of(context).textTheme.headlineLarge,
           ),
         ),
       ),
       OutlinedButton(
           onPressed: () {
-            Schedule.pickedTime(
-                    name: widget._appBarText,
-                    color: _appBarTextColor,
+            if (widget.operation == Operation.addition) {}
+            switch (widget.operation) {
+              case Operation.addition:
+                Schedule.pickedTime(
+                        name: widget.schedule.name,
+                        color: widget.schedule.color,
+                        songURL:
+                            '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
+                        sleepTime: _sleepTime,
+                        wakeTime: _wakeTime)
+                    .add();
+                break;
+              case Operation.edition:
+                widget.oldSchedule.edit(Schedule.pickedTime(
+                    name: widget.schedule.name,
+                    color: widget.schedule.color,
                     songURL:
                         '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
                     sleepTime: _sleepTime,
-                    wakeTime: _wakeTime)
-                .add();
-            widget._updateSchedules();
+                    wakeTime: _wakeTime));
+            }
+            widget.updateSchedules();
             Navigator.of(Get.overlayContext!).pop();
           },
           child: Text('Terminé'))
@@ -142,11 +165,11 @@ class _NewScheduleState extends State<NewSchedule> {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
-              widget._appBarText,
+              widget.schedule.name,
               style: Theme.of(context)
                   .appBarTheme
                   .titleTextStyle!
-                  .copyWith(color: _appBarTextColor),
+                  .copyWith(color: widget.schedule.color),
             )),
         bottomNavigationBar: NavBar(),
         body: Padding(
@@ -156,15 +179,10 @@ class _NewScheduleState extends State<NewSchedule> {
                 separatorBuilder: (context, index) {
                   var divider = Divider(
                     height: 50,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onBackground,
                   );
                   return divider;
                 },
                 itemBuilder: (context, index) => _listViewWidgets[index])));
-  }
-
-  String pickedTimeIntervalToString(PickedTime start, PickedTime end) {
-    PickedTime intervalTime = formatIntervalTime(init: start, end: end);
-    return '${intervalTime.h}:${intervalTime.m == 0 ? '00' : intervalTime.m}';
   }
 }

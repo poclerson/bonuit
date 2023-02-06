@@ -9,6 +9,7 @@ import '../../widgets/nav_bar.dart';
 import '../new_schedule/new_schedule.dart';
 import 'weekday_block.dart';
 import 'draggable_schedule_box.dart';
+import '../../widgets/choices_prompt.dart';
 
 class Schedules extends StatefulWidget {
   @override
@@ -19,8 +20,6 @@ class _SchedulesState extends State<Schedules> {
   DateTime now = DateTime.now();
   late int amountOfDaysInCurrentMonth =
       DateTime(now.year, now.month + 1, 0).day;
-
-  late String _appBarText = 'Nouvel horaire';
 
   late Future<List<Schedule>> _schedules;
   @override
@@ -36,25 +35,26 @@ class _SchedulesState extends State<Schedules> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Semaine du ' +
-            DateTime.now()
+            now
                 .subtract(Duration(days: DateTime.now().weekday - 1))
                 .day
                 .toString() +
             ' ' +
-            Date.months[DateTime(
-                        now.year,
-                        now.weekday + now.day > amountOfDaysInCurrentMonth
-                            ? now.month - 1
-                            : now.month,
-                        0)
-                    .month]
+            Date.months[now.weekday + now.day > amountOfDaysInCurrentMonth
+                    ? now.month - 1
+                    : now.month]
                 .toString()),
         backgroundColor: Colors.black,
       ),
       bottomNavigationBar: NavBar(ElevatedButton(
           onPressed: (() {
             // Aller vers la page NewSchedule()
-            Get.to(NewSchedule(_appBarText, _schedules, updateSchedules));
+            Get.to(NewSchedule(
+              updateSchedules: updateSchedules,
+              schedule: Schedule.getBaseCopy(),
+              operation: Operation.addition,
+            ));
+            setState(() {});
           }),
           child: Icon(Icons.add))),
       body: Column(
@@ -99,12 +99,30 @@ class _SchedulesState extends State<Schedules> {
                         SliverPadding(
                           padding: const EdgeInsets.all(0),
                           sliver: SliverGrid.count(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1 / 3,
+                            crossAxisCount: 1,
+                            childAspectRatio: 1 / 1.5,
                             children: [
                               ...snapshot.data!
                                   .map((schedule) => DraggableScheduleBox(
-                                      schedule, updateSchedules))
+                                        schedule: schedule,
+                                        onEdited: () {
+                                          Get.to(NewSchedule(
+                                            schedule: schedule,
+                                            updateSchedules: updateSchedules,
+                                            operation: Operation.edition,
+                                          ));
+                                        },
+                                        onDeleted: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: ((context) =>
+                                                  ChoicesPrompt(schedule,
+                                                      updateSchedules)));
+                                          setState(() {
+                                            _schedules = Schedule.getAll();
+                                          });
+                                        },
+                                      ))
                                   .toList()
                             ],
                           ),

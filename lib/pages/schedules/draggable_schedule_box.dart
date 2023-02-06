@@ -1,59 +1,68 @@
 import 'package:flutter/material.dart';
 import '../../models/schedule.dart';
-import '../../widgets/choices_prompt.dart';
+import '../../widgets/round_icon_button.dart';
 
 class DraggableScheduleBox extends StatefulWidget {
-  final Schedule _schedule;
-  final Function _onDeleted;
-  DraggableScheduleBox(this._schedule, this._onDeleted);
+  final Schedule schedule;
+  final Function onDeleted;
+  final Function onEdited;
+  DraggableScheduleBox(
+      {required this.schedule,
+      required this.onDeleted,
+      required this.onEdited});
   @override
-  _DraggableScheduleBoxState createState() =>
-      _DraggableScheduleBoxState(_schedule);
+  _DraggableScheduleBoxState createState() => _DraggableScheduleBoxState();
 }
 
 class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
-  Schedule _schedule;
-  _DraggableScheduleBoxState(this._schedule);
   @override
   Widget build(BuildContext context) {
-    bool _accepted;
     return LongPressDraggable<Schedule>(
-        data: _schedule,
+        data: widget.schedule,
         feedback: Container(
           width: 60,
           height: 60,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: _schedule.color,
+            color: widget.schedule.color,
           ),
           child: Align(
               alignment: Alignment.center,
               child: Text(
-                _schedule.name[0].toUpperCase(),
+                widget.schedule.name[0].toUpperCase(),
                 style: TextStyle(
                     color: Colors.black, decoration: TextDecoration.none),
               )),
         ),
-        child: TextButton(
-            style: Theme.of(context).textButtonTheme.style!.copyWith(
-                backgroundColor:
-                    MaterialStatePropertyAll<Color>(_schedule.color),
-                foregroundColor: MaterialStatePropertyAll<Color>(
-                    Theme.of(context).colorScheme.onPrimary),
-                overlayColor: MaterialStatePropertyAll<Color>(
-                    HSLColor.fromColor(_schedule.color)
-                        .withLightness(.45)
-                        .toColor())),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: ((context) =>
-                      ChoicesPrompt(_schedule, widget._onDeleted)));
-              setState(() {});
-            },
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(_schedule.name),
-            )));
+        child: Container(
+          color: widget.schedule.color,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RoundIconButton.withColors(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                  icon: Icons.delete,
+                  onPressed: widget.onDeleted),
+              Column(
+                children: [
+                  Text(
+                    widget.schedule.name,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  Text(widget.schedule.sleepTime!.toString()),
+                  Text(widget.schedule.wakeTime!.toString())
+                ],
+              ),
+              RoundIconButton.withColors(
+                color: widget.schedule.color,
+                backgroundColor: Theme.of(context).colorScheme.background,
+                icon: Icons.edit,
+                onPressed: widget.onEdited,
+              )
+            ],
+          ),
+        ));
   }
 }

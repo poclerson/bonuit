@@ -12,7 +12,6 @@ class Weekday {
   Weekday(this.day, this.schedule);
 
   Weekday.fromJson(Map<String, dynamic> json) {
-    debugPrint(json['schedule'].toString());
     day = json['day'];
     schedule = json['schedule'].toString() != '{}'
         ? Schedule.fromJson(json['schedule'])

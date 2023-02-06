@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TextPrompt extends StatelessWidget {
-  final Function(String value) _onTextFieldSubmitted;
+class TextPrompt extends StatefulWidget {
+  final Future<bool> Function(String value) _onTextFieldSubmitted;
   TextPrompt(this._onTextFieldSubmitted);
+  @override
+  _TextPromptState createState() => _TextPromptState();
+}
+
+class _TextPromptState extends State<TextPrompt> {
+  late String error = '';
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -12,12 +18,20 @@ class TextPrompt extends StatelessWidget {
       content: TextField(
         decoration: InputDecoration(),
         autofocus: true,
-        onSubmitted: ((value) {
-          debugPrint('prompt');
-          _onTextFieldSubmitted(value);
-          Navigator.of(Get.overlayContext!).pop();
+        onSubmitted: ((value) async {
+          if (!await widget._onTextFieldSubmitted(value)) {
+            Navigator.of(Get.overlayContext!).pop();
+            setState(() {
+              error = '';
+            });
+          } else {
+            setState(() {
+              error = 'Nom déjà utilisé';
+            });
+          }
         }),
       ),
+      actions: [Text(error)],
     );
   }
 }
