@@ -4,6 +4,7 @@ import '../../widgets/colorpicker.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import '../../widgets/text_prompt.dart';
 import '../../models/schedule.dart';
+import '../../models/weekday.dart';
 import 'dart:core';
 import 'package:get/get.dart';
 import '../../models/time.dart';
@@ -11,12 +12,14 @@ import '../../models/time.dart';
 class NewSchedule extends StatefulWidget {
   Schedule schedule;
   Function updateSchedules;
+  Function? updateWeekdays;
   Operation operation;
   late Schedule oldSchedule = schedule;
   NewSchedule(
       {required this.updateSchedules,
       required this.schedule,
-      required this.operation});
+      required this.operation,
+      this.updateWeekdays});
 
   @override
   _NewScheduleState createState() => _NewScheduleState();
@@ -148,13 +151,17 @@ class _NewScheduleState extends State<NewSchedule> {
                     .add();
                 break;
               case Operation.edition:
-                widget.oldSchedule.edit(Schedule.pickedTime(
+                Function edit = widget.oldSchedule.edit;
+                edit(Schedule.pickedTime(
                     name: widget.schedule.name,
                     color: widget.schedule.color,
                     songURL:
                         '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
                     sleepTime: _sleepTime,
                     wakeTime: _wakeTime));
+                debugPrint(widget.schedule!.color.toString());
+                Weekday.onScheduleEdited(widget.schedule);
+                widget.updateWeekdays!();
             }
             widget.updateSchedules();
             Navigator.of(Get.overlayContext!).pop();
@@ -165,7 +172,7 @@ class _NewScheduleState extends State<NewSchedule> {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
-              widget.schedule.name,
+              widget.schedule.name!,
               style: Theme.of(context)
                   .appBarTheme
                   .titleTextStyle!

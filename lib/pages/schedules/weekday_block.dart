@@ -4,17 +4,13 @@ import '../../models/schedule.dart';
 
 class WeekdayBlock extends StatefulWidget {
   final Weekday _weekday;
+  late Color _color = _weekday.schedule!.color;
   WeekdayBlock(this._weekday);
   @override
-  _WeekdayBlockState createState() => _WeekdayBlockState(_weekday);
+  _WeekdayBlockState createState() => _WeekdayBlockState();
 }
 
 class _WeekdayBlockState extends State<WeekdayBlock> {
-  Weekday _weekday;
-  late Color _hoverColor = _weekday.schedule!.color;
-
-  _WeekdayBlockState(this._weekday);
-
   @override
   Widget build(BuildContext context) {
     return DragTarget<Schedule>(
@@ -25,11 +21,11 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
             padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-                color: _hoverColor,
+                color: widget._color,
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Align(
               child: Text(
-                _weekday.day[0].toUpperCase(),
+                widget._weekday.day[0].toUpperCase(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ));
@@ -37,7 +33,7 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Hover
       onWillAccept: (schedule) {
         setState(() {
-          _hoverColor = schedule!.color;
+          widget._color = schedule!.color;
         });
         return schedule is Schedule;
       },
@@ -45,15 +41,15 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Fin du hover
       onLeave: (schedule) {
         setState(() {
-          _hoverColor = _weekday.schedule!.color;
+          widget._color = widget._weekday.schedule!.color;
         });
       },
 
       // Drop
       onAccept: (schedule) {
         setState(() {
-          _weekday.schedule!.color = schedule.color;
-          _weekday.changeSchedule(schedule);
+          widget._weekday.schedule!.color = schedule.color;
+          widget._weekday.changeSchedule(schedule);
         });
       },
     );

@@ -40,6 +40,4 @@ class LocalFiles {
     final file = await _file;
     return file.writeAsString(json);
   }
-
-  void rewrite() async {}
 }

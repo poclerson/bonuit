@@ -22,6 +22,7 @@ class _SchedulesState extends State<Schedules> {
       DateTime(now.year, now.month + 1, 0).day;
 
   late Future<List<Schedule>> _schedules;
+  late Future<List<Weekday>> _weekdays;
   @override
   Widget build(BuildContext context) {
     updateSchedules() {
@@ -30,7 +31,14 @@ class _SchedulesState extends State<Schedules> {
       });
     }
 
+    updateWeekdays() {
+      setState(() {
+        _weekdays = Weekday.getAll();
+      });
+    }
+
     _schedules = Schedule.getAll();
+    _weekdays = Weekday.getAll();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -68,7 +76,7 @@ class _SchedulesState extends State<Schedules> {
                 textAlign: TextAlign.center,
               )),
           FutureBuilder(
-              future: Weekday.getAll(),
+              future: _weekdays,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Wrap(
@@ -109,6 +117,7 @@ class _SchedulesState extends State<Schedules> {
                                           Get.to(NewSchedule(
                                             schedule: schedule,
                                             updateSchedules: updateSchedules,
+                                            updateWeekdays: updateWeekdays,
                                             operation: Operation.edition,
                                           ));
                                         },
@@ -116,11 +125,14 @@ class _SchedulesState extends State<Schedules> {
                                           showDialog(
                                               context: context,
                                               builder: ((context) =>
-                                                  ChoicesPrompt(schedule,
-                                                      updateSchedules)));
-                                          setState(() {
-                                            _schedules = Schedule.getAll();
-                                          });
+                                                  ChoicesPrompt(() async {
+                                                    await schedule.delete();
+                                                    await Weekday
+                                                        .onScheduleRemoved(
+                                                            schedule);
+                                                    updateSchedules();
+                                                    updateWeekdays();
+                                                  })));
                                         },
                                       ))
                                   .toList()

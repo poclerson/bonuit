@@ -5,23 +5,25 @@ import 'package:flutter/services.dart';
 import 'local_files.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'time.dart';
+import 'weekday.dart';
+import 'data.dart';
 
 enum Operation { addition, edition }
 
-class Schedule {
+class Schedule extends Data {
   static var localFile = LocalFiles('schedule');
-  late String name;
+  late String? name;
   late Color color;
   String? songURL;
   Time? sleepTime;
   Time? wakeTime;
 
   static final Schedule base = Schedule(
-      name: 'Nouvel horaire',
-      color: Colors.white,
-      songURL: 'allo.com',
-      sleepTime: Time.zero,
-      wakeTime: Time(8, 0));
+      name: null,
+      color: Color(0xFFFFFFFF),
+      songURL: null,
+      sleepTime: null,
+      wakeTime: null);
 
   Schedule(
       {required this.name,
@@ -37,14 +39,12 @@ class Schedule {
 
   Schedule.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    color = Color(int.parse(json['color']));
+    color = Color(int.parse(json['color'] ?? '0xFFFFFFFF'));
     songURL = json['songURL'];
-    sleepTime = json['sleepTime'] != null
-        ? Time.fromString(json['sleepTime'])
-        : Time.zero;
-    wakeTime = json['wakeTime'] != null
-        ? Time.fromString(json['wakeTime'])
-        : Time.zero;
+    sleepTime =
+        json['sleepTime'] != null ? Time.fromString(json['sleepTime']) : null;
+    wakeTime =
+        json['wakeTime'] != null ? Time.fromString(json['wakeTime']) : null;
   }
 
   Schedule.pickedTime(
@@ -65,13 +65,14 @@ class Schedule {
     return json.map((element) => Schedule.fromJson(element)).toList();
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['color'] = color.toString().substring(6, 16);
     data['songURL'] = songURL;
-    data['sleepTime'] = sleepTime.toString();
-    data['wakeTime'] = wakeTime.toString();
+    data['sleepTime'] = sleepTime != null ? sleepTime.toString() : null;
+    data['wakeTime'] = wakeTime != null ? wakeTime.toString() : null;
     return data;
   }
 
@@ -87,11 +88,6 @@ class Schedule {
         songURL == Schedule.base.songURL &&
         sleepTime == Schedule.base.sleepTime &&
         wakeTime == Schedule.base.wakeTime);
-  }
-
-  Future<bool> nameExists(String newName) async {
-    final schedules = await getAll();
-    return schedules.any((schedule) => name == schedule.name);
   }
 
   bool compareTo(Schedule other) {
@@ -111,15 +107,21 @@ class Schedule {
         wakeTime: Schedule.base.wakeTime);
   }
 
-  void add() async {
+  add() async {
     final schedules = await getAll();
     schedules.add(this);
     _write(schedules);
   }
 
-  void delete() async {
+  delete() async {
     final schedules = await getAll();
-    schedules.removeWhere((schedule) => schedule.name == name);
+    schedules.removeWhere((schedule) {
+      if (schedule.name == name) {
+        // Weekday.onScheduleRemoved(schedule);
+        return true;
+      }
+      return false;
+    });
     _write(schedules);
   }
 

@@ -29,7 +29,7 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
           child: Align(
               alignment: Alignment.center,
               child: Text(
-                widget.schedule.name[0].toUpperCase(),
+                widget.schedule.name![0].toUpperCase(),
                 style: TextStyle(
                     color: Colors.black, decoration: TextDecoration.none),
               )),
@@ -48,7 +48,7 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
               Column(
                 children: [
                   Text(
-                    widget.schedule.name,
+                    widget.schedule.name!,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   Text(widget.schedule.sleepTime!.toString()),

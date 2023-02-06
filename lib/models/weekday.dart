@@ -1,9 +1,11 @@
 import 'schedule.dart';
 import 'local_files.dart';
+import 'data.dart';
 import 'dart:convert';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-class Weekday {
+class Weekday extends Data {
   static var localFile = LocalFiles('weekdays',
       '[{"day": "lundi","schedule" : {}},{"day": "mardi","schedule" : {}},{"day": "mercredi","schedule" : {}},{"day": "jeudi","schedule" : {}},{"day": "vendredi","schedule" : { }},{"day": "samedi","schedule" : {}},{"day": "dimanche","schedule" : {}}]');
   late String day;
@@ -18,8 +20,9 @@ class Weekday {
         : Schedule.minimum();
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['day'] = day;
     data['schedule'] = schedule!.toJson();
     return data;
@@ -40,5 +43,34 @@ class Weekday {
     final json =
         jsonEncode(weekdays.map((weekday) => weekday.toJson()).toList());
     localFile.write(json);
+  }
+
+  static onScheduleRemoved(Schedule schedule) async {
+    final weekdays = await getAll();
+
+    weekdays.forEach((weekday) {
+      if (weekday.schedule!.name == schedule.name) {
+        weekday.schedule = Schedule.getBaseCopy();
+      }
+    });
+
+    await _write(weekdays);
+  }
+
+  static onScheduleEdited(Schedule schedule) async {
+    final weekdays = await getAll();
+
+    weekdays.forEach((weekday) {
+      if (weekday.schedule!.name == schedule.name) {
+        weekday.schedule = schedule;
+      }
+    });
+
+    await _write(weekdays);
+  }
+
+  static _write(List<Weekday> weekdays) async {
+    localFile.write(
+        jsonEncode(weekdays.map((weekday) => weekday.toJson()).toList()));
   }
 }
