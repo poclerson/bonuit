@@ -10,6 +10,7 @@ import '../new_schedule/new_schedule.dart';
 import 'weekday_block.dart';
 import 'draggable_schedule_box.dart';
 import '../../widgets/choices_prompt.dart';
+import '../../widgets/week_app_bar.dart';
 
 class Schedules extends StatefulWidget {
   @override
@@ -40,20 +41,7 @@ class _SchedulesState extends State<Schedules> {
     _schedules = Schedule.getAll();
     _weekdays = Weekday.getAll();
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Semaine du ' +
-            now
-                .subtract(Duration(days: DateTime.now().weekday - 1))
-                .day
-                .toString() +
-            ' ' +
-            Date.months[now.weekday + now.day > amountOfDaysInCurrentMonth
-                    ? now.month - 1
-                    : now.month]
-                .toString()),
-        backgroundColor: Colors.black,
-      ),
+      appBar: WeekAppBar(),
       bottomNavigationBar: NavBar(ElevatedButton(
           onPressed: (() {
             // Aller vers la page NewSchedule()
