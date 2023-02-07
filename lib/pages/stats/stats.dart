@@ -3,6 +3,8 @@ import '../../widgets/nav_bar.dart';
 import '../../widgets/week_app_bar.dart';
 import '../../models/day.dart';
 import '../../models/weekday.dart';
+import '../../models/time_interval.dart';
+import 'day_bar.dart';
 
 class Stats extends StatelessWidget {
   @override
@@ -11,6 +13,13 @@ class Stats extends StatelessWidget {
       future: Future.wait([Day.getAll(), Weekday.getAll()]),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          TimeInterval timeInterval =
+              Day.createIntervals(4, snapshot.data![0] as List<Day>);
+
+          const double dataOffset = 30;
+          final double dataWidth =
+              MediaQuery.of(context).size.width - dataOffset;
+
           return Scaffold(
             appBar: WeekAppBar(),
             bottomNavigationBar: NavBar(),
@@ -23,11 +32,10 @@ class Stats extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ...Day.createIntervals(4, snapshot.data![0] as List<Day>)
-                          .map((temps) => Text(
-                                temps.toString() + ':00',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ))
+                      ...timeInterval.intervals.map((temps) => Text(
+                            temps.toString() + ':00',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ))
                     ],
                   ),
                 ),
@@ -38,6 +46,7 @@ class Stats extends StatelessWidget {
                     children: [
                       /// JOURS
                       Container(
+                        width: 30,
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,28 +61,16 @@ class Stats extends StatelessWidget {
 
                       /// CONTENU
                       Expanded(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ...snapshot.data![0]
-                              .asMap()
-                              .entries
-                              .map((day) => Container(
-                                    margin: EdgeInsets.only(
-                                        left: (day as MapEntry<int, Day>)
-                                            .value
-                                            .sleepTime
-                                            .hour
-                                            .toDouble()),
-                                    width: (day as MapEntry<int, Day>)
-                                            .value
-                                            .hoursSlept() *
-                                        20,
-                                    height: 30,
-                                    color: Colors.red,
-                                  ))
-                        ],
+                          child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ...snapshot.data![0].map((day) =>
+                                DayBar((day as Day), timeInterval, dataWidth))
+                          ],
+                        ),
                       ))
                     ],
                   ),
