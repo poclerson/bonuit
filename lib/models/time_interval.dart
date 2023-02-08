@@ -32,13 +32,10 @@ class TimeInterval {
   double ratioedOffset(TimeOfDay offset, double ratio) {
     int unOffsettedValue = mostSimilarIntervalTo(offset.toInt());
     double difference = offset.toDouble() - unOffsettedValue.toDouble();
-    debugPrint(timeToRatio(
-            intervals.indexOf(unOffsettedValue) * length.toDouble() +
-                difference,
-            ratio)
-        .toString());
-    return timeToRatio(
+    double ratioed = timeToRatio(
         intervals.indexOf(unOffsettedValue) * length.toDouble() + difference,
         ratio);
+    if (ratioed < 0) return 0;
+    return ratioed;
   }
 }

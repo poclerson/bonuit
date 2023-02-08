@@ -109,3 +109,22 @@ extension TimeOfDayExtension on TimeOfDay {
   double toDouble() => hour + minute / 60.0;
   int toInt() => toDouble().round();
 }
+
+extension DayGroups on List<Day> {
+  List<List<Day>> groupBySize(int groupSize) {
+    // Liste des jours de la semaine présentement itérée
+    late List<Day> daysInCurrentGroup = [];
+
+    // Toutes les semaines
+    late List<List<Day>> dayGroups = [];
+    for (var i = 0; i < length; i++) {
+      Day currentDay = this[i];
+      daysInCurrentGroup.add(currentDay);
+      if ((i + 1) % groupSize == 0 || i == length - 1) {
+        dayGroups.add([...daysInCurrentGroup]);
+        daysInCurrentGroup.clear();
+      }
+    }
+    return dayGroups;
+  }
+}

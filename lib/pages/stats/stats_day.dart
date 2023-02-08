@@ -6,10 +6,12 @@ class StatsDay extends StatelessWidget {
   final Day day;
   final TimeInterval timeInterval;
   final double containerWidth;
-  StatsDay(this.day, this.timeInterval, this.containerWidth);
+  final double dayHeight;
+  StatsDay(this.day, this.timeInterval, this.containerWidth, this.dayHeight);
 
   @override
   Widget build(BuildContext context) {
+    // debugPrint(day.sleepTime.toString());
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
@@ -17,7 +19,7 @@ class StatsDay extends StatelessWidget {
       margin: EdgeInsets.only(
           left: timeInterval.ratioedOffset(day.sleepTime, containerWidth)),
       width: timeInterval.timeToRatio(day.hoursSlept(), containerWidth),
-      height: 30,
+      height: dayHeight,
     );
   }
 }

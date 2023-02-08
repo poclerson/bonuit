@@ -2,14 +2,22 @@ import 'schedule.dart';
 import 'local_files.dart';
 import 'data.dart';
 import 'dart:convert';
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 
 class Weekday extends Data {
   static var localFile = LocalFiles('weekdays',
       '[{"day": "lundi","schedule" : {}},{"day": "mardi","schedule" : {}},{"day": "mercredi","schedule" : {}},{"day": "jeudi","schedule" : {}},{"day": "vendredi","schedule" : { }},{"day": "samedi","schedule" : {}},{"day": "dimanche","schedule" : {}}]');
   late String day;
   late Schedule? schedule;
+
+  static List<String> weekdays = [
+    'lundi',
+    'mardi',
+    'mercredi',
+    'jeudi',
+    'vendredi',
+    'samedi',
+    'dimanche'
+  ];
 
   Weekday(this.day, this.schedule);
 

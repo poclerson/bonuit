@@ -161,7 +161,6 @@ class _NewScheduleState extends State<NewSchedule> {
                         '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
                     sleepTime: _sleepTime,
                     wakeTime: _wakeTime));
-                debugPrint(widget.schedule!.color.toString());
                 Weekday.onScheduleEdited(widget.schedule);
                 widget.updateWeekdays!();
             }
