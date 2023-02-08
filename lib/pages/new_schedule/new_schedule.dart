@@ -31,11 +31,13 @@ class _NewScheduleState extends State<NewSchedule> {
 
   @override
   Widget build(BuildContext context) {
+    widget.schedule.sleepTime ??= Time(22, 0);
+    widget.schedule.wakeTime ??= Time(6, 0);
     _sleepTime = widget.schedule.sleepTime!.toPickedTime();
     _wakeTime = widget.schedule.wakeTime!.toPickedTime();
 
     /// Ajouter le Prompt aux fonctions ouvertes onLoad
-    WidgetsBinding.instance.addPostFrameCallback(widget.schedule.isBase()
+    WidgetsBinding.instance.addPostFrameCallback(widget.schedule.name == null
         ? (_) => showDialog(
             context: context,
             builder: (context) => TextPrompt(
@@ -172,7 +174,7 @@ class _NewScheduleState extends State<NewSchedule> {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
-              widget.schedule.name!,
+              widget.schedule.name ?? 'Nouvel horaire',
               style: Theme.of(context)
                   .appBarTheme
                   .titleTextStyle!
