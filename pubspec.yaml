@@ -36,8 +36,7 @@ dependencies:
   path_provider:
   google_fonts: ^3.0.1
   progressive_time_picker:
-  mobx:
-  flutter_mobx:
+  flutter_dash:
 
 
   # The following adds the Cupertino Icons font to your application.

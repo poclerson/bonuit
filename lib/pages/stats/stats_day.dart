@@ -8,17 +8,6 @@ class StatsDay extends StatelessWidget {
   final double containerWidth;
   StatsDay(this.day, this.timeInterval, this.containerWidth);
 
-  double mostSimilarInterval(double number) {
-    Map<double, double> differences = {};
-    timeInterval.intervals.forEach((interval) {
-      differences[interval.toDouble()] = (interval - number).abs();
-    });
-    double mostSimilar = differences.entries
-        .reduce((current, next) => current.value < next.value ? current : next)
-        .key;
-    return mostSimilar;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
