@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../widgets/nav_bar.dart';
 import '../../widgets/week_app_bar.dart';
+import '../../widgets/size_mesurer.dart';
 import '../../models/day.dart';
 import '../../models/weekday.dart';
 import '../../models/time_interval.dart';
-import 'day_bar.dart';
+import 'stats_day.dart';
+import 'stats_week.dart';
 
-class Stats extends StatelessWidget {
+class Stats extends StatefulWidget {
+  @override
+  _StatsState createState() => _StatsState();
+}
+
+class _StatsState extends State<Stats> {
+  int weeksOffset = 0;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -15,13 +23,8 @@ class Stats extends StatelessWidget {
         if (snapshot.hasData) {
           TimeInterval timeInterval =
               Day.createIntervals(4, snapshot.data![0] as List<Day>);
-
-          const double dataOffset = 30;
-          final double dataWidth =
-              MediaQuery.of(context).size.width - dataOffset;
-
           return Scaffold(
-            appBar: WeekAppBar(),
+            appBar: WeekAppBar(weeksOffset),
             bottomNavigationBar: NavBar(),
             body: Column(
               children: [
@@ -46,7 +49,7 @@ class Stats extends StatelessWidget {
                     children: [
                       /// JOURS
                       Container(
-                        width: 30,
+                        width: 40,
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,18 +63,38 @@ class Stats extends StatelessWidget {
                       ),
 
                       /// CONTENU
-                      Expanded(
-                          child: Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ...snapshot.data![0].map((day) =>
-                                DayBar((day as Day), timeInterval, dataWidth))
-                          ],
-                        ),
-                      ))
+                      ChildSizeNotifier((context, size, child) {
+                        List<Widget> daysToWeeks(List<Day> days) {
+                          late List<Day> daysInCurrentWeek = [];
+                          late List<StatsWeek> weeks = [];
+                          for (var i = 0; i < days.length; i++) {
+                            Day currentDay = days[i];
+                            daysInCurrentWeek.add(currentDay);
+                            if ((i + 1) % 7 == 0) {
+                              weeks.add(StatsWeek(daysInCurrentWeek
+                                  .map((day) =>
+                                      StatsDay(day, timeInterval, size.width))
+                                  .toList()));
+                              daysInCurrentWeek.clear();
+                            }
+                          }
+                          return weeks;
+                        }
+
+                        return Expanded(
+                            child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: PageView(
+                            scrollDirection: Axis.vertical,
+                            onPageChanged: (value) => setState(() {
+                              weeksOffset = value * 7;
+                            }),
+                            children: [
+                              ...daysToWeeks(snapshot.data![0] as List<Day>)
+                            ],
+                          ),
+                        ));
+                      }, Container())
                     ],
                   ),
                 )

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../models/day.dart';
 import '../../models/time_interval.dart';
-import 'dart:math';
 
-class DayBar extends StatelessWidget {
+class StatsDay extends StatelessWidget {
   final Day day;
   final TimeInterval timeInterval;
   final double containerWidth;
-  DayBar(this.day, this.timeInterval, this.containerWidth);
+  StatsDay(this.day, this.timeInterval, this.containerWidth);
 
   double mostSimilarInterval(double number) {
     Map<double, double> differences = {};
