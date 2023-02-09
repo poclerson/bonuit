@@ -18,7 +18,7 @@ class StatsGroup extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ...days.map(
+            ...days.reversed.map(
                 (day) => StatsDay(day, timeInterval, parentWidth, dayHeight))
           ],
         ));

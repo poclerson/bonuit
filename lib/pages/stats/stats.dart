@@ -18,23 +18,23 @@ class Stats extends StatefulWidget {
 class _StatsState extends State<Stats> {
   int weeksOffset = 0;
   final double leftColumnWidth = 50;
-  late int amountOfDaysShowing = 28;
-  late SortMethod sortMethod = SortMethod('S', (_) {});
+  late SortMethod sortMethod = SortMethod.byWeek;
+
   @override
   Widget build(BuildContext context) {
-    updateSortMethod(sortMethod) {
+    updateSortMethod(SortMethod newSortMethod) {
       setState(() {
-        amountOfDaysShowing = sortMethod.amountOfDays();
+        sortMethod = newSortMethod;
       });
     }
 
-    sortMethod = SortMethod(sortMethod.name, updateSortMethod);
+    SortMethod.methods.attributeOnChangedFunctions(updateSortMethod);
     return FutureBuilder(
       future: Day.getAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           TimeInterval timeInterval =
-              Day.createIntervals(4, snapshot.data as List<Day>);
+              (snapshot.data as List<Day>).createIntervals(4);
           return Scaffold(
               appBar: WeekAppBar(weeksOffset),
               bottomNavigationBar: NavBar(),
@@ -78,12 +78,13 @@ class _StatsState extends State<Stats> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ...Weekday.weekdays.map((weekday) => Text(
-                                        weekday[0].toUpperCase(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
-                                      ))
+                                  ...sortMethod.identifiers.reversed
+                                      .map((identifier) => Text(
+                                            identifier.toUpperCase(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ))
                                 ],
                               ),
                             ),
@@ -112,19 +113,21 @@ class _StatsState extends State<Stats> {
                                     ],
                                   ),
                                   PageView(
+                                      reverse: true,
                                       scrollDirection: Axis.vertical,
                                       onPageChanged: (value) => setState(() {
                                             weeksOffset = value * 7;
                                           }),
                                       children: [
-                                        ...snapshot.data!
-                                            .groupBySize(amountOfDaysShowing)
+                                        ...snapshot.data!.reversed
+                                            .toList()
+                                            .groupBySize(sortMethod.dayAmount)
                                             .map((dayGroup) => StatsGroup(
                                                 dayGroup,
                                                 timeInterval,
                                                 size.width,
                                                 (size.height /
-                                                        amountOfDaysShowing *
+                                                        sortMethod.dayAmount *
                                                         .75)
                                                     .clamp(0, 35)))
                                       ]),

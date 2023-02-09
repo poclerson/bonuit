@@ -1,16 +1,26 @@
 class Date {
-  static Map<int, String> months = {
-    1: 'janvier',
-    2: 'février',
-    3: 'mars',
-    4: 'avril',
-    5: 'mai',
-    6: 'juin',
-    7: 'juillet',
-    8: 'août',
-    9: 'septembre',
-    10: 'octobre',
-    11: 'novembre',
-    12: 'décembre'
-  };
+  static List<String> months = [
+    'janvier',
+    'février',
+    'mars',
+    'avril',
+    'mai',
+    'juin',
+    'juillet',
+    'août',
+    'septembre',
+    'octobre',
+    'novembre',
+    'décembre'
+  ];
+
+  static List<String> weekdays = [
+    'lundi',
+    'mardi',
+    'mercredi',
+    'jeudi',
+    'vendredi',
+    'samedi',
+    'dimanche'
+  ];
 }

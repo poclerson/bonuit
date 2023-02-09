@@ -9,16 +9,6 @@ class Weekday extends Data {
   late String day;
   late Schedule? schedule;
 
-  static List<String> weekdays = [
-    'lundi',
-    'mardi',
-    'mercredi',
-    'jeudi',
-    'vendredi',
-    'samedi',
-    'dimanche'
-  ];
-
   Weekday(this.day, this.schedule);
 
   Weekday.fromJson(Map<String, dynamic> json) {

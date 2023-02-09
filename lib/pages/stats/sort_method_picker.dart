@@ -13,11 +13,6 @@ class SortMethodPicker extends StatefulWidget {
 class _SortMethodPickerState extends State<SortMethodPicker> {
   @override
   Widget build(BuildContext context) {
-    final List<SortMethod> _sortMethods = [
-      SortMethod('S', widget.onButtonPressed),
-      SortMethod('M', widget.onButtonPressed),
-      SortMethod('6M', widget.onButtonPressed)
-    ];
     return Positioned(
         width: MediaQuery.of(context).size.width * .5,
         left: (MediaQuery.of(context).size.width / 2) -
@@ -36,9 +31,9 @@ class _SortMethodPickerState extends State<SortMethodPicker> {
                 width: 2,
               ),
               children: [
-                ..._sortMethods.asMap().entries.map((sortMethod) =>
-                    SortMethodPickerButton(
-                        sortMethod.value, sortMethod.key, _sortMethods.length))
+                ...SortMethod.methods.asMap().entries.map((sortMethod) =>
+                    SortMethodPickerButton(sortMethod.value, sortMethod.key,
+                        SortMethod.methods.length))
               ],
             ),
           ),

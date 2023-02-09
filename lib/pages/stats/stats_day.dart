@@ -11,7 +11,6 @@ class StatsDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint(day.sleepTime.toString());
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
