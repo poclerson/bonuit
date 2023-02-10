@@ -3,6 +3,7 @@ import 'local_files.dart';
 import 'time_interval.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
+import 'package:flutter/material.dart';
 
 class Day extends Data {
   static var localFile = LocalFiles('days');
@@ -11,14 +12,6 @@ class Day extends Data {
   late DateTime date;
 
   Day(this.sleepTime, this.wakeTime, this.date);
-
-  // Day.day(Day sleepTime, Day wakeTime) {
-  //   DateTime now = DateTime.now();
-  //   this.sleepTime = DateTime(now.year, now.month, now.day,
-  //       sleepTime.sleepTime.hour, sleepTime.sleepTime.minute);
-  //   this.wakeTime = DateTime(now.year, now.month, now.day,
-  //       wakeTime.wakeTime.hour, wakeTime.wakeTime.minute);
-  // }
 
   Day.fromJson(Map<String, dynamic> json) {
     // final format = DateFormat.jm();
@@ -32,6 +25,12 @@ class Day extends Data {
     date = DateTime.parse(json['date']);
   }
 
+  Day.test() {
+    sleepTime = TimeOfDay(hour: 22, minute: 30);
+    wakeTime = TimeOfDay(hour: 8, minute: 15);
+    date = DateTime.now();
+  }
+
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -40,7 +39,7 @@ class Day extends Data {
     return data;
   }
 
-  double hoursSlept() {
+  double hoursSlept([bool returnString = false]) {
     double doubleSleepTime = sleepTime.toDouble();
     double doubleWakeTime = wakeTime.toDouble();
     if (!isSameDay()) {
@@ -77,6 +76,9 @@ extension TimeOfDayExtension on TimeOfDay {
 
   double toDouble() => hour + minute / 60.0;
   int toInt() => toDouble().round();
+
+  String toStringFormatted([String separator = 'h']) =>
+      toDouble().toString().replaceAll('.', separator);
 }
 
 extension DayGroups on List<Day> {
@@ -104,7 +106,7 @@ extension DayGroups on List<Day> {
 
   Day average() {
     return Day(map((day) => day.sleepTime).toList().average(),
-        map((day) => day.wakeTime).toList().average(), DateTime.now());
+        map((day) => day.wakeTime).toList().average(), first.date);
   }
 
   TimeInterval createIntervals(int intervalAmount) {
@@ -154,5 +156,15 @@ extension TimeOfDayListExtension on List<TimeOfDay> {
                     .reduce((current, next) => current + next) /
                 length)
             .round());
+  }
+}
+
+extension Hour on double {
+  String toTime([String separator = 'h']) {
+    String minutes =
+        (int.parse(round().toString().split('.').last) * .6).round().toString();
+    if (minutes.length < 2) minutes = '0$minutes';
+    String hours = toString().split('.').first;
+    return '$hours$separator$minutes';
   }
 }

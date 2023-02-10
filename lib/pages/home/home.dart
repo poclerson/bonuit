@@ -2,32 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/screens.dart';
+import '../../models/day.dart';
 import 'average_circle.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            padding: EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-            child: Column(
+        body: Padding(
+      padding: EdgeInsets.only(top: 100),
+      child: FutureBuilder(
+        future: Day.getAll(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
                   child: Column(
                     children: [
                       Text(
-                        '10h23',
+                        snapshot.data!.last.hoursSlept().toTime(),
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
-                      Text('nuit dernière')
+                      Text(
+                        'nuit dernière',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      )
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [AverageCircle(), AverageCircle()],
+                Container(
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      AverageCircle(
+                          snapshot.data!
+                              .getRange(snapshot.data!.length - 7,
+                                  snapshot.data!.length)
+                              .toList()
+                              .average(),
+                          'Moyenne de la semaine'),
+                      AverageCircle(
+                          snapshot.data!
+                              .getRange(snapshot.data!.length - 30,
+                                  snapshot.data!.length)
+                              .toList()
+                              .average(),
+                          'Moyenne du mois'),
+                    ],
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(bottom: 100),
@@ -50,6 +75,11 @@ class Home extends StatelessWidget {
                   ),
                 )
               ],
-            )));
+            );
+          }
+          return Container();
+        },
+      ),
+    ));
   }
 }
