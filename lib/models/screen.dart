@@ -5,10 +5,9 @@ import '../data/screens.dart';
 class Screen {
   late String title;
   late IconData iconData;
-  late MaterialStatePropertyAll<Color> color;
   late GetPage getPage;
 
-  Screen(this.title, this.iconData, this.color, this.getPage);
+  Screen(this.title, this.iconData, this.getPage);
   Screen.home(this.getPage);
 
   static String pathToTitle(String path) {

@@ -1,38 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
 import '../../models/day.dart';
+import 'package:progressive_time_picker/progressive_time_picker.dart';
 
-class AverageCircle extends StatelessWidget {
+class AverageCircle extends StatefulWidget {
   double _averageHoursSlept;
   String _text;
   AverageCircle(this._averageHoursSlept, this._text);
 
-  late Map<String, double> dataMap = {'fill': _averageHoursSlept};
+  late Map<String, double> dataMap = {
+    'fill': _averageHoursSlept,
+    'rest': 24 - _averageHoursSlept
+  };
+  @override
+  _AverageCircleState createState() => _AverageCircleState();
+}
+
+class _AverageCircleState extends State<AverageCircle> {
   @override
   Widget build(BuildContext context) {
+    PickedTime start = PickedTime(h: 0, m: 0);
+    PickedTime end = PickedTime(
+        h: widget._averageHoursSlept.toTimeOfDay().hour,
+        m: widget._averageHoursSlept.toTimeOfDay().minute);
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 40),
         child: Column(children: [
-          PieChart(
-            dataMap: dataMap,
-            totalValue: 24,
-            initialAngleInDegree: 270,
-            chartType: ChartType.ring,
-            colorList: [Theme.of(context).colorScheme.primary],
-            centerText: _averageHoursSlept.toTime(),
-            centerTextStyle: Theme.of(context).textTheme.titleLarge,
-            legendOptions: LegendOptions(showLegends: false),
-            chartValuesOptions: ChartValuesOptions(
-                showChartValueBackground: false,
-                showChartValues: false,
-                showChartValuesInPercentage: false,
-                showChartValuesOutside: false),
+          Stack(
+            children: [
+              TimePicker(
+                initTime: start,
+                endTime: end,
+                onSelectionChange: (sleep, wake, isDisableRange) {
+                  setState(() {});
+                },
+                onSelectionEnd: (sleep, wake, isDisableRange) {
+                  setState(() {});
+                },
+                width: 300,
+                height: 150,
+                isInitHandlerSelectable: false,
+                isEndHandlerSelectable: false,
+                decoration: TimePickerDecoration(
+                    baseColor: Theme.of(context).colorScheme.background,
+                    // Sélecteur
+                    sweepDecoration: TimePickerSweepDecoration(
+                      pickerStrokeWidth: 20,
+                      pickerColor: Theme.of(context).colorScheme.primary,
+                      useRoundedPickerCap: true,
+                    ),
+                    // Poignée de début
+                    initHandlerDecoration: TimePickerHandlerDecoration(
+                      color: Colors.transparent,
+                    ),
+                    // Poignée de fin
+                    endHandlerDecoration: TimePickerHandlerDecoration(
+                      color: Colors.transparent,
+                    ),
+                    // Chiffres de l'horloge
+                    clockNumberDecoration: TimePickerClockNumberDecoration(
+                      defaultTextColor: Colors.transparent,
+                    )),
+                child: Align(
+                  child: Text(
+                    widget._averageHoursSlept.toTime(),
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+              ),
+              Container(
+                width: 350,
+                height: 100,
+                color: Colors.transparent,
+              )
+            ],
           ),
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text(
-              _text,
+              widget._text,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),

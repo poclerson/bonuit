@@ -15,7 +15,6 @@ List<Screen> screens = [
   Screen(
     'Préférences',
     Icons.settings,
-    MaterialStatePropertyAll<Color>(Colors.red),
     GetPage(
       name: '/settings',
       page: () => Settings(),
@@ -23,8 +22,7 @@ List<Screen> screens = [
   ),
   Screen(
     'Statistiques',
-    Icons.vertical_align_bottom_rounded,
-    MaterialStatePropertyAll<Color>(Colors.green),
+    Icons.bar_chart_rounded,
     GetPage(
       name: '/stats',
       page: () => Stats(),
@@ -33,7 +31,6 @@ List<Screen> screens = [
   Screen(
     "Modifier l'horaire",
     Icons.calendar_month_rounded,
-    MaterialStatePropertyAll<Color>(Colors.orange),
     GetPage(
       name: '/schedule',
       page: () => Schedules(),
