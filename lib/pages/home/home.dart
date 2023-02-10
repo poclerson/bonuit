@@ -15,6 +15,12 @@ class Home extends StatelessWidget {
         future: Day.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            debugPrint([
+              snapshot.data![0],
+              snapshot.data![1],
+              snapshot.data![2],
+              snapshot.data![3]
+            ].averageHoursSleptFromLast().toString());
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,19 +43,10 @@ class Home extends StatelessWidget {
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      AverageCircle(
-                          snapshot.data!
-                              .getRange(snapshot.data!.length - 7,
-                                  snapshot.data!.length)
-                              .toList()
-                              .average(),
+                      AverageCircle(snapshot.data!.averageHoursSleptFromLast(7),
                           'Moyenne de la semaine'),
                       AverageCircle(
-                          snapshot.data!
-                              .getRange(snapshot.data!.length - 30,
-                                  snapshot.data!.length)
-                              .toList()
-                              .average(),
+                          snapshot.data!.averageHoursSleptFromLast(30),
                           'Moyenne du mois'),
                     ],
                   ),

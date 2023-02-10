@@ -3,11 +3,11 @@ import 'package:pie_chart/pie_chart.dart';
 import '../../models/day.dart';
 
 class AverageCircle extends StatelessWidget {
-  Day _averageDay;
+  double _averageHoursSlept;
   String _text;
-  AverageCircle(this._averageDay, this._text);
+  AverageCircle(this._averageHoursSlept, this._text);
 
-  late Map<String, double> dataMap = {'fill': _averageDay.hoursSlept()};
+  late Map<String, double> dataMap = {'fill': _averageHoursSlept};
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -20,7 +20,7 @@ class AverageCircle extends StatelessWidget {
             initialAngleInDegree: 270,
             chartType: ChartType.ring,
             colorList: [Theme.of(context).colorScheme.primary],
-            centerText: _averageDay.hoursSlept().toTime(),
+            centerText: _averageHoursSlept.toTime(),
             centerTextStyle: Theme.of(context).textTheme.titleLarge,
             legendOptions: LegendOptions(showLegends: false),
             chartValuesOptions: ChartValuesOptions(

@@ -25,12 +25,6 @@ class Day extends Data {
     date = DateTime.parse(json['date']);
   }
 
-  Day.test() {
-    sleepTime = TimeOfDay(hour: 22, minute: 30);
-    wakeTime = TimeOfDay(hour: 8, minute: 15);
-    date = DateTime.now();
-  }
-
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -74,7 +68,11 @@ extension TimeOfDayExtension on TimeOfDay {
     return TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
   }
 
-  double toDouble() => hour + minute / 60.0;
+  double toDouble() {
+    // debugPrint(hour.toString());
+    return double.parse('$hour.${(minute / .6).round()}');
+  }
+
   int toInt() => toDouble().round();
 
   String toStringFormatted([String separator = 'h']) =>
@@ -105,8 +103,9 @@ extension DayGroups on List<Day> {
   }
 
   Day average() {
-    return Day(map((day) => day.sleepTime).toList().average(),
+    Day day = Day(map((day) => day.sleepTime).toList().average(),
         map((day) => day.wakeTime).toList().average(), first.date);
+    return day;
   }
 
   TimeInterval createIntervals(int intervalAmount) {
@@ -143,28 +142,42 @@ extension DayGroups on List<Day> {
 
     return TimeInterval(intervalLength, difference.round(), intervals);
   }
+
+  double averageHoursSleptFromLast([int amount = 1]) {
+    return getRange(length > amount ? length - amount : 0, length)
+            .toList()
+            .map((day) => day.hoursSlept())
+            .reduce((curr, next) => curr + next) /
+        length;
+  }
 }
 
 extension TimeOfDayListExtension on List<TimeOfDay> {
   TimeOfDay average() {
-    return TimeOfDay(
-        hour: (map((timeOfday) => timeOfday.hour)
-                    .reduce((current, next) => current + next) /
+    TimeOfDay tod =
+        (map((tod) => tod.toDouble()).reduce((curr, next) => curr + next) /
                 length)
-            .round(),
-        minute: (map((timeOfDay) => timeOfDay.minute)
-                    .reduce((current, next) => current + next) /
-                length)
-            .round());
+            .toTimeOfDay();
+    return tod;
   }
 }
 
 extension Hour on double {
   String toTime([String separator = 'h']) {
-    String minutes =
-        (int.parse(round().toString().split('.').last) * .6).round().toString();
-    if (minutes.length < 2) minutes = '0$minutes';
-    String hours = toString().split('.').first;
-    return '$hours$separator$minutes';
+    if (this < 0) return '00h00';
+
+    int floored = floor();
+    double decimal = this - floored;
+    String hour = '${floored % 24}';
+    String minute = '${(decimal * 60).toInt()}'.padLeft(2, '0');
+    return '$hour$separator$minute';
+  }
+
+  TimeOfDay toTimeOfDay() {
+    int floored = floor();
+    double decimal = this - floored;
+    int hour = floored % 24;
+    int minute = (decimal * 60).toInt();
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }
