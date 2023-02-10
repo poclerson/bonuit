@@ -5,7 +5,8 @@ import 'package:progressive_time_picker/progressive_time_picker.dart';
 class AverageCircle extends StatefulWidget {
   double _averageHoursSlept;
   String _text;
-  AverageCircle(this._averageHoursSlept, this._text);
+  Function _onPressed = () {};
+  AverageCircle(this._averageHoursSlept, this._text, this._onPressed);
 
   late Map<String, double> dataMap = {
     'fill': _averageHoursSlept,
@@ -23,8 +24,12 @@ class _AverageCircleState extends State<AverageCircle> {
         h: widget._averageHoursSlept.toTimeOfDay().hour,
         m: widget._averageHoursSlept.toTimeOfDay().minute);
     return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStatePropertyAll<Color>(Colors.transparent),
+            overlayColor: MaterialStatePropertyAll<Color>(Colors.transparent)),
+        onPressed: () => widget._onPressed(),
         child: Column(children: [
           Stack(
             children: [

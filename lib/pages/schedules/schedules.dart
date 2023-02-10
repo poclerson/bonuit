@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/date.dart';
 import '../../models/weekday.dart';
 import '../../models/schedule.dart';
 
@@ -10,7 +9,6 @@ import '../new_schedule/new_schedule.dart';
 import 'weekday_block.dart';
 import 'draggable_schedule_box.dart';
 import '../../widgets/choices_prompt.dart';
-import '../../widgets/week_app_bar.dart';
 
 class Schedules extends StatefulWidget {
   @override

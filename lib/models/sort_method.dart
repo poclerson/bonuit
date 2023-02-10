@@ -4,8 +4,14 @@ class SortMethod {
   String name;
   late List<dynamic> identifiers = [];
   late int dayAmount;
-  void Function(SortMethod) onChanged;
-  DateTime startDate;
+  late void Function(SortMethod) onChanged;
+  late DateTime startDate;
+
+  static int weekly = 7;
+  static int monthly = 30;
+  static int sixMonthly = 180;
+
+  SortMethod(this.name, this.dayAmount);
 
   SortMethod.dated(
       {required this.name,
@@ -23,10 +29,10 @@ class SortMethod {
       required DateTime date,
       required this.onChanged,
       required this.startDate}) {
-    for (var i = date.weekday; i <= 7; i++) {
+    for (var i = date.weekday; i <= weekly; i++) {
       identifiers.add(Date.weekdays[i - 1][0].toUpperCase());
     }
-    for (var i = 0; i <= 7 - identifiers.length + 1; i++) {
+    for (var i = 0; i <= weekly - identifiers.length + 1; i++) {
       identifiers.add(Date.weekdays[i][0].toUpperCase());
     }
   }

@@ -6,6 +6,7 @@ import '../pages/stats/stats.dart';
 import '../pages/settings/settings.dart';
 import '../pages/schedules/schedules.dart';
 import '../models/screen.dart';
+import '../models/sort_method.dart';
 
 List<Screen> screens = [
   Screen.home(GetPage(
@@ -25,7 +26,7 @@ List<Screen> screens = [
     Icons.bar_chart_rounded,
     GetPage(
       name: '/stats',
-      page: () => Stats(),
+      page: () => Stats(SortMethod.weekly),
     ),
   ),
   Screen(

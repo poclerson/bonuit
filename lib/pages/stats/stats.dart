@@ -10,6 +10,8 @@ import 'hours_indicator.dart';
 import 'days_indicator.dart';
 
 class Stats extends StatefulWidget {
+  int _defaultSortMethodDayAmount;
+  Stats([this._defaultSortMethodDayAmount = 7]);
   @override
   _StatsState createState() => _StatsState();
 }
@@ -19,7 +21,7 @@ class _StatsState extends State<Stats> {
   late SortMethod byWeek;
   late SortMethod byMonth;
   late SortMethod bySixMonths;
-  late SortMethod sortMethod = byWeek;
+  late SortMethod sortMethod;
 
   int pageIndex = 0;
 
@@ -38,16 +40,18 @@ class _StatsState extends State<Stats> {
         startDate: sortedToDate);
     byMonth = SortMethod.dated(
         name: 'M',
-        dayAmount: 30,
+        dayAmount: SortMethod.monthly,
         date: sortedToDate,
         onChanged: updateSortMethod,
         startDate: sortedToDate);
     bySixMonths = SortMethod.dated(
         name: '6M',
-        dayAmount: 180,
+        dayAmount: SortMethod.sixMonthly,
         date: sortedToDate,
         onChanged: updateSortMethod,
         startDate: sortedToDate);
+    sortMethod = [byWeek, byMonth, bySixMonths].firstWhere((sortMethod) =>
+        sortMethod.dayAmount == widget._defaultSortMethodDayAmount);
 
     return FutureBuilder(
       future: Day.getAll(),

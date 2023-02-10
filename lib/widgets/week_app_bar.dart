@@ -10,7 +10,7 @@ class DatesAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       title: Text(text),
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
     );
   }
 

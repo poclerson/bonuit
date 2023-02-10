@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 
 import '../../data/screens.dart';
 import '../../models/day.dart';
+import '../../models/sort_method.dart';
 import 'average_circle.dart';
+import '../stats/stats.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -41,13 +43,21 @@ class Home extends StatelessWidget {
                 ),
                 Container(
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AverageCircle(snapshot.data!.averageHoursSleptFromLast(7),
-                          'Moyenne de la semaine'),
                       AverageCircle(
-                          snapshot.data!.averageHoursSleptFromLast(30),
-                          'Moyenne du mois'),
+                          snapshot.data!
+                              .averageHoursSleptFromLast(SortMethod.weekly),
+                          'Moyenne\nhebdomadaire', () {
+                        Get.to(Stats(SortMethod.weekly));
+                      }),
+                      AverageCircle(
+                          snapshot.data!
+                              .averageHoursSleptFromLast(SortMethod.monthly),
+                          'Moyenne\nmensuelle', () {
+                        Get.to(Stats(SortMethod.monthly));
+                      }),
                     ],
                   ),
                 ),
