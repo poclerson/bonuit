@@ -4,8 +4,9 @@ import 'sort_method_picker_button.dart';
 import '../../models/sort_method.dart';
 
 class SortMethodPicker extends StatefulWidget {
+  List<SortMethod> sortMethods;
   Function(SortMethod) onButtonPressed;
-  SortMethodPicker(this.onButtonPressed);
+  SortMethodPicker(this.sortMethods, this.onButtonPressed);
   @override
   _SortMethodPickerState createState() => _SortMethodPickerState();
 }
@@ -31,9 +32,9 @@ class _SortMethodPickerState extends State<SortMethodPicker> {
                 width: 2,
               ),
               children: [
-                ...SortMethod.methods.asMap().entries.map((sortMethod) =>
+                ...widget.sortMethods.asMap().entries.map((sortMethod) =>
                     SortMethodPickerButton(sortMethod.value, sortMethod.key,
-                        SortMethod.methods.length))
+                        widget.sortMethods.length))
               ],
             ),
           ),

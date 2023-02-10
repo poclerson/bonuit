@@ -1,63 +1,88 @@
 import 'date.dart';
-import 'package:flutter/material.dart';
 
 class SortMethod {
   String name;
-  late List<String> identifiers = [];
+  late List<dynamic> identifiers = [];
   late int dayAmount;
-  late void Function(SortMethod) onChanged;
-
-  static DateTime date = DateTime.now();
-
-  SortMethod({required this.name, required this.identifiers}) {
-    dayAmount = identifiers.length;
-  }
+  void Function(SortMethod) onChanged;
+  DateTime startDate;
 
   SortMethod.dated(
       {required this.name,
       required this.dayAmount,
       required DateTime date,
+      required this.onChanged,
+      required this.startDate,
       int intervalAmount = 7}) {
     identifiers = createIntervals(date, intervalAmount);
   }
 
   SortMethod.weekdays(
-      {required this.name, this.dayAmount = 7, required DateTime date}) {
+      {required this.name,
+      this.dayAmount = 7,
+      required DateTime date,
+      required this.onChanged,
+      required this.startDate}) {
     for (var i = date.weekday; i <= 7; i++) {
-      identifiers.add(Date.weekdays[i - 1][0]);
+      identifiers.add(Date.weekdays[i - 1][0].toUpperCase());
     }
     for (var i = 0; i <= 7 - identifiers.length + 1; i++) {
-      identifiers.add(Date.weekdays[i][0]);
+      identifiers.add(Date.weekdays[i][0].toUpperCase());
     }
   }
 
-  static SortMethod byWeek = SortMethod.weekdays(name: 'S', date: date);
-  static SortMethod byMonth =
-      SortMethod.dated(name: 'M', dayAmount: 30, date: date);
-  static SortMethod bySixMonths =
-      SortMethod.dated(name: '6M', dayAmount: 180, date: date);
-
-  static List<SortMethod> methods = [byWeek, byMonth, bySixMonths];
-
-  List<String> createIntervals(DateTime from, int intervalAmount) {
-    List<String> intervals = [];
+  List<dynamic> createIntervals(DateTime from, int intervalAmount) {
+    List<dynamic> intervals = [];
 
     int intervalLength = (dayAmount / intervalAmount).round();
 
     for (var i = 0; i < dayAmount; i += intervalLength) {
-      DateTime current = DateTime(from.year, from.month, from.day - i);
-      intervals.add(current.day.toString() +
-          Date.months[current.month - 1].toString()[0]);
+      intervals.add(DateTime(from.year, from.month, from.day - i));
     }
-    debugPrint(intervals[0]);
 
     return intervals;
   }
+
+  List<dynamic> go(int distance) {
+    return createIntervals(
+        DateTime(startDate.year, startDate.month,
+            startDate.day + distance * dayAmount),
+        7);
+  }
+
+  String display(int distance) {
+    if (dayAmount == 7) {
+      switch (distance) {
+        case 0:
+          return 'Cette semaine';
+        case 1:
+          return 'Semaine dernière';
+        default:
+          return 'Il y a $distance semaines';
+      }
+    }
+    if (dayAmount == 30) {
+      switch (distance) {
+        case 0:
+          return 'Ce mois-ci';
+        case 1:
+          return 'Mois dernier';
+        default:
+          return 'Il y a $distance mois';
+      }
+    }
+    if (go(distance).first is DateTime && go(distance).last is DateTime) {
+      return 'Du ' +
+          (go(distance).last as DateTime).toFrench() +
+          ' au ' +
+          (go(distance).first as DateTime).toFrench();
+    }
+    return '';
+  }
 }
 
-extension SortMethodListExtension on List<SortMethod> {
-  attributeOnChangedFunctions(void Function(SortMethod) newOnChanged) {
-    SortMethod.methods
-        .forEach((sortMethod) => sortMethod.onChanged = newOnChanged);
+extension DateTimeExtension on DateTime {
+  String toFrench([int monthCharLimit = -1, String separator = '']) {
+    return '$day$separator ${Date.months[month - 1].substring(0, monthCharLimit > 0 ? monthCharLimit : Date.months[month - 1].length)}';
   }
 }

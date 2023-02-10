@@ -63,12 +63,16 @@ class Day extends Data {
 }
 
 extension TimeOfDayExtension on TimeOfDay {
-  TimeOfDay difference(TimeOfDay first) {
+  TimeOfDay difference(TimeOfDay other) {
     return TimeOfDay(
-        hour: first.hour > hour
-            ? first.hour - hour
-            : TimeOfDay.hoursPerDay - first.hour + hour,
-        minute: first.minute - minute);
+        hour: other.hour > hour
+            ? other.hour - hour
+            : TimeOfDay.hoursPerDay - other.hour + hour,
+        minute: other.minute - minute);
+  }
+
+  TimeOfDay addition(TimeOfDay other) {
+    return TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
   }
 
   double toDouble() => hour + minute / 60.0;
@@ -77,20 +81,30 @@ extension TimeOfDayExtension on TimeOfDay {
 
 extension DayGroups on List<Day> {
   List<List<Day>> groupBySize(int groupSize) {
-    // Liste des jours de la semaine présentement itérée
+    // Liste des jours présentement itérée
     late List<Day> daysInCurrentGroup = [];
 
-    // Toutes les semaines
+    // Toutes les listes
     late List<List<Day>> dayGroups = [];
     for (var i = 0; i < length; i++) {
       Day currentDay = this[i];
+      // Ajoute au groupe présent le jour présent
       daysInCurrentGroup.add(currentDay);
-      if ((i + 1) % groupSize == 0 || i == length - 1) {
+
+      // Lors qu'on arrive à la bonne taille de groupe
+      if ((i + 1) % groupSize == 0 || i + 1 == length) {
+        // Ajoute le groupe présent à la liste des groupes
         dayGroups.add([...daysInCurrentGroup]);
+        // Efface le groupe présent
         daysInCurrentGroup.clear();
       }
     }
     return dayGroups;
+  }
+
+  Day average() {
+    return Day(map((day) => day.sleepTime).toList().average(),
+        map((day) => day.wakeTime).toList().average(), DateTime.now());
   }
 
   TimeInterval createIntervals(int intervalAmount) {
@@ -126,5 +140,19 @@ extension DayGroups on List<Day> {
     }
 
     return TimeInterval(intervalLength, difference.round(), intervals);
+  }
+}
+
+extension TimeOfDayListExtension on List<TimeOfDay> {
+  TimeOfDay average() {
+    return TimeOfDay(
+        hour: (map((timeOfday) => timeOfday.hour)
+                    .reduce((current, next) => current + next) /
+                length)
+            .round(),
+        minute: (map((timeOfDay) => timeOfDay.minute)
+                    .reduce((current, next) => current + next) /
+                length)
+            .round());
   }
 }

@@ -3,11 +3,9 @@ import '../../models/day.dart';
 import '../../models/time_interval.dart';
 
 class StatsDay extends StatelessWidget {
-  final Day day;
-  final TimeInterval timeInterval;
-  final double containerWidth;
-  final double dayHeight;
-  StatsDay(this.day, this.timeInterval, this.containerWidth, this.dayHeight);
+  final Size size;
+  final double offset;
+  StatsDay({required this.size, required this.offset});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +13,9 @@ class StatsDay extends StatelessWidget {
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
           borderRadius: const BorderRadius.all(Radius.circular(20))),
-      margin: EdgeInsets.only(
-          left: timeInterval.ratioedOffset(day.sleepTime, containerWidth)),
-      width: timeInterval.timeToRatio(day.hoursSlept(), containerWidth),
-      height: dayHeight,
+      margin: EdgeInsets.only(left: offset),
+      width: size.width,
+      height: size.height,
     );
   }
 }

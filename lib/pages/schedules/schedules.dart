@@ -41,7 +41,6 @@ class _SchedulesState extends State<Schedules> {
     _schedules = Schedule.getAll();
     _weekdays = Weekday.getAll();
     return Scaffold(
-      appBar: WeekAppBar(),
       bottomNavigationBar: NavBar(ElevatedButton(
           onPressed: (() {
             // Aller vers la page NewSchedule()

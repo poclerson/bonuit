@@ -1,25 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:separated_column/separated_column.dart';
 import '../../models/time_interval.dart';
 import '../../models/day.dart';
 import 'stats_day.dart';
 
-class StatsGroup extends StatelessWidget {
+class StatsGroup extends StatefulWidget {
   List<Day> days;
   TimeInterval timeInterval;
-  double parentWidth;
+  Size parentSize;
   double dayHeight;
-  StatsGroup(this.days, this.timeInterval, this.parentWidth, this.dayHeight);
+  int sortingBy;
+  StatsGroup(this.days,
+      {required this.timeInterval,
+      required this.parentSize,
+      required this.dayHeight,
+      required this.sortingBy});
+  @override
+  _StatsGroupState createState() => _StatsGroupState();
+}
+
+class _StatsGroupState extends State<StatsGroup> {
   @override
   Widget build(BuildContext context) {
-    // debugPrint(days.length.toString());
-    return Padding(
+    double realHeight = widget.parentSize.height - 40;
+    double totalSeparatorHeight =
+        realHeight - (widget.dayHeight) * widget.sortingBy;
+    double separatorHeight = totalSeparatorHeight / (widget.sortingBy - 1);
+    return Container(
         padding: EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SeparatedColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          separatorBuilder: (context, index) => widget.parentSize.height > 0
+              ? SizedBox(
+                  height: separatorHeight,
+                )
+              : Expanded(child: SizedBox()),
           children: [
-            ...days.reversed.map(
-                (day) => StatsDay(day, timeInterval, parentWidth, dayHeight))
+            ...widget.days.reversed.map((day) => StatsDay(
+                size: Size(
+                    widget.timeInterval
+                        .timeToRatio(day.hoursSlept(), widget.parentSize.width),
+                    widget.dayHeight),
+                offset: widget.timeInterval
+                    .ratioedOffset(day.sleepTime, widget.parentSize.width)))
           ],
         ));
   }
