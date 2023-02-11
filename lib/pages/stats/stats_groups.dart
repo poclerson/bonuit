@@ -22,6 +22,7 @@ class StatsGroups extends StatefulWidget {
 class _StatsGroupsState extends State<StatsGroups> {
   @override
   Widget build(BuildContext context) {
+    debugPrint('groups ' + widget.sortMethod.name);
     return ChildSizeNotifier((context, size, child) {
       return Expanded(
           child: Stack(
@@ -43,7 +44,7 @@ class _StatsGroupsState extends State<StatsGroups> {
           PageView(
               reverse: true,
               scrollDirection: Axis.vertical,
-              onPageChanged: widget.onPageChanged,
+              onPageChanged: (pageIndex) => widget.onPageChanged(pageIndex),
               children: [
                 ...widget.days.reversed
                     .toList()

@@ -18,41 +18,37 @@ class Stats extends StatefulWidget {
 
 class _StatsState extends State<Stats> {
   DateTime sortedToDate = DateTime.now();
-  late SortMethod byWeek;
-  late SortMethod byMonth;
-  late SortMethod bySixMonths;
-  late SortMethod sortMethod;
+
+  updateSortMethod(SortMethod newSortMethod) {
+    setState(() {
+      sortMethod = newSortMethod;
+    });
+    debugPrint('stats ' + sortMethod.name);
+  }
 
   int pageIndex = 0;
-
+  late SortMethod sortMethod = [byWeek, byMonth, bySixMonths].firstWhere(
+      (sortMethod) =>
+          sortMethod.dayAmount == widget._defaultSortMethodDayAmount);
+  late SortMethod byWeek = SortMethod.weekdays(
+      name: 'S',
+      date: sortedToDate,
+      onChanged: updateSortMethod,
+      startDate: sortedToDate);
+  late SortMethod byMonth = SortMethod.dated(
+      name: 'M',
+      dayAmount: SortMethod.monthly,
+      date: sortedToDate,
+      onChanged: updateSortMethod,
+      startDate: sortedToDate);
+  late SortMethod bySixMonths = SortMethod.dated(
+      name: '6M',
+      dayAmount: SortMethod.sixMonthly,
+      date: sortedToDate,
+      onChanged: updateSortMethod,
+      startDate: sortedToDate);
   @override
   Widget build(BuildContext context) {
-    updateSortMethod(SortMethod newSortMethod) {
-      setState(() {
-        sortMethod = newSortMethod;
-      });
-    }
-
-    byWeek = SortMethod.weekdays(
-        name: 'S',
-        date: sortedToDate,
-        onChanged: updateSortMethod,
-        startDate: sortedToDate);
-    byMonth = SortMethod.dated(
-        name: 'M',
-        dayAmount: SortMethod.monthly,
-        date: sortedToDate,
-        onChanged: updateSortMethod,
-        startDate: sortedToDate);
-    bySixMonths = SortMethod.dated(
-        name: '6M',
-        dayAmount: SortMethod.sixMonthly,
-        date: sortedToDate,
-        onChanged: updateSortMethod,
-        startDate: sortedToDate);
-    sortMethod = [byWeek, byMonth, bySixMonths].firstWhere((sortMethod) =>
-        sortMethod.dayAmount == widget._defaultSortMethodDayAmount);
-
     return FutureBuilder(
       future: Day.getAll(),
       builder: (context, snapshot) {
