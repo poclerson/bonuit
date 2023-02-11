@@ -4,8 +4,10 @@ import '../../models/schedule.dart';
 
 class WeekdayBlock extends StatefulWidget {
   final Weekday _weekday;
-  late Color _color = _weekday.schedule!.color;
-  WeekdayBlock(this._weekday);
+  final Color _defaultColor;
+  late Color? _color =
+      _weekday.schedule != null ? _weekday.schedule!.color : _defaultColor;
+  WeekdayBlock(this._weekday, this._defaultColor);
   @override
   _WeekdayBlockState createState() => _WeekdayBlockState();
 }
@@ -13,6 +15,10 @@ class WeekdayBlock extends StatefulWidget {
 class _WeekdayBlockState extends State<WeekdayBlock> {
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   widget._color = widget._weekday.schedule!.color ??
+    //       Theme.of(context).colorScheme.onBackground;
+    // });
     return DragTarget<Schedule>(
       builder: (context, candidateSchedules, rejectedSchedules) {
         return Container(
@@ -21,7 +27,8 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
             padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-                color: widget._color,
+                color:
+                    widget._color ?? Theme.of(context).colorScheme.onBackground,
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Align(
               child: Text(
@@ -33,7 +40,8 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Hover
       onWillAccept: (schedule) {
         setState(() {
-          widget._color = schedule!.color;
+          widget._color =
+              schedule!.color ?? Theme.of(context).colorScheme.onBackground;
         });
         return schedule is Schedule;
       },
@@ -41,7 +49,8 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Fin du hover
       onLeave: (schedule) {
         setState(() {
-          widget._color = widget._weekday.schedule!.color;
+          widget._color = widget._weekday.schedule!.color ??
+              Theme.of(context).colorScheme.onBackground;
         });
       },
 

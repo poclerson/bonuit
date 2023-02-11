@@ -1,7 +1,5 @@
-import 'package:get/get.dart';
-
-import 'day.dart';
 import 'package:flutter/material.dart';
+import 'time_of_day_extension.dart';
 
 class TimeInterval {
   final int length;

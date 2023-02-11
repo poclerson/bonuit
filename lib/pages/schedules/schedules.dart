@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sommeil/models/time.dart';
 
 import '../../models/weekday.dart';
 import '../../models/schedule.dart';
@@ -44,7 +45,12 @@ class _SchedulesState extends State<Schedules> {
             // Aller vers la page NewSchedule()
             Get.to(NewSchedule(
               updateSchedules: updateSchedules,
-              schedule: Schedule.getBaseCopy(),
+              schedule: Schedule(
+                  name: Schedule.baseName,
+                  color: Theme.of(context).colorScheme.onBackground,
+                  sleepTime: TimeOfDay(hour: 22, minute: 0),
+                  wakeTime: TimeOfDay(hour: 6, minute: 0),
+                  songURL: ''),
               operation: Operation.addition,
             ));
             setState(() {});
@@ -68,7 +74,8 @@ class _SchedulesState extends State<Schedules> {
                     alignment: WrapAlignment.center,
                     children: [
                       ...snapshot.data!
-                          .map((weekday) => WeekdayBlock(weekday))
+                          .map((weekday) => WeekdayBlock(weekday,
+                              Theme.of(context).colorScheme.onBackground))
                           .toList()
                     ],
                   );

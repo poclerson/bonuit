@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/schedule.dart';
 import '../../widgets/round_icon_button.dart';
+import '../../models/time_of_day_extension.dart';
 
 class DraggableScheduleBox extends StatefulWidget {
   final Schedule schedule;
@@ -51,8 +52,8 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                     widget.schedule.name!,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
-                  Text(widget.schedule.sleepTime!.toString()),
-                  Text(widget.schedule.wakeTime!.toString())
+                  Text(widget.schedule.sleepTime!.toStringFormatted()),
+                  Text(widget.schedule.wakeTime!.toStringFormatted())
                 ],
               ),
               RoundIconButton.withColors(

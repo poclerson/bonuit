@@ -3,7 +3,7 @@ import 'local_files.dart';
 import 'time_interval.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
-import 'package:flutter/material.dart';
+import 'time_of_day_extension.dart';
 
 class Day extends Data {
   static var localFile = LocalFiles('days');
@@ -53,30 +53,6 @@ class Day extends Data {
 
     return json.map((element) => Day.fromJson(element)).toList();
   }
-}
-
-extension TimeOfDayExtension on TimeOfDay {
-  TimeOfDay difference(TimeOfDay other) {
-    return TimeOfDay(
-        hour: other.hour > hour
-            ? other.hour - hour
-            : TimeOfDay.hoursPerDay - other.hour + hour,
-        minute: other.minute - minute);
-  }
-
-  TimeOfDay addition(TimeOfDay other) {
-    return TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
-  }
-
-  double toDouble() {
-    // debugPrint(hour.toString());
-    return double.parse('$hour.${(minute / .6).round()}');
-  }
-
-  int toInt() => toDouble().round();
-
-  String toStringFormatted([String separator = 'h']) =>
-      toDouble().toString().replaceAll('.', separator);
 }
 
 extension DayGroups on List<Day> {
@@ -149,35 +125,5 @@ extension DayGroups on List<Day> {
             .map((day) => day.hoursSlept())
             .reduce((curr, next) => curr + next) /
         length;
-  }
-}
-
-extension TimeOfDayListExtension on List<TimeOfDay> {
-  TimeOfDay average() {
-    TimeOfDay tod =
-        (map((tod) => tod.toDouble()).reduce((curr, next) => curr + next) /
-                length)
-            .toTimeOfDay();
-    return tod;
-  }
-}
-
-extension Hour on double {
-  String toTime([String separator = 'h']) {
-    if (this < 0) return '00h00';
-
-    int floored = floor();
-    double decimal = this - floored;
-    String hour = '${floored % 24}';
-    String minute = '${(decimal * 60).toInt()}'.padLeft(2, '0');
-    return '$hour$separator$minute';
-  }
-
-  TimeOfDay toTimeOfDay() {
-    int floored = floor();
-    double decimal = this - floored;
-    int hour = floored % 24;
-    int minute = (decimal * 60).toInt();
-    return TimeOfDay(hour: hour, minute: minute);
   }
 }

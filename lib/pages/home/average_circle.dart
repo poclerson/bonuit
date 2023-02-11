@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/day.dart';
+import '../../models/time_of_day_extension.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 
 class AverageCircle extends StatefulWidget {

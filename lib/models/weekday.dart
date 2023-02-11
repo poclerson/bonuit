@@ -2,6 +2,8 @@ import 'schedule.dart';
 import 'local_files.dart';
 import 'data.dart';
 import 'dart:convert';
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 
 class Weekday extends Data {
   static var localFile = LocalFiles('weekdays',
@@ -15,7 +17,7 @@ class Weekday extends Data {
     day = json['day'];
     schedule = json['schedule'].toString() != '{}'
         ? Schedule.fromJson(json['schedule'])
-        : Schedule.minimum();
+        : Schedule.copy(Schedule.base);
   }
 
   @override

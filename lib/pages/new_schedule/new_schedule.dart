@@ -8,6 +8,7 @@ import '../../models/weekday.dart';
 import 'dart:core';
 import 'package:get/get.dart';
 import '../../models/time.dart';
+import '../../models/time_of_day_extension.dart';
 
 class NewSchedule extends StatefulWidget {
   Schedule schedule;
@@ -31,29 +32,28 @@ class _NewScheduleState extends State<NewSchedule> {
 
   @override
   Widget build(BuildContext context) {
-    widget.schedule.sleepTime ??= Time(22, 0);
-    widget.schedule.wakeTime ??= Time(6, 0);
     _sleepTime = widget.schedule.sleepTime!.toPickedTime();
     _wakeTime = widget.schedule.wakeTime!.toPickedTime();
 
     /// Ajouter le Prompt aux fonctions ouvertes onLoad
-    WidgetsBinding.instance.addPostFrameCallback(widget.schedule.name == null
-        ? (_) => showDialog(
-            context: context,
-            builder: (context) => TextPrompt(
-                  (value) async {
-                    final schedules = await Schedule.getAll();
-                    bool nameExists =
-                        schedules.any((schedule) => schedule.name == value);
-                    if (!nameExists) {
-                      setState(() {
-                        widget.schedule.name = value;
-                      });
-                    }
-                    return nameExists;
-                  },
-                ))
-        : (_) {});
+    WidgetsBinding.instance
+        .addPostFrameCallback(widget.schedule.name == Schedule.baseName
+            ? (_) => showDialog(
+                context: context,
+                builder: (context) => TextPrompt(
+                      (value) async {
+                        final schedules = await Schedule.getAll();
+                        bool nameExists =
+                            schedules.any((schedule) => schedule.name == value);
+                        if (!nameExists) {
+                          setState(() {
+                            widget.schedule.name = value;
+                          });
+                        }
+                        return nameExists;
+                      },
+                    ))
+            : (_) {});
 
     /// Widgets à être instantiés dans le ListView
     List<Widget> _listViewWidgets = [
@@ -75,8 +75,9 @@ class _NewScheduleState extends State<NewSchedule> {
         endTime: widget.schedule.wakeTime!.toPickedTime(),
         onSelectionChange: (sleep, wake, isDisableRange) {
           setState(() {
-            widget.schedule.sleepTime = Time.fromPickedTime(sleep);
-            widget.schedule.wakeTime = Time.fromPickedTime(wake);
+            widget.schedule.sleepTime =
+                TimeOfDayExtension.fromPickedTime(sleep);
+            widget.schedule.wakeTime = TimeOfDayExtension.fromPickedTime(wake);
           });
         },
         onSelectionEnd: (sleep, wake, isDisableRange) {
@@ -153,16 +154,16 @@ class _NewScheduleState extends State<NewSchedule> {
                     .add();
                 break;
               case Operation.edition:
-                Function edit = widget.oldSchedule.edit;
-                edit(Schedule.pickedTime(
+                widget.oldSchedule.edit(Schedule.pickedTime(
                     name: widget.schedule.name,
                     color: widget.schedule.color,
                     songURL:
                         '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
                     sleepTime: _sleepTime,
                     wakeTime: _wakeTime));
-                Weekday.onScheduleEdited(widget.schedule);
+                Weekday.onScheduleEdited(widget.oldSchedule);
                 widget.updateWeekdays!();
+                debugPrint(widget.oldSchedule.color.toString());
             }
             widget.updateSchedules();
             Navigator.of(Get.overlayContext!).pop();
@@ -174,10 +175,6 @@ class _NewScheduleState extends State<NewSchedule> {
             automaticallyImplyLeading: false,
             title: Text(
               widget.schedule.name ?? 'Nouvel horaire',
-              style: Theme.of(context)
-                  .appBarTheme
-                  .titleTextStyle!
-                  .copyWith(color: widget.schedule.color),
             )),
         bottomNavigationBar: NavBar(),
         body: Padding(

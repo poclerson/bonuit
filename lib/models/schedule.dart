@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_null_aware_operators
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,23 +9,22 @@ import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'time.dart';
 import 'weekday.dart';
 import 'data.dart';
+import 'time_of_day_extension.dart';
 
 enum Operation { addition, edition }
 
 class Schedule extends Data {
   static var localFile = LocalFiles('schedule');
   late String? name;
-  late Color color;
+  late Color? color;
   String? songURL;
-  Time? sleepTime;
-  Time? wakeTime;
+  TimeOfDay? sleepTime;
+  TimeOfDay? wakeTime;
 
   static final Schedule base = Schedule(
-      name: null,
-      color: Color(0xFFFFFFFF),
-      songURL: null,
-      sleepTime: null,
-      wakeTime: null);
+      name: null, color: null, songURL: null, sleepTime: null, wakeTime: null);
+
+  static String baseName = 'Nouvel horaire';
 
   Schedule(
       {required this.name,
@@ -32,19 +33,19 @@ class Schedule extends Data {
       required this.sleepTime,
       required this.wakeTime});
 
-  Schedule.minimum(
-      [this.name = 'Horaire',
-      this.color = const Color(0xFFAFAFAF),
-      this.songURL = 'allo.com']);
-
+  Schedule.copy(Schedule? schedule) {
+    schedule ??= base;
+  }
   Schedule.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    color = Color(int.parse(json['color'] ?? '0xFFFFFFFF'));
+    color = json['color'] != null ? Color(json['color']) : null;
     songURL = json['songURL'];
-    sleepTime =
-        json['sleepTime'] != null ? Time.fromString(json['sleepTime']) : null;
-    wakeTime =
-        json['wakeTime'] != null ? Time.fromString(json['wakeTime']) : null;
+    sleepTime = json['sleepTime'] != null
+        ? TimeOfDayExtension.fromString(json['sleepTime'])
+        : null;
+    wakeTime = json['wakeTime'] != null
+        ? TimeOfDayExtension.fromString(json['wakeTime'])
+        : null;
   }
 
   Schedule.pickedTime(
@@ -53,10 +54,10 @@ class Schedule extends Data {
       required this.songURL,
       required PickedTime sleepTime,
       required PickedTime wakeTime}) {
-    this.sleepTime = Time.fromString(
+    this.sleepTime = TimeOfDayExtension.fromString(
         '${sleepTime.h}:${sleepTime.m == 0 ? '00' : sleepTime.m}');
-    this.wakeTime =
-        Time.fromString('${wakeTime.h}:${wakeTime.m == 0 ? '00' : wakeTime.m}');
+    this.wakeTime = TimeOfDayExtension.fromString(
+        '${wakeTime.h}:${wakeTime.m == 0 ? '00' : wakeTime.m}');
   }
 
   static Future<List<Schedule>> getAll() async {
@@ -69,10 +70,11 @@ class Schedule extends Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
-    data['color'] = color.toString().substring(6, 16);
+    data['color'] = color != null ? color!.value : null;
     data['songURL'] = songURL;
-    data['sleepTime'] = sleepTime != null ? sleepTime.toString() : null;
-    data['wakeTime'] = wakeTime != null ? wakeTime.toString() : null;
+    data['sleepTime'] =
+        sleepTime != null ? sleepTime!.toStringFormatted() : null;
+    data['wakeTime'] = wakeTime != null ? wakeTime!.toStringFormatted() : null;
     return data;
   }
 

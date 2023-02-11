@@ -15,7 +15,7 @@ class App extends StatelessWidget {
       getPages: screens.map((screen) => screen.getPage).toList(),
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
     );
   }
 }

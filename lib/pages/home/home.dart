@@ -6,6 +6,7 @@ import '../../models/day.dart';
 import '../../models/sort_method.dart';
 import 'average_circle.dart';
 import '../stats/stats.dart';
+import '../../models/time_of_day_extension.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -17,12 +18,6 @@ class Home extends StatelessWidget {
         future: Day.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            debugPrint([
-              snapshot.data![0],
-              snapshot.data![1],
-              snapshot.data![2],
-              snapshot.data![3]
-            ].averageHoursSleptFromLast().toString());
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
