@@ -57,12 +57,14 @@ class AppTheme {
       // Text button
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
+              padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
               foregroundColor:
                   MaterialStatePropertyAll<Color>(colorScheme.primary),
               backgroundColor:
                   MaterialStatePropertyAll<Color>(colorScheme.onPrimary),
-              shape: MaterialStatePropertyAll<OutlinedBorder>(
-                  BeveledRectangleBorder()))),
+              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10))))),
       // Outlined button
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
@@ -72,107 +74,25 @@ class AppTheme {
                   MaterialStatePropertyAll<Color>(colorScheme.onSecondary),
               side: MaterialStatePropertyAll<BorderSide>(
                   BorderSide(color: colorScheme.onBackground)),
-              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10))))),
+              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))),
 
       /// TEXTES ///
       textTheme: TextTheme(
 
           /// DISPLAY
-          displayLarge: GoogleFonts.karla(
-              letterSpacing: -5,
-              fontWeight: FontWeight.w900,
-              fontSize: 100,
-              color: colorScheme.onBackground),
-          displaySmall: GoogleFonts.familjenGrotesk(
-              fontWeight: FontWeight.w900,
-              fontSize: 80,
-              color: colorScheme.onBackground),
+          displayLarge: GoogleFonts.karla(letterSpacing: -5, fontWeight: FontWeight.w900, fontSize: 100, color: colorScheme.onBackground),
+          displayMedium: GoogleFonts.familjenGrotesk(letterSpacing: -2, fontWeight: FontWeight.w900, fontSize: 80, color: colorScheme.onBackground),
+          displaySmall: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w900, fontSize: 60, color: colorScheme.onBackground),
 
           /// LABEL
-          labelLarge: GoogleFonts.familjenGrotesk(
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-              color: colorScheme.background),
+          labelLarge: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w500, fontSize: 20, color: colorScheme.background),
 
           /// TITLE
-          titleMedium: GoogleFonts.karla(
-              fontWeight: FontWeight.w900,
-              color: colorScheme.background,
-              fontSize: 25),
+          headlineLarge: GoogleFonts.karla(fontWeight: FontWeight.w700, fontSize: 30, color: colorScheme.onBackground),
+          titleMedium: GoogleFonts.karla(fontWeight: FontWeight.w900, color: colorScheme.background, fontSize: 25),
           // BODY
           bodyMedium: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w300, color: colorScheme.background)));
 
   static ThemeData light = themeBuilder(LightColorScheme);
-  static ThemeData dark = ThemeData(
-
-      /// THEME ///
-      colorScheme: DarkColorScheme,
-      scaffoldBackgroundColor: DarkColorScheme.background,
-      dividerColor: DarkColorScheme.secondary,
-
-      /// DIALOGUE ///
-      dialogTheme: DialogTheme(
-          backgroundColor: DarkColorScheme.surface,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: BorderSide(width: 2, color: DarkColorScheme.onBackground))),
-
-      /// NAVIGATION ///
-      appBarTheme: AppBarTheme(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          titleTextStyle: TextStyle(
-              color: DarkColorScheme.onBackground,
-              fontSize: 20,
-              fontWeight: FontWeight.w900)),
-      bottomAppBarTheme: BottomAppBarTheme(color: DarkColorScheme.background),
-
-      /// BOUTONS ///
-      // Text button
-      textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-              foregroundColor:
-                  MaterialStatePropertyAll<Color>(DarkColorScheme.primary),
-              backgroundColor:
-                  MaterialStatePropertyAll<Color>(DarkColorScheme.onPrimary),
-              shape: MaterialStatePropertyAll<OutlinedBorder>(
-                  BeveledRectangleBorder()))),
-      // Outlined button
-      outlinedButtonTheme: OutlinedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll<Color>(DarkColorScheme.secondary),
-              foregroundColor:
-                  MaterialStatePropertyAll<Color>(DarkColorScheme.onSecondary),
-              side: MaterialStatePropertyAll<BorderSide>(
-                  BorderSide(color: DarkColorScheme.onBackground)),
-              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))))),
-
-      /// TEXTES ///
-      textTheme: TextTheme(
-
-          /// DISPLAY
-          displayLarge: GoogleFonts.karla(
-              letterSpacing: -5,
-              fontWeight: FontWeight.w900,
-              fontSize: 100,
-              color: DarkColorScheme.onBackground),
-          displaySmall: GoogleFonts.familjenGrotesk(
-              fontWeight: FontWeight.w900,
-              fontSize: 80,
-              color: DarkColorScheme.onBackground),
-
-          /// LABEL
-          labelLarge: GoogleFonts.familjenGrotesk(
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-              color: DarkColorScheme.background),
-
-          /// TITLE
-          titleMedium: GoogleFonts.karla(fontWeight: FontWeight.w900, color: DarkColorScheme.background, fontSize: 25),
-          // BODY
-          bodyMedium: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w300, color: DarkColorScheme.background)));
+  static ThemeData dark = themeBuilder(DarkColorScheme);
 }

@@ -63,7 +63,7 @@ class _SchedulesState extends State<Schedules> {
               padding: EdgeInsets.only(bottom: 50, top: 50),
               child: Text(
                 "Modifier l'horaire",
-                style: Theme.of(context).textTheme.displaySmall,
+                style: Theme.of(context).textTheme.displayMedium,
                 textAlign: TextAlign.center,
               )),
           FutureBuilder(

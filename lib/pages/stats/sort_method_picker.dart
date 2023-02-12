@@ -18,7 +18,7 @@ class _SortMethodPickerState extends State<SortMethodPicker> {
         width: MediaQuery.of(context).size.width * .5,
         left: (MediaQuery.of(context).size.width / 2) -
             (MediaQuery.of(context).size.width / 2 * .5),
-        bottom: 30,
+        bottom: 10,
         child: Container(
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(color: Colors.black, offset: Offset(5, 5), blurRadius: 10)
