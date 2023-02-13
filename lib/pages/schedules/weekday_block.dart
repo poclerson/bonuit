@@ -57,8 +57,8 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Drop
       onAccept: (schedule) {
         setState(() {
-          widget._weekday.schedule!.color = schedule.color;
-          widget._weekday.changeSchedule(schedule);
+          widget._weekday.newSchedule(schedule);
+          widget._color = schedule.color;
         });
       },
     );

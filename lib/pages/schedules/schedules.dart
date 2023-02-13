@@ -45,15 +45,10 @@ class _SchedulesState extends State<Schedules> {
             // Aller vers la page NewSchedule()
             Get.to(NewSchedule(
               updateSchedules: updateSchedules,
-              schedule: Schedule(
-                  name: Schedule.baseName,
-                  color: Theme.of(context).colorScheme.onBackground,
-                  sleepTime: TimeOfDay(hour: 22, minute: 0),
-                  wakeTime: TimeOfDay(hour: 6, minute: 0),
-                  songURL: ''),
+              schedule:
+                  Schedule.base(Theme.of(context).colorScheme.onBackground),
               operation: Operation.addition,
             ));
-            setState(() {});
           }),
           child: Icon(Icons.add))),
       body: Column(

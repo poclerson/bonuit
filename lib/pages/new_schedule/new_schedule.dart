@@ -7,7 +7,7 @@ import '../../models/schedule.dart';
 import '../../models/weekday.dart';
 import 'dart:core';
 import 'package:get/get.dart';
-import '../../models/time.dart';
+import 'app_circle_time_picker.dart';
 import '../../models/time_of_day_extension.dart';
 
 class NewSchedule extends StatefulWidget {
@@ -32,8 +32,8 @@ class _NewScheduleState extends State<NewSchedule> {
 
   @override
   Widget build(BuildContext context) {
-    _sleepTime = widget.schedule.sleepTime!.toPickedTime();
-    _wakeTime = widget.schedule.wakeTime!.toPickedTime();
+    _sleepTime = widget.schedule.sleepTime.toPickedTime();
+    _wakeTime = widget.schedule.wakeTime.toPickedTime();
 
     /// Ajouter le Prompt aux fonctions ouvertes onLoad
     WidgetsBinding.instance
@@ -70,78 +70,19 @@ class _NewScheduleState extends State<NewSchedule> {
         'Temps de sommeil',
         style: Theme.of(context).textTheme.headlineSmall,
       ),
-      TimePicker(
-        initTime: widget.schedule.sleepTime!.toPickedTime(),
-        endTime: widget.schedule.wakeTime!.toPickedTime(),
-        onSelectionChange: (sleep, wake, isDisableRange) {
-          setState(() {
-            widget.schedule.sleepTime =
-                TimeOfDayExtension.fromPickedTime(sleep);
-            widget.schedule.wakeTime = TimeOfDayExtension.fromPickedTime(wake);
-          });
-        },
-        onSelectionEnd: (sleep, wake, isDisableRange) {
-          setState(() {
-            _sleepTime = sleep;
-            _wakeTime = wake;
-          });
-        },
-        width: 400,
-        height: 400,
-        primarySectors: 12,
-        secondarySectors: 48,
-        decoration: TimePickerDecoration(
-            baseColor: Theme.of(context).colorScheme.onBackground,
-            // Grands diviseurs
-            primarySectorsDecoration: TimePickerSectorDecoration(
-                width: 2,
-                radiusPadding: 30,
-                color: Theme.of(context).colorScheme.onBackground,
-                size: 5),
-            // Petits diviseurs
-            secondarySectorsDecoration: TimePickerSectorDecoration(
-                width: 2,
-                radiusPadding: 30,
-                color: Theme.of(context).colorScheme.surface,
-                size: 2.5),
-            // Sélecteur
-            sweepDecoration: TimePickerSweepDecoration(
-              pickerStrokeWidth: 40,
-              pickerColor: Theme.of(context).colorScheme.primary,
-              useRoundedPickerCap: true,
-            ),
-            // Poignée de début
-            initHandlerDecoration: TimePickerHandlerDecoration(
-              color: Colors.transparent,
-              icon: Icon(
-                Icons.bed,
-                size: 25,
-              ),
-            ),
-            // Poignée de fin
-            endHandlerDecoration: TimePickerHandlerDecoration(
-                color: Colors.transparent,
-                icon: Icon(
-                  Icons.alarm,
-                  size: 25,
-                )),
-            // Chiffres de l'horloge
-            clockNumberDecoration: TimePickerClockNumberDecoration(
-                clockTimeFormat: ClockTimeFormat.TWENTYFOURHOURS,
-                defaultTextColor: Theme.of(context).colorScheme.primary,
-                clockIncrementTimeFormat: ClockIncrementTimeFormat.FIFTEENMIN,
-                scaleFactor: 2.75,
-                textScaleFactor: .4)),
-        child: Align(
-          child: Text(
-            widget.schedule.timeInterval(),
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-        ),
-      ),
+      AppCircleTimePicker(widget.schedule,
+          onSelectionChanged: (sleep, wake, isDisableRange) => setState(() {
+                widget.schedule.sleepTime =
+                    TimeOfDayExtension.fromPickedTime(sleep);
+                widget.schedule.wakeTime =
+                    TimeOfDayExtension.fromPickedTime(wake);
+              }),
+          onSelectionEnded: ((sleep, wake, isDisableRange) => setState(() {
+                _sleepTime = sleep;
+                _wakeTime = wake;
+              }))),
       OutlinedButton(
           onPressed: () {
-            if (widget.operation == Operation.addition) {}
             switch (widget.operation) {
               case Operation.addition:
                 Schedule.pickedTime(
@@ -163,7 +104,6 @@ class _NewScheduleState extends State<NewSchedule> {
                     wakeTime: _wakeTime));
                 Weekday.onScheduleEdited(widget.oldSchedule);
                 widget.updateWeekdays!();
-                debugPrint(widget.oldSchedule.color.toString());
             }
             widget.updateSchedules();
             Navigator.of(Get.overlayContext!).pop();

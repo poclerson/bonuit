@@ -1,17 +1,15 @@
-import 'data.dart';
+import 'time_slept.dart';
 import 'local_files.dart';
 import 'time_interval.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'time_of_day_extension.dart';
 
-class Day extends Data {
+class Day extends TimeSlept {
   static var localFile = LocalFiles('days');
-  late TimeOfDay sleepTime;
-  late TimeOfDay wakeTime;
   late DateTime date;
 
-  Day(this.sleepTime, this.wakeTime, this.date);
+  Day(sleepTime, wakeTime, this.date);
 
   Day.fromJson(Map<String, dynamic> json) {
     // final format = DateFormat.jm();
@@ -31,21 +29,6 @@ class Day extends Data {
     data['sleepTime'] = sleepTime.toString();
     data['wakeTime'] = wakeTime.toString();
     return data;
-  }
-
-  double hoursSlept([bool returnString = false]) {
-    double doubleSleepTime = sleepTime.toDouble();
-    double doubleWakeTime = wakeTime.toDouble();
-    if (!isSameDay()) {
-      return TimeOfDay.hoursPerDay.toDouble() -
-          doubleSleepTime +
-          doubleWakeTime;
-    }
-    return doubleWakeTime - doubleSleepTime;
-  }
-
-  bool isSameDay() {
-    return sleepTime.toDouble() < wakeTime.toDouble();
   }
 
   static Future<List<Day>> getAll() async {
@@ -87,12 +70,12 @@ extension DayGroups on List<Day> {
   TimeInterval createIntervals(int intervalAmount) {
     Day earliest = reduce((current, next) {
       // Les deux jours ont des heures de coucher après minuit
-      if (!current.isSameDay() && !next.isSameDay()) {
+      if (!current.isSameDay && !next.isSameDay) {
         if (current.sleepTime.hour < next.sleepTime.hour) return current;
         return next;
       }
-      if (!next.isSameDay()) return next;
-      if (!current.isSameDay()) return current;
+      if (!next.isSameDay) return next;
+      if (!current.isSameDay) return current;
 
       if (current.sleepTime.hour < next.sleepTime.hour) return current;
       return next;
@@ -103,7 +86,7 @@ extension DayGroups on List<Day> {
 
     late double difference =
         Day(earliest.sleepTime, latest.wakeTime, DateTime.now())
-            .hoursSlept()
+            .hoursSlept
             .toDouble();
 
     List<int> intervals = [];
@@ -122,7 +105,7 @@ extension DayGroups on List<Day> {
   double averageHoursSleptFromLast([int amount = 1]) {
     return getRange(length > amount ? length - amount : 0, length)
             .toList()
-            .map((day) => day.hoursSlept())
+            .map((day) => day.hoursSlept)
             .reduce((curr, next) => curr + next) /
         length;
   }

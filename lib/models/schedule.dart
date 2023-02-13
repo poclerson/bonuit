@@ -6,23 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'local_files.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
-import 'time.dart';
-import 'weekday.dart';
-import 'data.dart';
+import 'time_slept.dart';
 import 'time_of_day_extension.dart';
 
 enum Operation { addition, edition }
 
-class Schedule extends Data {
+class Schedule extends TimeSlept {
   static var localFile = LocalFiles('schedule');
-  late String? name;
-  late Color? color;
-  String? songURL;
-  TimeOfDay? sleepTime;
-  TimeOfDay? wakeTime;
-
-  static final Schedule base = Schedule(
-      name: null, color: null, songURL: null, sleepTime: null, wakeTime: null);
+  late String name;
+  late Color color;
+  late String songURL;
 
   static String baseName = 'Nouvel horaire';
 
@@ -30,22 +23,15 @@ class Schedule extends Data {
       {required this.name,
       required this.color,
       required this.songURL,
-      required this.sleepTime,
-      required this.wakeTime});
+      required sleepTime,
+      required wakeTime});
 
-  Schedule.copy(Schedule? schedule) {
-    schedule ??= base;
-  }
   Schedule.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    color = json['color'] != null ? Color(json['color']) : null;
+    color = Color(json['color']);
     songURL = json['songURL'];
-    sleepTime = json['sleepTime'] != null
-        ? TimeOfDayExtension.fromString(json['sleepTime'])
-        : null;
-    wakeTime = json['wakeTime'] != null
-        ? TimeOfDayExtension.fromString(json['wakeTime'])
-        : null;
+    sleepTime = TimeOfDayExtension.fromString(json['sleepTime']);
+    wakeTime = TimeOfDayExtension.fromString(json['wakeTime']);
   }
 
   Schedule.pickedTime(
@@ -60,10 +46,11 @@ class Schedule extends Data {
         '${wakeTime.h}:${wakeTime.m == 0 ? '00' : wakeTime.m}');
   }
 
-  static Future<List<Schedule>> getAll() async {
-    final json = await localFile.readAll();
-
-    return json.map((element) => Schedule.fromJson(element)).toList();
+  Schedule.base(this.color) {
+    name = 'Nouvel horaire';
+    songURL = '';
+    sleepTime = const TimeOfDay(hour: 22, minute: 0);
+    wakeTime = const TimeOfDay(hour: 6, minute: 0);
   }
 
   @override
@@ -84,31 +71,6 @@ class Schedule extends Data {
     return '${intervalTime.h}:${intervalTime.m == 0 ? '00' : intervalTime.m}';
   }
 
-  bool isBase() {
-    return (name == Schedule.base.name &&
-        color == Schedule.base.color &&
-        songURL == Schedule.base.songURL &&
-        sleepTime == Schedule.base.sleepTime &&
-        wakeTime == Schedule.base.wakeTime);
-  }
-
-  bool compareTo(Schedule other) {
-    return (name == other.name &&
-        color == other.color &&
-        songURL == other.songURL &&
-        sleepTime == other.sleepTime &&
-        wakeTime == other.wakeTime);
-  }
-
-  static Schedule getBaseCopy() {
-    return Schedule(
-        name: Schedule.base.name,
-        color: Schedule.base.color,
-        songURL: Schedule.base.songURL,
-        sleepTime: Schedule.base.sleepTime,
-        wakeTime: Schedule.base.wakeTime);
-  }
-
   add() async {
     final schedules = await getAll();
     schedules.add(this);
@@ -117,25 +79,25 @@ class Schedule extends Data {
 
   delete() async {
     final schedules = await getAll();
-    schedules.removeWhere((schedule) {
-      if (schedule.name == name) {
-        // Weekday.onScheduleRemoved(schedule);
-        return true;
-      }
-      return false;
-    });
+    schedules.removeWhere((schedule) => schedule.name == name);
     _write(schedules);
   }
 
-  void edit(Schedule newSchedule) async {
+  edit(Schedule newSchedule) async {
     final schedules = await getAll();
     schedules[schedules.indexWhere((schedule) => schedule.name == name)] =
         newSchedule;
     _write(schedules);
   }
 
-  void _write(List<Schedule> schedules) async {
+  _write(List<Schedule> schedules) async {
     localFile.write(
         jsonEncode(schedules.map((schedule) => schedule.toJson()).toList()));
+  }
+
+  static Future<List<Schedule>> getAll() async {
+    final json = await localFile.readAll();
+
+    return json.map((element) => Schedule.fromJson(element)).toList();
   }
 }

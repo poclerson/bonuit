@@ -15,16 +15,15 @@ class Weekday extends Data {
 
   Weekday.fromJson(Map<String, dynamic> json) {
     day = json['day'];
-    schedule = json['schedule'].toString() != '{}'
-        ? Schedule.fromJson(json['schedule'])
-        : Schedule.copy(Schedule.base);
+    schedule =
+        json['schedule'] != null ? Schedule.fromJson(json['schedule']) : null;
   }
 
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['day'] = day;
-    data['schedule'] = schedule!.toJson();
+    data['schedule'] = schedule != null ? schedule!.toJson() : null;
     return data;
   }
 
@@ -34,12 +33,19 @@ class Weekday extends Data {
     return json.map((element) => Weekday.fromJson(element)).toList();
   }
 
+  newSchedule(Schedule newSchedule) {
+    schedule = newSchedule;
+
+    changeSchedule(newSchedule);
+  }
+
   Future<void> changeSchedule(Schedule newSchedule) async {
     final weekdays = await getAll();
+    schedule = newSchedule;
     Weekday weekdayToChange =
         weekdays.firstWhere((weekday) => weekday.day == day);
     int index = weekdays.indexOf(weekdayToChange);
-    weekdays[index].schedule = newSchedule;
+    weekdays[index] = this;
     final json =
         jsonEncode(weekdays.map((weekday) => weekday.toJson()).toList());
     localFile.write(json);
@@ -49,8 +55,9 @@ class Weekday extends Data {
     final weekdays = await getAll();
 
     weekdays.forEach((weekday) {
-      if (weekday.schedule!.name == schedule.name) {
-        weekday.schedule = Schedule.getBaseCopy();
+      if (weekday.schedule != null &&
+          (weekday.schedule!.name == schedule.name)) {
+        weekday.schedule = null;
       }
     });
 
@@ -61,7 +68,8 @@ class Weekday extends Data {
     final weekdays = await getAll();
 
     weekdays.forEach((weekday) {
-      if (weekday.schedule!.name == schedule.name) {
+      if (weekday.schedule != null &&
+          (weekday.schedule!.name == schedule.name)) {
         weekday.schedule = schedule;
       }
     });
