@@ -3,6 +3,7 @@ class SleepTarget {
 
   static int get hours => duration.inHours;
   static int get minutes => duration.inMinutes.remainder(60);
+  static double get total => hours + (minutes / 100);
 }
 
 extension DurationExtension on Duration {

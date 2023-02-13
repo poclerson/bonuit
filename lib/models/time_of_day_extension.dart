@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 
 extension TimeOfDayExtension on TimeOfDay {
-  TimeOfDay difference(TimeOfDay other) {
+  TimeOfDay operator -(TimeOfDay other) {
     return TimeOfDay(
         hour: other.hour > hour
             ? other.hour - hour
@@ -10,7 +10,7 @@ extension TimeOfDayExtension on TimeOfDay {
         minute: other.minute - minute);
   }
 
-  TimeOfDay addition(TimeOfDay other) {
+  TimeOfDay operator +(TimeOfDay other) {
     return TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
   }
 
@@ -19,10 +19,8 @@ extension TimeOfDayExtension on TimeOfDay {
   int toInt() => toDouble().round();
 
   String toStringFormatted([String separator = 'h']) {
-    String unformatted = toDouble().toString();
-    String hours = unformatted.split('.')[0];
-    String minutes = unformatted.split('.')[1].padLeft(2, '0');
-    return '$hours$separator$minutes';
+    return toString()
+        .substring(toString().indexOf('(') + 1, toString().indexOf(')'));
   }
 
   PickedTime toPickedTime() => PickedTime(h: hour, m: minute);
@@ -50,16 +48,6 @@ extension TimeOfDayListExtension on List<TimeOfDay> {
 }
 
 extension Hour on double {
-  String toTime([String separator = 'h']) {
-    if (this < 0) return '00h00';
-
-    int floored = floor();
-    double decimal = this - floored;
-    String hour = '${floored % 24}';
-    String minute = '${(decimal * 60).toInt()}'.padLeft(2, '0');
-    return '$hour$separator$minute';
-  }
-
   TimeOfDay toTimeOfDay() {
     int floored = floor();
     double decimal = this - floored;

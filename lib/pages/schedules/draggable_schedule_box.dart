@@ -52,8 +52,8 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                     widget.schedule.name!,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
-                  Text(widget.schedule.sleepTime!.toStringFormatted()),
-                  Text(widget.schedule.wakeTime!.toStringFormatted())
+                  Text(widget.schedule.sleepTime.toStringFormatted()),
+                  Text(widget.schedule.wakeTime.toStringFormatted())
                 ],
               ),
               RoundIconButton.withColors(

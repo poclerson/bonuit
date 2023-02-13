@@ -76,7 +76,7 @@ class AppCircleTimePicker extends StatelessWidget {
             ),
           ),
         ),
-        Text(schedule.hoursSlept.toTime())
+        Text(schedule.hoursSlept.toTimeOfDay().toStringFormatted())
       ],
     );
   }

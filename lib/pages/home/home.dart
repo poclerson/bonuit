@@ -26,7 +26,9 @@ class Home extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        snapshot.data!.last.hoursSlept.toTime(),
+                        snapshot.data!.last.hoursSlept
+                            .toTimeOfDay()
+                            .toStringFormatted(),
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
                       Text(

@@ -68,7 +68,7 @@ class _AverageCircleState extends State<AverageCircle> {
                     )),
                 child: Align(
                   child: Text(
-                    widget._averageHoursSlept.toTime(),
+                    widget._averageHoursSlept.toTimeOfDay().toStringFormatted(),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
