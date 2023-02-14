@@ -22,7 +22,6 @@ class StatsGroups extends StatefulWidget {
 class _StatsGroupsState extends State<StatsGroups> {
   @override
   Widget build(BuildContext context) {
-    debugPrint('groups ' + widget.sortMethod.name);
     return ChildSizeNotifier((context, size, child) {
       return Expanded(
           child: Stack(

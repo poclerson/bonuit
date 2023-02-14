@@ -9,7 +9,10 @@ class Day extends TimeSlept {
   static var localFile = LocalFiles('days');
   late DateTime date;
 
-  Day(sleepTime, wakeTime, this.date);
+  Day(TimeOfDay sleepTime, TimeOfDay wakeTime, this.date) {
+    this.sleepTime = sleepTime;
+    this.wakeTime = wakeTime;
+  }
 
   Day.fromJson(Map<String, dynamic> json) {
     // final format = DateFormat.jm();

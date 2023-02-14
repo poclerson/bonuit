@@ -23,7 +23,6 @@ class _StatsState extends State<Stats> {
     setState(() {
       sortMethod = newSortMethod;
     });
-    debugPrint('stats ' + sortMethod.name);
   }
 
   int pageIndex = 0;
