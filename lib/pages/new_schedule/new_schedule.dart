@@ -10,6 +10,7 @@ import 'dart:core';
 import 'package:get/get.dart';
 import 'app_circle_time_picker.dart';
 import '../../models/time_of_day_extension.dart';
+import 'package:separated_column/separated_column.dart';
 
 class NewSchedule extends StatefulWidget {
   Schedule schedule;
@@ -62,39 +63,48 @@ class _NewScheduleState extends State<NewSchedule> {
               widget.schedule.name,
               style: Theme.of(context)
                   .textTheme
-                  .headlineMedium!
+                  .headlineSmall!
                   .copyWith(color: widget.schedule.color),
             )),
         bottomNavigationBar: NavBar(),
         body: Padding(
             padding: EdgeInsets.all(25),
-            child: ListView(
-              children: [
-                Text(
-                  'Temps de sommeil',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                AppCircleTimePicker(widget.schedule,
-                    onSelectionChanged: (sleep, wake, isDisableRange) =>
-                        setState(() {
-                          widget.schedule.sleepTime =
-                              TimeOfDayExtension.fromPickedTime(sleep);
-                          widget.schedule.wakeTime =
-                              TimeOfDayExtension.fromPickedTime(wake);
-                        }),
-                    onSelectionEnded: ((sleep, wake, isDisableRange) =>
-                        setState(() {
-                          _sleepTime = sleep;
-                          _wakeTime = wake;
-                        }))),
-                widget.schedule.hoursSlept < SleepTarget.total
-                    ? Column(
+            child: SingleChildScrollView(
+              child: SeparatedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 20,
+                      ),
+                  children: [
+                    Text(
+                      'Temps de sommeil',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    AppCircleTimePicker(widget.schedule,
+                        onSelectionChanged: (sleep, wake, isDisableRange) =>
+                            setState(() {
+                              widget.schedule.sleepTime =
+                                  TimeOfDayExtension.fromPickedTime(sleep);
+                              widget.schedule.wakeTime =
+                                  TimeOfDayExtension.fromPickedTime(wake);
+                            }),
+                        onSelectionEnded: ((sleep, wake, isDisableRange) =>
+                            setState(() {
+                              _sleepTime = sleep;
+                              _wakeTime = wake;
+                            }))),
+                    if (widget.schedule.hoursSlept < SleepTarget.total)
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
                             'Il vous manque ${(SleepTarget.total - widget.schedule.hoursSlept).toTimeOfDay().toStringFormatted()} pour atteindre votre objectif de sommeil',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                            style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
@@ -105,52 +115,76 @@ class _NewScheduleState extends State<NewSchedule> {
                               child: Text('Modifier dans préférences'))
                         ],
                       )
-                    : Text(
+                    else
+                      Text(
                         'Vous atteignez votre objectif de sommeil',
-                        style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center,
                       ),
-                Divider(
-                  height: 100,
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-                Text(
-                  'Couleur',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                ColorPicker((Color color) {
-                  setState(() {
-                    widget.schedule.color = color;
-                  });
-                }),
-                TextButton(
-                    onPressed: () {
-                      switch (widget.operation) {
-                        case Operation.addition:
-                          Schedule.pickedTime(
+                    Divider(
+                      height: 100,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                    Text(
+                      'Couleur',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    ColorPicker((Color color) {
+                      setState(() {
+                        widget.schedule.color = color;
+                      });
+                    }),
+                    TextButton(
+                        onPressed: () {
+                          switch (widget.operation) {
+                            case Operation.addition:
+                              Schedule.pickedTime(
+                                      name: widget.schedule.name,
+                                      color: widget.schedule.color,
+                                      songURL:
+                                          '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
+                                      sleepTime: _sleepTime,
+                                      wakeTime: _wakeTime)
+                                  .add();
+                              break;
+                            case Operation.edition:
+                              widget.oldSchedule.edit(Schedule.pickedTime(
                                   name: widget.schedule.name,
                                   color: widget.schedule.color,
                                   songURL:
                                       '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
                                   sleepTime: _sleepTime,
-                                  wakeTime: _wakeTime)
-                              .add();
-                          break;
-                        case Operation.edition:
-                          widget.oldSchedule.edit(Schedule.pickedTime(
-                              name: widget.schedule.name,
-                              color: widget.schedule.color,
-                              songURL:
-                                  '//open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=7fcab8f35fb44f36',
-                              sleepTime: _sleepTime,
-                              wakeTime: _wakeTime));
-                          Weekday.onScheduleEdited(widget.oldSchedule);
-                          widget.updateWeekdays!();
-                      }
-                      widget.updateSchedules();
-                      Navigator.of(Get.overlayContext!).pop();
-                    },
-                    child: Text('Terminé'))
-              ],
+                                  wakeTime: _wakeTime));
+                              Weekday.onScheduleEdited(widget.oldSchedule);
+                              widget.updateWeekdays!();
+                          }
+                          widget.updateSchedules();
+                          Navigator.of(Get.overlayContext!).pop();
+                        },
+                        child: Text('Terminé')),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (widget.operation == Operation.edition)
+                      TextButton(
+                          style: Theme.of(context)
+                              .textButtonTheme
+                              .style!
+                              .copyWith(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll<Color>(
+                                          Theme.of(context).colorScheme.error),
+                                  foregroundColor: MaterialStatePropertyAll<
+                                          Color>(
+                                      Theme.of(context).colorScheme.onError)),
+                          onPressed: () async {
+                            await widget.schedule.delete();
+                            await Weekday.onScheduleRemoved(widget.schedule);
+                            widget.updateSchedules();
+                            widget.updateWeekdays!();
+                          },
+                          child: Text('Supprimer'))
+                  ]),
             )));
   }
 }

@@ -101,6 +101,14 @@ class AppTheme {
         labelLarge: GoogleFonts.familjenGrotesk(
             fontWeight: FontWeight.w500,
             fontSize: 20,
+            color: colorScheme.onBackground),
+        labelMedium: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: colorScheme.background),
+        labelSmall: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
             color: colorScheme.background),
 
         /// TITLE

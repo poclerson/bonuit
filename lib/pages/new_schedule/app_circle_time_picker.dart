@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/schedule.dart';
 import '../../models/time_of_day_extension.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
-import '../../models/sleep_target.dart';
+import 'app_circle_time_picker_indicator.dart';
 
 class AppCircleTimePicker extends StatelessWidget {
   late Schedule schedule;
@@ -14,8 +14,17 @@ class AppCircleTimePicker extends StatelessWidget {
       {required this.onSelectionChanged, required this.onSelectionEnded});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Wrap(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            AppCircleTimePickerIndicator(
+                time: schedule.sleepTime, period: TimePeriod.sleep),
+            AppCircleTimePickerIndicator(
+                time: schedule.wakeTime, period: TimePeriod.wake)
+          ],
+        ),
         TimePicker(
           initTime: schedule.sleepTime.toPickedTime(),
           endTime: schedule.wakeTime.toPickedTime(),
@@ -28,18 +37,18 @@ class AppCircleTimePicker extends StatelessWidget {
           primarySectors: 12,
           secondarySectors: 48,
           decoration: TimePickerDecoration(
-              baseColor: Theme.of(context).colorScheme.onBackground,
+              baseColor: Theme.of(context).colorScheme.surface,
               // Grands diviseurs
               primarySectorsDecoration: TimePickerSectorDecoration(
                   width: 2,
                   radiusPadding: 30,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.primary,
                   size: 5),
               // Petits diviseurs
               secondarySectorsDecoration: TimePickerSectorDecoration(
                   width: 2,
                   radiusPadding: 30,
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.onBackground,
                   size: 2.5),
               // Sélecteur
               sweepDecoration: TimePickerSweepDecoration(
@@ -65,7 +74,7 @@ class AppCircleTimePicker extends StatelessWidget {
               // Chiffres de l'horloge
               clockNumberDecoration: TimePickerClockNumberDecoration(
                   clockTimeFormat: ClockTimeFormat.TWENTYFOURHOURS,
-                  defaultTextColor: Theme.of(context).colorScheme.primary,
+                  defaultTextColor: Theme.of(context).colorScheme.onBackground,
                   clockIncrementTimeFormat: ClockIncrementTimeFormat.FIFTEENMIN,
                   scaleFactor: 2.75,
                   textScaleFactor: .4)),
@@ -76,7 +85,6 @@ class AppCircleTimePicker extends StatelessWidget {
             ),
           ),
         ),
-        Text(schedule.hoursSlept.toTimeOfDay().toStringFormatted())
       ],
     );
   }

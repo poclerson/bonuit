@@ -5,7 +5,7 @@ import '../../models/day.dart';
 import 'stats_day.dart';
 
 class StatsGroup extends StatefulWidget {
-  List<Day> days;
+  List<DayUnit> days;
   TimeInterval timeInterval;
   Size parentSize;
   double dayHeight;

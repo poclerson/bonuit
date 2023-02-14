@@ -49,8 +49,9 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Fin du hover
       onLeave: (schedule) {
         setState(() {
-          widget._color = widget._weekday.schedule!.color ??
-              Theme.of(context).colorScheme.onBackground;
+          widget._color = widget._weekday.schedule != null
+              ? widget._weekday.schedule!.color
+              : Theme.of(context).colorScheme.onBackground;
         });
       },
 

@@ -7,7 +7,7 @@ import '../../models/time_interval.dart';
 import '../../models/sort_method.dart';
 
 class StatsGroups extends StatefulWidget {
-  List<Day> days;
+  List<DayUnit> days;
   TimeInterval timeInterval;
   SortMethod sortMethod;
   void Function(int) onPageChanged;

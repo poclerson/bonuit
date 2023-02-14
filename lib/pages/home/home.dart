@@ -7,15 +7,33 @@ import '../../models/sort_method.dart';
 import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
+import '../../models/notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../../models/notifications.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    WidgetsFlutterBinding.ensureInitialized();
+    Notifications.instance.setup();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Notifications.instance.showNotificationWithTextChoice();
+    Notifications.instance.listenToNotification(context);
+
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(top: 100),
       child: FutureBuilder(
-        future: Day.getAll(),
+        future: DayUnit.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(

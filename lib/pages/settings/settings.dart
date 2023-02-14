@@ -16,7 +16,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    debugPrint(Theme.of(context).colorScheme.onBackground.toString());
     return Scaffold(
         bottomNavigationBar: NavBar(),
         body: Column(

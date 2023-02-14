@@ -95,7 +95,7 @@ class _SchedulesState extends State<Schedules> {
                           padding: const EdgeInsets.all(0),
                           sliver: SliverGrid.count(
                             crossAxisCount: 1,
-                            childAspectRatio: 1 / 1.5,
+                            childAspectRatio: 1 / 1.35,
                             children: [
                               ...snapshot.data!
                                   .map((schedule) => DraggableScheduleBox(

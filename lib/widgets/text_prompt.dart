@@ -13,9 +13,12 @@ class _TextPromptState extends State<TextPrompt> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Nouvel horaire'),
+      title: Text(
+        'Nouvel horaire',
+      ),
       actionsAlignment: MainAxisAlignment.center,
       content: TextField(
+        style: Theme.of(context).textTheme.labelLarge,
         decoration: InputDecoration(),
         autofocus: true,
         onSubmitted: ((value) async {
