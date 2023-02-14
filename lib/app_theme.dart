@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:async';
+import 'models/simple_stream.dart';
 
 const DarkColorScheme = ColorScheme(
   brightness: Brightness.dark,
@@ -10,9 +12,9 @@ const DarkColorScheme = ColorScheme(
   error: Colors.red,
   onError: Colors.black,
   background: Color(0xFF131313),
-  onBackground: Color(0xFFE6E6E6),
-  surface: Color(0xFF5E5E5E),
-  onSurface: Colors.white,
+  onBackground: Color(0xFFC7C7C7),
+  onSurface: Color(0xFFC7C7C7),
+  surface: Color(0xFF050505),
 );
 
 const LightColorScheme = ColorScheme(
@@ -23,10 +25,10 @@ const LightColorScheme = ColorScheme(
     onSecondary: Colors.white,
     error: Color(0xFFFF004C),
     onError: Colors.white,
-    surface: Color(0xFFA7A7A7),
-    onSurface: Colors.black,
+    onSurface: Color(0xFF0F0F0F),
+    surface: Color(0xFFD8D8D8),
     background: Color(0xFFE0E0E0),
-    onBackground: Color(0xFF202020));
+    onBackground: Color(0xFF2B2B2B));
 
 class AppTheme {
   static ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
@@ -60,11 +62,12 @@ class AppTheme {
               padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
                   EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
               foregroundColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.primary),
+                  MaterialStatePropertyAll<Color>(colorScheme.onSurface),
               backgroundColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.onPrimary),
-              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10))))),
+                  MaterialStatePropertyAll<Color>(colorScheme.surface),
+              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))))),
       // Outlined button
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
@@ -72,27 +75,54 @@ class AppTheme {
                   MaterialStatePropertyAll<Color>(colorScheme.secondary),
               foregroundColor:
                   MaterialStatePropertyAll<Color>(colorScheme.onSecondary),
-              side: MaterialStatePropertyAll<BorderSide>(
-                  BorderSide(color: colorScheme.onBackground)),
+              side:
+                  MaterialStatePropertyAll<BorderSide>(BorderSide(color: colorScheme.onBackground)),
               shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))),
 
       /// TEXTES ///
       textTheme: TextTheme(
+        /// DISPLAY
+        displayLarge: GoogleFonts.karla(
+            letterSpacing: -5,
+            fontWeight: FontWeight.w900,
+            fontSize: 100,
+            color: colorScheme.onBackground),
+        displayMedium: GoogleFonts.familjenGrotesk(
+            letterSpacing: -2,
+            fontWeight: FontWeight.w900,
+            fontSize: 80,
+            color: colorScheme.onBackground),
+        displaySmall: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w900,
+            fontSize: 60,
+            color: colorScheme.onBackground),
 
-          /// DISPLAY
-          displayLarge: GoogleFonts.karla(letterSpacing: -5, fontWeight: FontWeight.w900, fontSize: 100, color: colorScheme.onBackground),
-          displayMedium: GoogleFonts.familjenGrotesk(letterSpacing: -2, fontWeight: FontWeight.w900, fontSize: 80, color: colorScheme.onBackground),
-          displaySmall: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w900, fontSize: 60, color: colorScheme.onBackground),
+        /// LABEL
+        labelLarge: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: colorScheme.background),
 
-          /// LABEL
-          labelLarge: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w500, fontSize: 20, color: colorScheme.background),
+        /// TITLE
+        titleMedium: GoogleFonts.karla(
+            fontWeight: FontWeight.w900,
+            color: colorScheme.background,
+            fontSize: 25),
 
-          /// TITLE
-          headlineLarge: GoogleFonts.karla(fontWeight: FontWeight.w700, fontSize: 30, color: colorScheme.onBackground),
-          titleMedium: GoogleFonts.karla(fontWeight: FontWeight.w900, color: colorScheme.background, fontSize: 25),
-          // BODY
-          bodyMedium: GoogleFonts.familjenGrotesk(fontWeight: FontWeight.w300, color: colorScheme.background)));
+        /// HEADLINE
+        headlineLarge: GoogleFonts.karla(
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
+            color: colorScheme.onBackground),
 
-  static ThemeData light = themeBuilder(LightColorScheme);
-  static ThemeData dark = themeBuilder(DarkColorScheme);
+        // BODY
+        bodyMedium: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w300, color: colorScheme.onBackground),
+        bodyLarge: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w300, color: colorScheme.onBackground),
+        bodySmall: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w300, color: colorScheme.onBackground),
+      ));
+
+  static SimpleStream<ThemeMode> themeMode = SimpleStream();
 }

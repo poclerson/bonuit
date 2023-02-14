@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
-  Icon icon;
   String text;
-  Widget action;
+  Widget content;
   Function onPressed;
   SettingsButton(
-      {required this.icon,
-      required this.text,
-      required this.action,
-      required this.onPressed});
+      {required this.text, required this.content, required this.onPressed});
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-        onPressed: () => onPressed(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon,
-            Text(text),
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(child: SizedBox()),
-            action
-          ],
-        ));
+    return Wrap(
+      runSpacing: 15,
+      children: [
+        TextButton(
+            onPressed: () => onPressed(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  text,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                content
+              ],
+            ))
+      ],
+    );
   }
 }

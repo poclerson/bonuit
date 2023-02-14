@@ -55,7 +55,7 @@ class _SchedulesState extends State<Schedules> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-              padding: EdgeInsets.only(bottom: 50, top: 50),
+              padding: EdgeInsets.only(top: 125, bottom: 50),
               child: Text(
                 "Modifier l'horaire",
                 style: Theme.of(context).textTheme.displayMedium,
