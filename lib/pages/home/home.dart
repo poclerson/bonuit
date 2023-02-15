@@ -10,7 +10,6 @@ import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
 import '../../models/notifications.dart';
 import '../../models/time_of_day_extension.dart';
-import 'package:alarm/alarm.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -22,11 +21,6 @@ class _HomeState extends State<Home> {
   @pragma("vm:entry-point")
   void initState() {
     DateTime now = DateTime.now();
-    Alarm.init();
-    Alarm.set(
-        alarmDateTime: DateTime(now.year, now.month, now.day, now.hour,
-            now.minute, now.second + 15),
-        assetAudio: 'assets/audio/music.mp3');
     AwesomeNotifications().actionStream.listen((event) {
       if (event.buttonKeyPressed == 'accept') {
         // Enregistrer l'heure à laquelle on est allé se coucher
@@ -52,7 +46,7 @@ class _HomeState extends State<Home> {
         body: Padding(
       padding: EdgeInsets.only(top: 100),
       child: FutureBuilder(
-        future: DayUnit.getAll(),
+        future: Day.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(

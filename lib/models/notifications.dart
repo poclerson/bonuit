@@ -33,8 +33,11 @@ class Notifications {
             repeats: isRepeating,
             weekday: weekday,
             hour: time.hour,
-            minute: time.minute),
+            minute: time.minute,
+            preciseAlarm: true),
         content: NotificationContent(
+            wakeUpScreen: true,
+            criticalAlert: true,
             id: id,
             channelKey: 'instant_notifications',
             title: options.title,

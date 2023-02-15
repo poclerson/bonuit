@@ -5,7 +5,6 @@ import 'app_theme.dart';
 
 import 'data/screens.dart';
 import 'pages/home/home.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 
 class App extends StatefulWidget {
   @override
@@ -32,23 +31,3 @@ class _AppState extends State<App> {
         }));
   }
 }
-
-// class App extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider(
-//       create: (_) => ModelTheme(),
-//       child: Consumer<ModelTheme>(
-//           builder: (context, ModelTheme themeNotifier, child) {
-//         return GetMaterialApp(
-//           initialRoute: '/',
-//           home: Home(),
-//           getPages: screens.map((screen) => screen.getPage).toList(),
-//           theme: AppTheme.light,
-//           darkTheme: AppTheme.dark,
-//           themeMode: themeNotifier.isDark ? ThemeMode.dark : ThemeMode.light,
-//         );
-//       }),
-//     );
-//   }
-// }
