@@ -21,8 +21,6 @@ class AverageCircle extends StatefulWidget {
 class _AverageCircleState extends State<AverageCircle> {
   @override
   Widget build(BuildContext context) {
-    debugPrint('sleep ' + widget.averageDay.sleepTime.toString());
-    debugPrint('wake ' + widget.averageDay.wakeTime.toString());
     PickedTime start = widget.averageDay.sleepTime.toPickedTime();
     PickedTime end = widget.averageDay.wakeTime.toPickedTime();
     return Expanded(

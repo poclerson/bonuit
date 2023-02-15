@@ -6,8 +6,8 @@ class HoursIndicator extends StatelessWidget {
   HoursIndicator(this._timeInterval);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(50, 5, 0, 5),
+    return Container(
+      padding: EdgeInsets.fromLTRB(60, 5, 0, 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

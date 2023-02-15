@@ -15,9 +15,8 @@ extension TimeOfDayExtension on TimeOfDay {
     return TimeOfDay(hour: newHour.abs(), minute: newMinute);
   }
 
-  double minusDistanceFromMidnight() {
-    return (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
-  }
+  double get distanceFromMidnight =>
+      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
 
   TimeOfDay operator +(TimeOfDay other) {
     int newMinute = minute;

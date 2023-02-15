@@ -39,8 +39,9 @@ class _StatsGroupState extends State<StatsGroup> {
           children: [
             ...widget.days.reversed.map((day) => StatsDay(
                 size: Size(
-                    widget.timeInterval
-                        .timeToRatio(day.hoursSlept, widget.parentSize.width),
+                    // widget.timeInterval
+                    //     .timeToRatio(day.hoursSlept, widget.parentSize.width),
+                    200,
                     widget.dayHeight),
                 offset: widget.timeInterval
                     .ratioedOffset(day.sleepTime, widget.parentSize.width)))

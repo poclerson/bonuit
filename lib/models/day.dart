@@ -86,7 +86,7 @@ extension DayGroups on List<Day> {
         .reduce((curr, next) {
       // Si c'est le même jour, sleepTime arrive avant minuit
       if (!next.isSameDay) {
-        totalTimeBeforeMidnight += next.sleepTime.minusDistanceFromMidnight();
+        totalTimeBeforeMidnight += next.sleepTime.distanceFromMidnight;
         amountOfDaysBeforeMidnight++;
       }
 
@@ -151,9 +151,9 @@ extension DayGroups on List<Day> {
         intervals.add(untreatedHour < 24 ? untreatedHour : untreatedHour - 24);
       }
 
-      return TimeInterval(intervalLength, difference.round(), intervals);
+      return TimeInterval(intervalLength, intervals);
     }
 
-    return TimeInterval(0, 0, []);
+    return TimeInterval(0, []);
   }
 }
