@@ -3,39 +3,45 @@ import '../../models/weekday.dart';
 import '../../models/schedule.dart';
 
 class WeekdayBlock extends StatefulWidget {
-  final Weekday _weekday;
-  final Color _defaultColor;
+  final Weekday weekday;
+  final Color defaultColor;
+  final Function updateWeekdays;
   late Color? _color =
-      _weekday.schedule != null ? _weekday.schedule!.color : _defaultColor;
-  WeekdayBlock(this._weekday, this._defaultColor);
+      weekday.schedule != null ? weekday.schedule!.color : defaultColor;
+  WeekdayBlock(
+      {required this.weekday,
+      required this.defaultColor,
+      required this.updateWeekdays});
   @override
-  _WeekdayBlockState createState() => _WeekdayBlockState();
+  WeekdayBlockState createState() => WeekdayBlockState();
 }
 
-class _WeekdayBlockState extends State<WeekdayBlock> {
+class WeekdayBlockState extends State<WeekdayBlock> {
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   widget._color = widget._weekday.schedule!.color ??
-    //       Theme.of(context).colorScheme.onBackground;
-    // });
     return DragTarget<Schedule>(
       builder: (context, candidateSchedules, rejectedSchedules) {
-        return Container(
-            width: 75,
-            height: 75,
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-                color:
-                    widget._color ?? Theme.of(context).colorScheme.onBackground,
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: Align(
-              child: Text(
-                widget._weekday.day[0].toUpperCase(),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ));
+        return GestureDetector(
+          onDoubleTap: () {
+            widget.weekday.onScheduleRemoved();
+            widget.updateWeekdays();
+          },
+          child: Container(
+              width: 75,
+              height: 75,
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  color: widget._color ??
+                      Theme.of(context).colorScheme.onBackground,
+                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              child: Align(
+                child: Text(
+                  widget.weekday.day[0].toUpperCase(),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              )),
+        );
       },
       // Hover
       onWillAccept: (schedule) {
@@ -49,8 +55,8 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Fin du hover
       onLeave: (schedule) {
         setState(() {
-          widget._color = widget._weekday.schedule != null
-              ? widget._weekday.schedule!.color
+          widget._color = widget.weekday.schedule != null
+              ? widget.weekday.schedule!.color
               : Theme.of(context).colorScheme.onBackground;
         });
       },
@@ -58,7 +64,7 @@ class _WeekdayBlockState extends State<WeekdayBlock> {
       // Drop
       onAccept: (schedule) {
         setState(() {
-          widget._weekday.newSchedule(schedule);
+          widget.weekday.onScheduleAddedOrChanged(schedule);
           widget._color = schedule.color;
         });
       },

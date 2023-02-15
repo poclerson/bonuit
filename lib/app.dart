@@ -5,9 +5,15 @@ import 'app_theme.dart';
 
 import 'data/screens.dart';
 import 'pages/home/home.dart';
-import 'models/simple_stream.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ThemeMode>(

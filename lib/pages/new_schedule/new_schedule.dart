@@ -179,9 +179,10 @@ class _NewScheduleState extends State<NewSchedule> {
                                       Theme.of(context).colorScheme.onError)),
                           onPressed: () async {
                             await widget.schedule.delete();
-                            await Weekday.onScheduleRemoved(widget.schedule);
+                            await Weekday.onScheduleDeleted(widget.schedule);
                             widget.updateSchedules();
                             widget.updateWeekdays!();
+                            Navigator.of(Get.overlayContext!).pop();
                           },
                           child: Text('Supprimer'))
                   ]),

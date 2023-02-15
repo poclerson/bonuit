@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +9,8 @@ import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
 import '../../models/notifications.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import '../../models/notifications.dart';
+import '../../models/time_of_day_extension.dart';
+import 'package:alarm/alarm.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,17 +19,35 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
+  @pragma("vm:entry-point")
   void initState() {
-    WidgetsFlutterBinding.ensureInitialized();
-    Notifications.instance.setup();
+    DateTime now = DateTime.now();
+    Alarm.init();
+    Alarm.set(
+        alarmDateTime: DateTime(now.year, now.month, now.day, now.hour,
+            now.minute, now.second + 15),
+        assetAudio: 'assets/audio/music.mp3');
+    AwesomeNotifications().actionStream.listen((event) {
+      if (event.buttonKeyPressed == 'accept') {
+        // Enregistrer l'heure à laquelle on est allé se coucher
+        // Partir un timer pour une alarme à l'heure du réveil (la partir avant)
+      }
+
+      if (event.buttonKeyPressed == 'deny') {
+        TimeOfDay now = TimeOfDay.now();
+        Notifications.add(
+            options: Notifications.sleep,
+            time: now + TimeOfDay(hour: now.hour, minute: now.minute + 30),
+            isRepeating: false);
+      }
+    });
+    Notifications.deleteAll();
+    Notifications.printScheduledNotifications();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Notifications.instance.showNotificationWithTextChoice();
-    Notifications.instance.listenToNotification(context);
-
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(top: 100),
@@ -43,16 +62,26 @@ class _HomeState extends State<Home> {
                 Container(
                   child: Column(
                     children: [
-                      Text(
-                        snapshot.data!.last.hoursSlept
-                            .toTimeOfDay()
-                            .toStringFormatted(),
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
-                      Text(
-                        'nuit dernière',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      )
+                      if (snapshot.data!.length > 0)
+                        Column(
+                          children: [
+                            Text(
+                              snapshot.data!.last.hoursSlept
+                                  .toTimeOfDay()
+                                  .toStringFormatted(),
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                            Text(
+                              'nuit dernière',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            )
+                          ],
+                        )
+                      else
+                        Text(
+                          'Pas encore de données',
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
                     ],
                   ),
                 ),
@@ -62,14 +91,18 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AverageCircle(
-                          snapshot.data!
-                              .averageHoursSleptFromLast(SortMethod.weekly),
+                          snapshot.data!.length > SortMethod.weekly
+                              ? snapshot.data!
+                                  .averageHoursSleptFromLast(SortMethod.weekly)
+                              : 0,
                           'Moyenne\nhebdomadaire', () {
                         Get.to(Stats(SortMethod.weekly));
                       }),
                       AverageCircle(
-                          snapshot.data!
-                              .averageHoursSleptFromLast(SortMethod.monthly),
+                          snapshot.data!.length > SortMethod.monthly
+                              ? snapshot.data!
+                                  .averageHoursSleptFromLast(SortMethod.monthly)
+                              : 0,
                           'Moyenne\nmensuelle', () {
                         Get.to(Stats(SortMethod.monthly));
                       }),

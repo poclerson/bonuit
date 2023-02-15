@@ -4,9 +4,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 
 class LocalFiles {
-  String _fileName;
-  String _defaultContents;
-  LocalFiles(this._fileName, [this._defaultContents = '[]']);
+  String fileName;
+  late List<dynamic>? defaultContents;
+  LocalFiles(this.fileName, List<dynamic>? defaultContents) {
+    this.defaultContents = defaultContents ?? [];
+  }
 
   Future<String> get _path async {
     final directory = await getApplicationDocumentsDirectory();
@@ -15,7 +17,7 @@ class LocalFiles {
 
   Future<File> get _file async {
     final path = await _path;
-    return File('$path/$_fileName.json');
+    return File('$path/$fileName.json');
   }
 
   Future<void> create() async {
@@ -23,7 +25,7 @@ class LocalFiles {
     final exists = await file.exists();
     if (!exists) {
       await file.create();
-      write(_defaultContents);
+      write(defaultContents!);
     }
   }
 
@@ -36,8 +38,8 @@ class LocalFiles {
     return json;
   }
 
-  Future<File> write(String json) async {
+  Future<File> write(List<dynamic> json) async {
     final file = await _file;
-    return file.writeAsString(json);
+    return file.writeAsString(jsonEncode(json));
   }
 }

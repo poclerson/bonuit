@@ -12,7 +12,7 @@ import 'time_of_day_extension.dart';
 enum Operation { addition, edition }
 
 class Schedule extends TimeSlept {
-  static var localFile = LocalFiles('schedule');
+  static var localFile = LocalFiles('schedules', null);
   late String name;
   late Color color;
   late String songURL;
@@ -91,8 +91,7 @@ class Schedule extends TimeSlept {
   }
 
   _write(List<Schedule> schedules) async {
-    localFile.write(
-        jsonEncode(schedules.map((schedule) => schedule.toJson()).toList()));
+    localFile.write(schedules.map((schedule) => schedule.toJson()).toList());
   }
 
   static Future<List<Schedule>> getAll() async {

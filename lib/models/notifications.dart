@@ -1,96 +1,73 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:rxdart/subjects.dart';
 
 class Notifications {
-  Notifications();
-  static final Notifications instance = Notifications();
-  final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
+  static NotificationOptions sleep = NotificationOptions(
+      title: "C'est l'heure de dormir", body: 'Glisser pour accepter');
+  static Future<int> add(
+      {required NotificationOptions options,
+      required TimeOfDay time,
+      int? weekday,
+      bool isRepeating = true}) async {
+    weekday ??= DateTime.now().weekday;
 
-  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    int id = (await AwesomeNotifications().listScheduledNotifications()).length;
 
-  Future<void> setup() async {
-    const androidInitializationSetting =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    IOSInitializationSettings iosInitializationSetting =
-        IOSInitializationSettings(
-            requestAlertPermission: true,
-            requestBadgePermission: true,
-            requestSoundPermission: true,
-            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-
-    final InitializationSettings initSettings = InitializationSettings(
-      android: androidInitializationSetting,
-      iOS: iosInitializationSetting,
-    );
-    await flutterLocalNotificationsPlugin.initialize(
-      initSettings,
-      onSelectNotification: (payload) => debugPrint(payload),
-    );
+    AwesomeNotifications().createNotification(
+        actionButtons: [
+          NotificationActionButton(
+              buttonType: ActionButtonType.DisabledAction,
+              key: 'accept',
+              label: 'Aller dormir'),
+          NotificationActionButton(
+              buttonType: ActionButtonType.DisabledAction,
+              key: 'deny',
+              label: 'Me rappeler dans 30 minutes')
+        ],
+        schedule: NotificationCalendar(
+            repeats: isRepeating,
+            weekday: weekday,
+            hour: time.hour,
+            minute: time.minute),
+        content: NotificationContent(
+            id: id,
+            channelKey: 'instant_notifications',
+            title: options.title,
+            body: options.body));
+    return id;
   }
 
-  void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      debugPrint(payload);
-    }
+  static deleteAll() async {
+    AwesomeNotifications().cancelAll();
   }
 
-  void onSelectNotification(String? payload) {
-    debugPrint(payload);
+  static delete(int id) async {
+    AwesomeNotifications()
+        .cancel(id)
+        .then((value) => debugPrint('Deleted ID: ' + id.toString()));
   }
 
-  void listenToNotification(BuildContext context) =>
-      instance.onNotificationClick.stream.listen((String? payload) {
-        if (payload != null && payload.isNotEmpty) {
-          debugPrint(payload);
-
-          showDialog(context: context, builder: (context) => Text('allo'));
-        }
-      });
-
-  Future<void> showNotification(String title, String body) async {
-    const androidNotificationDetail = AndroidNotificationDetails(
-        '0', // channel Id
-        'general' // channel Name
+  static printScheduledNotifications() async {
+    AwesomeNotifications().listScheduledNotifications().then(
+          (value) => debugPrint('Scheduled notifs: ' + value.toString()),
         );
-    const iosNotificatonDetail = IOSNotificationDetails();
-    const notificationDetails = NotificationDetails(
-      iOS: iosNotificatonDetail,
-      android: androidNotificationDetail,
-    );
-    flutterLocalNotificationsPlugin.show(0, title, body, notificationDetails);
   }
 
-  Future<void> showNotificationWithPayload(
-      String title, String body, String payload) async {}
-
-  Future<void> showNotificationWithTextChoice() async {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-      'your channel id',
-      'your channel name',
-      channelDescription: 'your channel description',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
-
-    const IOSNotificationDetails darwinNotificationDetails =
-        IOSNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-    );
-
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
-      iOS: darwinNotificationDetails,
-    );
-    await flutterLocalNotificationsPlugin.show(
-        0, "C'est l'heure de dormir", 'Aller dormir?', notificationDetails,
-        payload: 'item x');
+  static printScheduledNotificationsIDs() async {
+    AwesomeNotifications().listScheduledNotifications().then(
+          (value) => debugPrint(
+              'IDs: ' + value.map((e) => e.content!.id.toString()).toString()),
+        );
   }
+}
+
+class NotificationOptions {
+  String title;
+  String body;
+  NotificationOptions({required this.title, required this.body});
 }

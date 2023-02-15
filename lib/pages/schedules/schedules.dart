@@ -69,8 +69,12 @@ class _SchedulesState extends State<Schedules> {
                     alignment: WrapAlignment.center,
                     children: [
                       ...snapshot.data!
-                          .map((weekday) => WeekdayBlock(weekday,
-                              Theme.of(context).colorScheme.onBackground))
+                          .map((weekday) => WeekdayBlock(
+                                weekday: weekday,
+                                defaultColor:
+                                    Theme.of(context).colorScheme.onBackground,
+                                updateWeekdays: updateWeekdays,
+                              ))
                           .toList()
                     ],
                   );
@@ -115,7 +119,7 @@ class _SchedulesState extends State<Schedules> {
                                                   ChoicesPrompt(() async {
                                                     await schedule.delete();
                                                     await Weekday
-                                                        .onScheduleRemoved(
+                                                        .onScheduleDeleted(
                                                             schedule);
                                                     updateSchedules();
                                                     updateWeekdays();

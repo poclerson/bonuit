@@ -11,7 +11,19 @@ extension TimeOfDayExtension on TimeOfDay {
   }
 
   TimeOfDay operator +(TimeOfDay other) {
-    return TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
+    int newMinute = minute;
+    int newHour = hour;
+    if (minute + other.minute > 59) {
+      newHour++;
+      newMinute = (minute + other.minute) % 60;
+    }
+
+    if (newHour + other.hour > 23) {
+      newHour = (newHour + other.hour) % 24;
+      return TimeOfDay(hour: newHour, minute: newMinute);
+    }
+
+    return this;
   }
 
   double toDouble() => double.parse('$hour.${(minute / .6).round()}');

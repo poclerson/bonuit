@@ -6,7 +6,7 @@ import 'dart:core';
 import 'time_of_day_extension.dart';
 
 class DayUnit extends TimeSlept {
-  static var localFile = LocalFiles('days');
+  static var localFile = LocalFiles('days', null);
   late DateTime date;
 
   DayUnit(TimeOfDay sleepTime, TimeOfDay wakeTime, this.date) {
