@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'time_of_day_extension.dart';
 
+enum DayTime { sleep, wake }
+
 class Day extends TimeSlept {
   static var localFile = LocalFiles('days', null);
   late DateTime date;
@@ -16,12 +18,8 @@ class Day extends TimeSlept {
 
   Day.fromJson(Map<String, dynamic> json) {
     // final format = DateFormat.jm();
-    sleepTime = TimeOfDay(
-        hour: int.parse(json['sleepTime'].split(":")[0]),
-        minute: int.parse(json['sleepTime'].split(":")[1]));
-    wakeTime = TimeOfDay(
-        hour: int.parse(json['wakeTime'].split(":")[0]),
-        minute: int.parse(json['wakeTime'].split(":")[1]));
+    sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
+    wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
     // wakeTime = TimeOfDay.fromDateTime(format.parse(json['wakeTime']));
     date = DateTime.parse(json['date']);
   }
@@ -32,6 +30,18 @@ class Day extends TimeSlept {
     data['sleepTime'] = sleepTime.toString();
     data['wakeTime'] = wakeTime.toString();
     return data;
+  }
+
+  Day operator *(Day other) {
+    return Day(sleepTime * other.sleepTime, wakeTime * other.sleepTime, date);
+  }
+
+  Day operator +(Day other) {
+    return Day(sleepTime + other.sleepTime, wakeTime + other.sleepTime, date);
+  }
+
+  Day operator /(int divider) {
+    return Day(sleepTime / divider, wakeTime / divider, date);
   }
 
   static Future<List<Day>> getAll() async {
@@ -64,10 +74,48 @@ extension DayGroups on List<Day> {
     return dayGroups;
   }
 
-  Day average() {
-    Day day = Day(map((day) => day.sleepTime).toList().average(),
-        map((day) => day.wakeTime).toList().average(), first.date);
-    return day;
+  Day averageFromLast([int amount = 1]) {
+    double totalTimeBeforeMidnight = 0;
+    double totalTimeAfterMidnight = 0;
+
+    int amountOfDaysBeforeMidnight = 0;
+    int amountOfDaysAfterMidnight = 0;
+
+    Day combinedDay = getRange(length > amount ? length - amount : 0, length)
+        .toList()
+        .reduce((curr, next) {
+      // Si c'est le même jour, sleepTime arrive avant minuit
+      if (!next.isSameDay) {
+        totalTimeBeforeMidnight += next.sleepTime.minusDistanceFromMidnight();
+        amountOfDaysBeforeMidnight++;
+      }
+
+      // Si ce n'est pas le même jour, sleepTime arrive après minuit
+      if (next.isSameDay) {
+        totalTimeAfterMidnight += next.sleepTime.toDouble();
+        amountOfDaysAfterMidnight++;
+      }
+
+      return Day(
+          curr.sleepTime, [curr.wakeTime, next.wakeTime].average(), curr.date);
+    });
+
+    // Faire la différence entre les deux moyennes de temps d'avant et d'après minuit
+    return Day(
+        (totalTimeAfterMidnight / amountOfDaysAfterMidnight -
+                totalTimeBeforeMidnight / amountOfDaysBeforeMidnight)
+            .toTimeOfDay(),
+        combinedDay.wakeTime,
+        first.date);
+  }
+
+  double averageHoursSleptFromLast([int amount = 1]) {
+    if (length == 0) return 0;
+    return getRange(length > amount ? length - amount : 0, length)
+            .toList()
+            .map((day) => day.hoursSlept)
+            .reduce((curr, next) => curr + next) /
+        length;
   }
 
   TimeInterval createIntervals(int intervalAmount) {
@@ -107,13 +155,5 @@ extension DayGroups on List<Day> {
     }
 
     return TimeInterval(0, 0, []);
-  }
-
-  double averageHoursSleptFromLast([int amount = 1]) {
-    return getRange(length > amount ? length - amount : 0, length)
-            .toList()
-            .map((day) => day.hoursSlept)
-            .reduce((curr, next) => curr + next) /
-        length;
   }
 }

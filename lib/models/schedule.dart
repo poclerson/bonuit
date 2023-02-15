@@ -30,8 +30,8 @@ class Schedule extends TimeSlept {
     name = json['name'];
     color = Color(json['color']);
     songURL = json['songURL'];
-    sleepTime = TimeOfDayExtension.fromString(json['sleepTime']);
-    wakeTime = TimeOfDayExtension.fromString(json['wakeTime']);
+    sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
+    wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
   }
 
   Schedule.pickedTime(
@@ -40,9 +40,9 @@ class Schedule extends TimeSlept {
       required this.songURL,
       required PickedTime sleepTime,
       required PickedTime wakeTime}) {
-    this.sleepTime = TimeOfDayExtension.fromString(
+    this.sleepTime = TimeOfDayExtension.parse(
         '${sleepTime.h}:${sleepTime.m == 0 ? '00' : sleepTime.m}');
-    this.wakeTime = TimeOfDayExtension.fromString(
+    this.wakeTime = TimeOfDayExtension.parse(
         '${wakeTime.h}:${wakeTime.m == 0 ? '00' : wakeTime.m}');
   }
 

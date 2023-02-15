@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../models/time_of_day_extension.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
+import '../../models/day.dart';
 
 class AverageCircle extends StatefulWidget {
-  double _averageHoursSlept;
-  String _text;
-  Function _onPressed = () {};
-  AverageCircle(this._averageHoursSlept, this._text, this._onPressed);
+  Day averageDay;
+  double averageHoursSlept;
+  String text;
+  Function onPressed = () {};
+  AverageCircle(
+      {required this.averageDay,
+      required this.averageHoursSlept,
+      required this.text,
+      required this.onPressed});
 
-  late Map<String, double> dataMap = {
-    'fill': _averageHoursSlept,
-    'rest': 24 - _averageHoursSlept
-  };
   @override
   _AverageCircleState createState() => _AverageCircleState();
 }
@@ -19,17 +21,17 @@ class AverageCircle extends StatefulWidget {
 class _AverageCircleState extends State<AverageCircle> {
   @override
   Widget build(BuildContext context) {
-    PickedTime start = PickedTime(h: 0, m: 0);
-    PickedTime end = PickedTime(
-        h: widget._averageHoursSlept.toTimeOfDay().hour,
-        m: widget._averageHoursSlept.toTimeOfDay().minute);
+    debugPrint('sleep ' + widget.averageDay.sleepTime.toString());
+    debugPrint('wake ' + widget.averageDay.wakeTime.toString());
+    PickedTime start = widget.averageDay.sleepTime.toPickedTime();
+    PickedTime end = widget.averageDay.wakeTime.toPickedTime();
     return Expanded(
       child: TextButton(
         style: ButtonStyle(
             backgroundColor:
                 MaterialStatePropertyAll<Color>(Colors.transparent),
             overlayColor: MaterialStatePropertyAll<Color>(Colors.transparent)),
-        onPressed: () => widget._onPressed(),
+        onPressed: () => widget.onPressed(),
         child: Column(children: [
           Stack(
             children: [
@@ -47,11 +49,13 @@ class _AverageCircleState extends State<AverageCircle> {
                 isInitHandlerSelectable: false,
                 isEndHandlerSelectable: false,
                 decoration: TimePickerDecoration(
-                    baseColor: Theme.of(context).colorScheme.background,
+                    baseColor: Theme.of(context).colorScheme.surface,
                     // Sélecteur
                     sweepDecoration: TimePickerSweepDecoration(
                       pickerStrokeWidth: 20,
-                      pickerColor: Theme.of(context).colorScheme.primary,
+                      pickerColor: start.isEqual(end)
+                          ? Theme.of(context).colorScheme.surface
+                          : Theme.of(context).colorScheme.primary,
                       useRoundedPickerCap: true,
                     ),
                     // Poignée de début
@@ -68,7 +72,7 @@ class _AverageCircleState extends State<AverageCircle> {
                     )),
                 child: Align(
                   child: Text(
-                    widget._averageHoursSlept.toTimeOfDay().toStringFormatted(),
+                    widget.averageHoursSlept.toTimeOfDay().toStringFormatted(),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -83,7 +87,7 @@ class _AverageCircleState extends State<AverageCircle> {
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text(
-              widget._text,
+              widget.text,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),

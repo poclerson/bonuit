@@ -44,14 +44,13 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: EdgeInsets.only(top: 100),
+      padding: EdgeInsets.only(top: 125),
       child: FutureBuilder(
         future: Day.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
                   child: Column(
@@ -72,9 +71,12 @@ class _HomeState extends State<Home> {
                           ],
                         )
                       else
-                        Text(
-                          'Pas encore de données',
-                          style: Theme.of(context).textTheme.headlineLarge,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          child: Text(
+                            'Dormez pour commencer à afficher des données!',
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
                         ),
                     ],
                   ),
@@ -85,21 +87,23 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AverageCircle(
-                          snapshot.data!.length > SortMethod.weekly
-                              ? snapshot.data!
-                                  .averageHoursSleptFromLast(SortMethod.weekly)
-                              : 0,
-                          'Moyenne\nhebdomadaire', () {
-                        Get.to(Stats(SortMethod.weekly));
-                      }),
+                          averageDay:
+                              snapshot.data!.averageFromLast(SortMethod.weekly),
+                          averageHoursSlept: snapshot.data!
+                              .averageHoursSleptFromLast(SortMethod.weekly),
+                          text: 'Moyenne\nhebdomadaire',
+                          onPressed: () {
+                            Get.to(Stats(SortMethod.weekly));
+                          }),
                       AverageCircle(
-                          snapshot.data!.length > SortMethod.monthly
-                              ? snapshot.data!
-                                  .averageHoursSleptFromLast(SortMethod.monthly)
-                              : 0,
-                          'Moyenne\nmensuelle', () {
-                        Get.to(Stats(SortMethod.monthly));
-                      }),
+                          averageDay: snapshot.data!
+                              .averageFromLast(SortMethod.monthly),
+                          averageHoursSlept: snapshot.data!
+                              .averageHoursSleptFromLast(SortMethod.monthly),
+                          text: 'Moyenne\nmensuelle',
+                          onPressed: () {
+                            Get.to(Stats(SortMethod.monthly));
+                          }),
                     ],
                   ),
                 ),
