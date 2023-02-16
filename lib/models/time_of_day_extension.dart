@@ -53,9 +53,12 @@ extension TimeOfDayExtension on TimeOfDay {
 
   int toInt() => toDouble().round();
 
-  String toStringFormatted([String separator = 'h']) {
-    return toString()
-        .substring(toString().indexOf('(') + 1, toString().indexOf(')'));
+  String toStringFormatted([String separator = ':']) {
+    String time = toString()
+        .substring(toString().indexOf('(') + 1, toString().indexOf(')'))
+        .replaceAll(':', separator);
+    if (time[0] == '0') time = time.substring(1, time.length);
+    return time;
   }
 
   PickedTime toPickedTime() => PickedTime(h: hour, m: minute);

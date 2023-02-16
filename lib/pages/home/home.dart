@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                             Text(
                               snapshot.data!.last.hoursSlept
                                   .toTimeOfDay()
-                                  .toStringFormatted(),
+                                  .toStringFormatted('h'),
                               style: Theme.of(context).textTheme.displayLarge,
                             ),
                             Row(

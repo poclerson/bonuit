@@ -5,7 +5,7 @@ import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'app_circle_time_picker_indicator.dart';
 import 'package:flutter/cupertino.dart';
 
-class AppCircleTimePicker extends StatelessWidget {
+class AppCircleTimePicker extends StatefulWidget {
   late Schedule schedule;
   late Function(PickedTime sleep, PickedTime wake, bool? isDisableRange)
       onSelectionChanged;
@@ -14,6 +14,12 @@ class AppCircleTimePicker extends StatelessWidget {
   AppCircleTimePicker(this.schedule,
       {required this.onSelectionChanged, required this.onSelectionEnded});
   @override
+  @override
+  _AppCircleTimePickerState createState() => _AppCircleTimePickerState();
+}
+
+class _AppCircleTimePickerState extends State<AppCircleTimePicker> {
+  @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
@@ -21,18 +27,18 @@ class AppCircleTimePicker extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             AppCircleTimePickerIndicator(
-                time: schedule.sleepTime, period: TimePeriod.sleep),
+                time: widget.schedule.sleepTime, period: TimePeriod.sleep),
             AppCircleTimePickerIndicator(
-                time: schedule.wakeTime, period: TimePeriod.wake)
+                time: widget.schedule.wakeTime, period: TimePeriod.wake)
           ],
         ),
         TimePicker(
-          initTime: schedule.sleepTime.toPickedTime(),
-          endTime: schedule.wakeTime.toPickedTime(),
+          initTime: widget.schedule.sleepTime.toPickedTime(),
+          endTime: widget.schedule.wakeTime.toPickedTime(),
           onSelectionChange: (sleep, wake, isDisableRange) =>
-              onSelectionChanged(sleep, wake, isDisableRange),
+              widget.onSelectionChanged(sleep, wake, isDisableRange),
           onSelectionEnd: (sleep, wake, isDisableRange) =>
-              onSelectionEnded(sleep, wake, isDisableRange),
+              widget.onSelectionEnded(sleep, wake, isDisableRange),
           width: 400,
           height: 400,
           primarySectors: 12,
@@ -83,7 +89,7 @@ class AppCircleTimePicker extends StatelessWidget {
                   textScaleFactor: .4)),
           child: Align(
             child: Text(
-              schedule.timeInterval(),
+              widget.schedule.timeInterval(),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),

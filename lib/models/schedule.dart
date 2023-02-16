@@ -1,9 +1,6 @@
 // ignore_for_file: prefer_null_aware_operators
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'local_files.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'time_slept.dart';
@@ -85,8 +82,8 @@ class Schedule extends TimeSlept implements Data {
 
   edit(Schedule newSchedule) async {
     final schedules = await getAll();
-    schedules[schedules.indexWhere(
-        (schedule) => (schedule as Schedule).name == name)] = newSchedule;
+    schedules[schedules.indexWhere((schedule) => schedule.name == name)] =
+        newSchedule;
     Data.write(schedules, localFile);
   }
 
