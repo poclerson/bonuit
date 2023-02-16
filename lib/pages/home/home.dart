@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,21 +23,8 @@ class _HomeState extends State<Home> {
   void initState() {
     DateTime now = DateTime.now();
     AwesomeNotifications().actionStream.listen((event) {
-      if (event.buttonKeyPressed == 'accept') {
-        // Enregistrer l'heure à laquelle on est allé se coucher
-        // Partir un timer pour une alarme à l'heure du réveil (la partir avant)
-      }
-
-      if (event.buttonKeyPressed == 'deny') {
-        TimeOfDay now = TimeOfDay.now();
-        Notifications.add(
-            options: Notifications.sleep,
-            time: now + TimeOfDay(hour: now.hour, minute: now.minute + 30),
-            isRepeating: false);
-      }
+      Notifications.handleResponses(event);
     });
-    Notifications.deleteAll();
-    Notifications.printScheduledNotifications();
     super.initState();
   }
 
@@ -64,9 +52,15 @@ class _HomeState extends State<Home> {
                                   .toStringFormatted(),
                               style: Theme.of(context).textTheme.displayLarge,
                             ),
-                            Text(
-                              'nuit dernière',
-                              style: Theme.of(context).textTheme.titleLarge,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(CupertinoIcons.moon_stars_fill),
+                                Text(
+                                  'nuit dernière',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                )
+                              ],
                             )
                           ],
                         )
@@ -117,6 +111,7 @@ class _HomeState extends State<Home> {
                           .where((screen) =>
                               screen.getPage.name != '/') // Enlever Home
                           .map((screen) => IconButton(
+                                iconSize: 50,
                                 onPressed: () =>
                                     Get.toNamed(screen.getPage.name),
                                 icon: Icon(

@@ -40,17 +40,24 @@ class _SchedulesState extends State<Schedules> {
     _schedules = Schedule.getAll();
     _weekdays = Weekday.getAll();
     return Scaffold(
-      bottomNavigationBar: NavBar(ElevatedButton(
-          onPressed: (() {
-            // Aller vers la page NewSchedule()
-            Get.to(NewSchedule(
-              updateSchedules: updateSchedules,
-              schedule:
-                  Schedule.base(Theme.of(context).colorScheme.onBackground),
-              operation: Operation.addition,
-            ));
-          }),
-          child: Icon(Icons.add))),
+      bottomNavigationBar: NavBar(Container(
+        width: 60,
+        height: 60,
+        child: ElevatedButton(
+            onPressed: (() => Get.to(NewSchedule(
+                  updateSchedules: updateSchedules,
+                  schedule:
+                      Schedule.base(Theme.of(context).colorScheme.onBackground),
+                  operation: Operation.addition,
+                ))),
+            child: Text(
+              '+',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 40,
+                  color: Theme.of(context).colorScheme.background),
+            )),
+      )),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:rxdart/subjects.dart';
+import 'time_of_day_extension.dart';
+import 'day.dart';
 
 class Notifications {
   static NotificationOptions sleep = NotificationOptions(
@@ -43,6 +44,20 @@ class Notifications {
             title: options.title,
             body: options.body));
     return id;
+  }
+
+  static handleResponses(ReceivedAction event) async {
+    if (event.buttonKeyPressed == 'accept') {
+      Day.nextDaySleepTime = TimeOfDay.now();
+    }
+
+    if (event.buttonKeyPressed == 'deny') {
+      TimeOfDay now = TimeOfDay.now();
+      Notifications.add(
+          options: Notifications.sleep,
+          time: now + TimeOfDay(hour: now.hour, minute: now.minute + 30),
+          isRepeating: false);
+    }
   }
 
   static deleteAll() async {

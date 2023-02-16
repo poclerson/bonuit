@@ -19,7 +19,10 @@ class SettingsSection extends StatelessWidget {
             Icon(
               iconData,
               color: Theme.of(context).colorScheme.primary,
-              size: 40,
+              size: 30,
+            ),
+            SizedBox(
+              width: 15,
             ),
             Text(
               title,

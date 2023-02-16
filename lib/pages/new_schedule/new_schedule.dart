@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'app_circle_time_picker.dart';
 import '../../models/time_of_day_extension.dart';
 import 'package:separated_column/separated_column.dart';
+import '../../models/data.dart';
 
 class NewSchedule extends StatefulWidget {
   Schedule schedule;

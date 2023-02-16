@@ -7,6 +7,7 @@ import 'settings_section.dart';
 import '../../models/sleep_target.dart';
 import 'app_time_picker_spinner.dart';
 import 'theme_mode_picker.dart';
+import 'package:flutter/cupertino.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _SettingsState extends State<Settings> {
                 runSpacing: 50,
                 children: [
                   SettingsSection(
-                      iconData: Icons.single_bed_rounded,
+                      iconData: CupertinoIcons.bed_double_fill,
                       title: 'Sommeil',
                       children: [
                         SettingsButton(
@@ -57,7 +58,7 @@ class _SettingsState extends State<Settings> {
                         )
                       ]),
                   SettingsSection(
-                      iconData: Icons.brush_rounded,
+                      iconData: CupertinoIcons.paintbrush_fill,
                       title: 'Thème',
                       children: [ThemeModePicker()],
                       isButtonSection: false),

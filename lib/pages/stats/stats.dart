@@ -46,14 +46,16 @@ class _StatsState extends State<Stats> {
       date: sortedToDate,
       onChanged: updateSortMethod,
       startDate: sortedToDate);
+
+  late TimeInterval timeInterval;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Day.getAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          TimeInterval timeInterval =
-              (snapshot.data as List<Day>).createIntervals(4);
+          timeInterval = TimeInterval(
+              days: (snapshot.data as List<Day>), intervalAmount: 4);
           return Scaffold(
               appBar: DatesAppBar(sortMethod.display(pageIndex)),
               bottomNavigationBar: NavBar(),

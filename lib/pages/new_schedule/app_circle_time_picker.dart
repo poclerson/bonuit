@@ -3,6 +3,7 @@ import '../../models/schedule.dart';
 import '../../models/time_of_day_extension.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'app_circle_time_picker_indicator.dart';
+import 'package:flutter/cupertino.dart';
 
 class AppCircleTimePicker extends StatelessWidget {
   late Schedule schedule;
@@ -62,6 +63,7 @@ class AppCircleTimePicker extends StatelessWidget {
                 icon: Icon(
                   Icons.bed,
                   size: 25,
+                  color: Theme.of(context).colorScheme.background,
                 ),
               ),
               // Poignée de fin
@@ -70,6 +72,7 @@ class AppCircleTimePicker extends StatelessWidget {
                   icon: Icon(
                     Icons.alarm,
                     size: 25,
+                    color: Theme.of(context).colorScheme.background,
                   )),
               // Chiffres de l'horloge
               clockNumberDecoration: TimePickerClockNumberDecoration(

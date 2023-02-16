@@ -1,31 +1,65 @@
 import 'schedule.dart';
 import 'local_files.dart';
 import 'data.dart';
-import 'dart:convert';
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'notifications.dart';
 import 'date.dart';
 
 class Weekday extends Data {
-  static var localFile = LocalFiles('weekdays', [
-    {"day": "lundi", "notificationID": null, "schedule": null},
-    {"day": "mardi", "notificationID": null, "schedule": null},
-    {"day": "mercredi", "notificationID": null, "schedule": null},
-    {"day": "jeudi", "notificationID": null, "schedule": null},
-    {"day": "vendredi", "notificationID": null, "schedule": null},
-    {"day": "samedi", "notificationID": null, "schedule": null},
-    {"day": "dimanche", "notificationID": null, "schedule": null}
+  static LocalFiles localFile = LocalFiles('weekdays', [
+    {
+      "day": "lundi",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    },
+    {
+      "day": "mardi",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    },
+    {
+      "day": "mercredi",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    },
+    {
+      "day": "jeudi",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    },
+    {
+      "day": "vendredi",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    },
+    {
+      "day": "samedi",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    },
+    {
+      "day": "dimanche",
+      "sleepNotificationID": null,
+      "wakeNotificationID": null,
+      "schedule": null
+    }
   ]);
   late String day;
   late Schedule? schedule;
-  late int? notificationID;
+  late int? sleepNotificationID;
+  late int? wakeNotificationID;
 
   Weekday.fromJson(Map<String, dynamic> json) {
     day = json['day'];
     schedule =
         json['schedule'] != null ? Schedule.fromJson(json['schedule']) : null;
-    notificationID = json['notificationID'];
+    sleepNotificationID = json['sleepNotificationID'];
+    wakeNotificationID = json['wakeNotificationID'];
   }
 
   @override
@@ -33,13 +67,15 @@ class Weekday extends Data {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['day'] = day;
     data['schedule'] = schedule != null ? schedule!.toJson() : null;
-    data['notificationID'] = notificationID;
+    data['sleepNotificationID'] = sleepNotificationID;
+    data['wakeNotificationID'] = wakeNotificationID;
     return data;
   }
 
   toNull() {
     schedule = null;
-    notificationID = null;
+    sleepNotificationID = null;
+    wakeNotificationID = null;
   }
 
   onScheduleAddedOrChanged(Schedule newSchedule) async {
@@ -50,12 +86,12 @@ class Weekday extends Data {
     int index = weekdays.indexOf(weekdayToChange);
     weekdays[index] = this;
 
-    notificationID = await Notifications.add(
+    sleepNotificationID = await Notifications.add(
         options: Notifications.sleep,
         weekday: Date.weekdays.indexOf(day) + 1,
         time: schedule!.sleepTime);
 
-    _write(weekdays);
+    Data.write(weekdays, localFile);
   }
 
   onScheduleRemoved() async {
@@ -63,7 +99,7 @@ class Weekday extends Data {
 
     weekdays.firstWhere((weekday) => weekday.day == day).toNull();
 
-    await _write(weekdays);
+    await Data.write(weekdays, localFile);
   }
 
   static Future<List<Weekday>> getAll() async {
@@ -82,7 +118,7 @@ class Weekday extends Data {
       }
     });
 
-    await _write(weekdays);
+    await Data.write(weekdays, localFile);
   }
 
   static onScheduleEdited(Schedule editedSchedule) async {
@@ -93,23 +129,14 @@ class Weekday extends Data {
         if (weekday.schedule!.name == editedSchedule.name) {
           weekday.schedule = editedSchedule;
 
-          Notifications.delete(weekday.notificationID!);
+          Notifications.delete(weekday.sleepNotificationID!);
 
-          weekday.notificationID = await Notifications.add(
+          weekday.sleepNotificationID = await Notifications.add(
               options: Notifications.sleep, time: weekday.schedule!.sleepTime);
         }
       }
     });
 
-    await _write(weekdays);
-  }
-
-  static _write(List<Weekday> weekdays) async {
-    localFile
-        .write(weekdays.map((weekday) => weekday.toJson()).toList())
-        .then((value) {
-      Notifications.printScheduledNotifications();
-      Notifications.printScheduledNotificationsIDs();
-    });
+    await Data.write(weekdays, localFile);
   }
 }

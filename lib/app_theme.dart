@@ -78,6 +78,7 @@ class AppTheme {
               side:
                   MaterialStatePropertyAll<BorderSide>(BorderSide(color: colorScheme.onBackground)),
               shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(colorScheme.primary), foregroundColor: MaterialStatePropertyAll<Color>(colorScheme.background), fixedSize: MaterialStatePropertyAll<Size>(Size(50, 50)), shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))))),
 
       /// TEXTES ///
       textTheme: TextTheme(

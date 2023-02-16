@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
+import 'package:flutter/cupertino.dart';
 
 class ThemePicker extends StatefulWidget {
   final Map<ThemeMode, IconData> themeIcons = {
-    ThemeMode.light: Icons.brightness_7_rounded,
-    ThemeMode.dark: Icons.brightness_2_rounded,
-    ThemeMode.system: Icons.settings
+    ThemeMode.light: CupertinoIcons.sun_haze_fill,
+    ThemeMode.dark: CupertinoIcons.moon_stars_fill,
+    ThemeMode.system: CupertinoIcons.gear_alt_fill
   };
   ThemeMode themeMode;
   IconData get iconData => themeIcons[themeMode]!;

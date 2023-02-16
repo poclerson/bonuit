@@ -7,6 +7,7 @@ import '../pages/settings/settings.dart';
 import '../pages/schedules/schedules.dart';
 import '../models/screen.dart';
 import '../models/sort_method.dart';
+import 'package:flutter/cupertino.dart';
 
 List<Screen> screens = [
   Screen.home(GetPage(
@@ -15,7 +16,7 @@ List<Screen> screens = [
   )),
   Screen(
     'Préférences',
-    Icons.settings,
+    CupertinoIcons.gear_alt_fill,
     GetPage(
       name: '/settings',
       page: () => Settings(),
@@ -31,7 +32,7 @@ List<Screen> screens = [
   ),
   Screen(
     "Modifier l'horaire",
-    Icons.calendar_month_rounded,
+    CupertinoIcons.calendar,
     GetPage(
       name: '/schedule',
       page: () => Schedules(),

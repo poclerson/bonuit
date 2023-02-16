@@ -18,6 +18,7 @@ extension TimeOfDayExtension on TimeOfDay {
   double get distanceFromMidnight =>
       (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
 
+  /// Additionne deux [TimeOfDay] en prenant en compte la limite à 23:59
   TimeOfDay operator +(TimeOfDay other) {
     int newMinute = minute;
     int newHour = hour;
@@ -34,6 +35,7 @@ extension TimeOfDayExtension on TimeOfDay {
     return this;
   }
 
+  /// Additionne deux [TimeOfDay] sans prendre en compte de la limite à 23:59
   TimeOfDay operator *(TimeOfDay other) =>
       TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
 

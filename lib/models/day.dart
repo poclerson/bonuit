@@ -4,11 +4,14 @@ import 'time_interval.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'time_of_day_extension.dart';
+import 'data.dart';
 
 enum DayTime { sleep, wake }
 
-class Day extends TimeSlept {
+class Day extends TimeSlept implements Data {
   static var localFile = LocalFiles('days', null);
+  static late TimeOfDay? nextDaySleepTime;
+  static late TimeOfDay? nextDayWakeTime;
   late DateTime date;
 
   Day(TimeOfDay sleepTime, TimeOfDay wakeTime, this.date) {
@@ -17,10 +20,8 @@ class Day extends TimeSlept {
   }
 
   Day.fromJson(Map<String, dynamic> json) {
-    // final format = DateFormat.jm();
     sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
     wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
-    // wakeTime = TimeOfDay.fromDateTime(format.parse(json['wakeTime']));
     date = DateTime.parse(json['date']);
   }
 
@@ -32,16 +33,18 @@ class Day extends TimeSlept {
     return data;
   }
 
-  Day operator *(Day other) {
-    return Day(sleepTime * other.sleepTime, wakeTime * other.sleepTime, date);
-  }
+  static Day? get next => nextDaySleepTime != null && nextDayWakeTime != null
+      ? Day(nextDaySleepTime!, nextDayWakeTime!, DateTime.now())
+      : null;
 
-  Day operator +(Day other) {
-    return Day(sleepTime + other.sleepTime, wakeTime + other.sleepTime, date);
-  }
-
-  Day operator /(int divider) {
-    return Day(sleepTime / divider, wakeTime / divider, date);
+  static add() async {
+    if (Day.next != null) {
+      final days = await getAll();
+      days.add(Day.next!);
+      Data.write(days, localFile);
+      nextDaySleepTime = null;
+      nextDayWakeTime = null;
+    }
   }
 
   static Future<List<Day>> getAll() async {
@@ -52,6 +55,11 @@ class Day extends TimeSlept {
 }
 
 extension DayGroups on List<Day> {
+  /// Crée une [List] de [List] à partir de [groupSize]
+  ///
+  /// Par exemple, si [this.length] est 14 et que [groupSize] est 7,
+  ///
+  /// La fonction retournera une [List] contenant deux [List] de longueur 7
   List<List<Day>> groupBySize(int groupSize) {
     // Liste des jours présentement itérée
     late List<Day> daysInCurrentGroup = [];
@@ -74,6 +82,8 @@ extension DayGroups on List<Day> {
     return dayGroups;
   }
 
+  /// Retourne un [Day] avec le [sleepTime] et le [wakeTime] moyens
+  /// d'une [List] crée à partir des [amount] dernières valeurs de [this]
   Day averageFromLast([int amount = 1]) {
     double totalTimeBeforeMidnight = 0;
     double totalTimeAfterMidnight = 0;
@@ -109,6 +119,8 @@ extension DayGroups on List<Day> {
         first.date);
   }
 
+  /// Retourne les [hoursSlept] moyennenes
+  /// d'une [List] crée à partir des [amount] dernières valeurs de [this]
   double averageHoursSleptFromLast([int amount = 1]) {
     if (length == 0) return 0;
     return getRange(length > amount ? length - amount : 0, length)
@@ -116,44 +128,5 @@ extension DayGroups on List<Day> {
             .map((day) => day.hoursSlept)
             .reduce((curr, next) => curr + next) /
         length;
-  }
-
-  TimeInterval createIntervals(int intervalAmount) {
-    if (length > 0) {
-      Day earliest = reduce((current, next) {
-        // Les deux jours ont des heures de coucher après minuit
-        if (!current.isSameDay && !next.isSameDay) {
-          if (current.sleepTime.hour < next.sleepTime.hour) return current;
-          return next;
-        }
-        if (!next.isSameDay) return next;
-        if (!current.isSameDay) return current;
-
-        if (current.sleepTime.hour < next.sleepTime.hour) return current;
-        return next;
-      });
-
-      Day latest = reduce((current, next) =>
-          current.wakeTime.hour > next.wakeTime.hour ? current : next);
-
-      late double difference =
-          Day(earliest.sleepTime, latest.wakeTime, DateTime.now())
-              .hoursSlept
-              .toDouble();
-
-      List<int> intervals = [];
-
-      int intervalLength = (difference / intervalAmount.toDouble()).ceil();
-      difference += intervalLength.toDouble();
-
-      for (var i = 0; i < difference; i += intervalLength) {
-        int untreatedHour = i + earliest.sleepTime.hour;
-        intervals.add(untreatedHour < 24 ? untreatedHour : untreatedHour - 24);
-      }
-
-      return TimeInterval(intervalLength, intervals);
-    }
-
-    return TimeInterval(0, []);
   }
 }
