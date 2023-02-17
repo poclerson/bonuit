@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sommeil/models/time.dart';
 
 import '../../models/weekday.dart';
 import '../../models/schedule.dart';

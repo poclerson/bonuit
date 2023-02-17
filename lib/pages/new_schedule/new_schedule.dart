@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sommeil/models/sleep_target.dart';
+import '../../models/sleep_target.dart';
 import '../../widgets/nav_bar.dart';
-import '../../widgets/colorpicker.dart';
+import '../../widgets/color_picker.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import '../../widgets/text_prompt.dart';
 import '../../models/schedule.dart';
@@ -118,7 +118,7 @@ class _NewScheduleState extends State<NewSchedule> {
                     else
                       Text(
                         'Vous atteignez votre objectif de sommeil',
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.titleLarge,
                         textAlign: TextAlign.center,
                       ),
                     Divider(
@@ -127,7 +127,7 @@ class _NewScheduleState extends State<NewSchedule> {
                     ),
                     Text(
                       'Couleur',
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     ColorPicker((Color color) {
                       setState(() {
