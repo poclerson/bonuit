@@ -3,7 +3,6 @@ import '../../models/schedule.dart';
 import '../../models/time_of_day_extension.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'app_circle_time_picker_indicator.dart';
-import 'package:flutter/cupertino.dart';
 
 class AppCircleTimePicker extends StatefulWidget {
   late Schedule schedule;

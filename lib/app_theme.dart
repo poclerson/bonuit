@@ -7,28 +7,28 @@ const DarkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFFFFCA1B),
   onPrimary: Colors.black,
-  secondary: Color(0xFFBFBFBF),
+  secondary: Color(0xFFE4E4E4),
   onSecondary: Colors.black,
   error: Colors.red,
   onError: Colors.black,
   background: Color(0xFF131313),
-  onBackground: Color(0xFFC7C7C7),
+  onBackground: Color(0xFFB6B6B6),
   onSurface: Color(0xFFC7C7C7),
-  surface: Color(0xFF050505),
+  surface: Color(0xFF000000),
 );
 
 const LightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xFFF52F21),
     onPrimary: Color(0xFF222222),
-    secondary: Color(0xFF525252),
+    secondary: Color(0xFF202020),
     onSecondary: Colors.white,
     error: Color(0xFFFF004C),
     onError: Colors.white,
-    onSurface: Color(0xFF0F0F0F),
+    onSurface: Color(0xFF313131),
     surface: Color(0xFFD8D8D8),
     background: Color(0xFFE0E0E0),
-    onBackground: Color(0xFF2B2B2B));
+    onBackground: Color(0xFF313131));
 
 class AppTheme {
   static ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
@@ -65,6 +65,8 @@ class AppTheme {
                   MaterialStatePropertyAll<Color>(colorScheme.onSurface),
               backgroundColor:
                   MaterialStatePropertyAll<Color>(colorScheme.surface),
+              overlayColor:
+                  MaterialStatePropertyAll<Color>(colorScheme.surface),
               shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))))),
@@ -75,8 +77,7 @@ class AppTheme {
                   MaterialStatePropertyAll<Color>(colorScheme.secondary),
               foregroundColor:
                   MaterialStatePropertyAll<Color>(colorScheme.onSecondary),
-              side:
-                  MaterialStatePropertyAll<BorderSide>(BorderSide(color: colorScheme.onBackground)),
+              side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: colorScheme.onBackground)),
               shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))),
       elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(colorScheme.primary), foregroundColor: MaterialStatePropertyAll<Color>(colorScheme.background), fixedSize: MaterialStatePropertyAll<Size>(Size(50, 50)), shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))))),
 
@@ -85,52 +86,75 @@ class AppTheme {
         /// DISPLAY
         displayLarge: GoogleFonts.karla(
             letterSpacing: -5,
+            height: .7,
             fontWeight: FontWeight.w900,
-            fontSize: 100,
-            color: colorScheme.onBackground),
+            fontSize: 120,
+            color: colorScheme.secondary),
         displayMedium: GoogleFonts.familjenGrotesk(
             letterSpacing: -2,
             fontWeight: FontWeight.w900,
             fontSize: 80,
-            color: colorScheme.onBackground),
+            color: colorScheme.secondary),
         displaySmall: GoogleFonts.familjenGrotesk(
             fontWeight: FontWeight.w900,
             fontSize: 60,
-            color: colorScheme.onBackground),
-
-        /// LABEL
-        labelLarge: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-            color: colorScheme.onBackground),
-        labelMedium: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-            color: colorScheme.background),
-        labelSmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            color: colorScheme.background),
-
-        /// TITLE
-        titleMedium: GoogleFonts.karla(
-            fontWeight: FontWeight.w900,
-            color: colorScheme.background,
-            fontSize: 25),
+            color: colorScheme.secondary),
 
         /// HEADLINE
         headlineLarge: GoogleFonts.karla(
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w900,
             fontSize: 30,
+            color: colorScheme.secondary),
+        headlineMedium: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w700,
+            fontSize: 26,
+            color: colorScheme.onBackground),
+        headlineSmall: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w700,
+            fontSize: 22,
+            color: colorScheme.onBackground),
+
+        /// TITLE
+        titleLarge: GoogleFonts.karla(
+            fontWeight: FontWeight.w700,
+            color: colorScheme.secondary,
+            fontSize: 28),
+        titleMedium: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w500,
+            color: colorScheme.onBackground,
+            fontSize: 24),
+        titleSmall: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w500,
+            color: colorScheme.onBackground,
+            fontSize: 22),
+
+        /// LABEL
+        labelLarge: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            color: colorScheme.secondary),
+        labelMedium: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: colorScheme.onBackground),
+        labelSmall: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w300,
+            fontSize: 16,
             color: colorScheme.onBackground),
 
         // BODY
-        bodyMedium: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w300, color: colorScheme.onBackground),
         bodyLarge: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w300, color: colorScheme.onBackground),
+            fontWeight: FontWeight.w500,
+            color: colorScheme.secondary,
+            fontSize: 16),
+        bodyMedium: GoogleFonts.familjenGrotesk(
+            fontWeight: FontWeight.w300,
+            color: colorScheme.onBackground,
+            fontSize: 14),
         bodySmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w300, color: colorScheme.onBackground),
+            fontWeight: FontWeight.w300,
+            color: colorScheme.onBackground,
+            fontSize: 12),
       ));
 
   static SimpleStream<ThemeMode> themeMode = SimpleStream();

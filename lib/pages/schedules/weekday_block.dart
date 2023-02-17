@@ -38,7 +38,8 @@ class WeekdayBlockState extends State<WeekdayBlock> {
               child: Align(
                 child: Text(
                   widget.weekday.day[0].toUpperCase(),
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.background),
                 ),
               )),
         );

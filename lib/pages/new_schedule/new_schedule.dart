@@ -79,7 +79,7 @@ class _NewScheduleState extends State<NewSchedule> {
                   children: [
                     Text(
                       'Temps de sommeil',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     SizedBox(
                       height: 20,
@@ -118,7 +118,7 @@ class _NewScheduleState extends State<NewSchedule> {
                     else
                       Text(
                         'Vous atteignez votre objectif de sommeil',
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.center,
                       ),
                     Divider(
@@ -127,7 +127,7 @@ class _NewScheduleState extends State<NewSchedule> {
                     ),
                     Text(
                       'Couleur',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     ColorPicker((Color color) {
                       setState(() {

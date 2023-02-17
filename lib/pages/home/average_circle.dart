@@ -86,7 +86,7 @@ class _AverageCircleState extends State<AverageCircle> {
             padding: EdgeInsets.only(top: 20),
             child: Text(
               widget.text,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
           )

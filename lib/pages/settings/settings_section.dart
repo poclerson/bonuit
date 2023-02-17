@@ -30,6 +30,9 @@ class SettingsSection extends StatelessWidget {
             )
           ],
         ),
+        SizedBox(
+          height: 5,
+        ),
         Container(
           decoration: BoxDecoration(
               color: !isButtonSection

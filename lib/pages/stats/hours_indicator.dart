@@ -17,7 +17,7 @@ class HoursIndicator extends StatelessWidget {
                   children: [
                     Text(
                       temps.toString() + ':00',
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.labelLarge,
                     )
                   ],
                 ),

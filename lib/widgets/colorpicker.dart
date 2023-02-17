@@ -29,7 +29,6 @@ class ColorPicker extends StatelessWidget {
                             MaterialStatePropertyAll<Color>(Colors.transparent),
                         overlayColor: MaterialStatePropertyAll<Color>(color)),
                     child: Container(
-                      margin: EdgeInsets.all(10),
                       width: 50,
                       height: 50,
                       decoration:

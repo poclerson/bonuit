@@ -22,7 +22,7 @@ class _DaysIndicatorState extends State<DaysIndicator> {
                 alignment: Alignment.center,
                 child: Text(
                   identifier is DateTime ? identifier.toFrench(3) : identifier,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.labelLarge,
                 )),
           )
         ],

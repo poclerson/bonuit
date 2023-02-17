@@ -42,8 +42,13 @@ class _SettingsState extends State<Settings> {
                       children: [
                         SettingsButton(
                           text: 'Objectif de sommeil',
-                          content:
-                              Text(SleepTarget.duration.toStringHoursMinutes()),
+                          content: Text(
+                            SleepTarget.duration.toStringHoursMinutes(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(fontWeight: FontWeight.w900),
+                          ),
                           onPressed: () => showModalBottomSheet(
                               context: context,
                               builder: (context) => AppTimePickerSpinner(
@@ -62,16 +67,6 @@ class _SettingsState extends State<Settings> {
                       title: 'Thème',
                       children: [ThemeModePicker()],
                       isButtonSection: false),
-                  // SettingsSection(
-                  //     iconData: Icons.brush_rounded,
-                  //     text: 'Thème',
-                  //     content: Text(Theme.of(context).brightness.toString()),
-                  //     onPressed: () => setState(() {
-                  //           AppTheme.themeMode.add(
-                  //               Theme.of(context).brightness == Brightness.dark
-                  //                   ? ThemeMode.light
-                  //                   : ThemeMode.dark);
-                  //         }))
                 ],
               ),
             )

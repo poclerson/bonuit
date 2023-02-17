@@ -20,7 +20,7 @@ class AppCircleTimePickerIndicator extends StatelessWidget {
         Icon(periodIcons[period]),
         Text(
           time.toStringFormatted(),
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).textTheme.headlineSmall,
         )
       ],
     );
