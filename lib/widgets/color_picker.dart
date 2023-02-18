@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
 import '../models/color_extension.dart';
 
-Map<Brightness, List<Color>> colorsFromThemeBrightness = {
-  Brightness.dark: [
-    Color(0xFFFFCA1B),
-    Color(0xFFE0613A),
-    Color(0xFF60D3B0),
-    Color(0xFF774EE7),
-    Color(0xFF6E6E6E),
-    Color(0xFF50C964),
-    Color(0xFFC64AD6),
-    Color(0xFF446BEE)
-  ],
-  Brightness.light: [
-    Color(0xFFD4A300),
-    Color(0xFFA33311),
-    Color(0xFF1CAD82),
-    Color(0xFF4015B8),
-    Color(0xFF6E6E6E),
-    Color(0xFF0E9B26),
-    Color(0xFFA30BB8),
-    Color(0xFF153EC5)
-  ]
-};
+List<Color> colors = [
+  Color(0xFFFFCA1B),
+  Color(0xFFE0613A),
+  Color(0xFF60D3B0),
+  Color(0xFF774EE7),
+  Color(0xFF6E6E6E),
+  Color(0xFF50C964),
+  Color(0xFFC64AD6),
+  Color(0xFF446BEE)
+];
 
 class ColorPicker extends StatelessWidget {
   final Function(Color color) _onColorPressed;
@@ -34,7 +22,7 @@ class ColorPicker extends StatelessWidget {
       children: [
         Wrap(
             alignment: WrapAlignment.start,
-            children: colorsFromThemeBrightness[Theme.of(context).brightness]!
+            children: colors
                 .map((color) => TextButton(
                     onPressed: () => _onColorPressed(color),
                     style: Theme.of(context).textButtonTheme.style!.copyWith(

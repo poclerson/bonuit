@@ -20,7 +20,7 @@ class LocalFiles {
     return File('$path/$fileName.json');
   }
 
-  Future<void> create() async {
+  create() async {
     final file = await _file;
     final exists = await file.exists();
     if (!exists) {
@@ -33,7 +33,13 @@ class LocalFiles {
     final file = await _file;
     await create();
     final contents = await file.readAsString();
-    List<dynamic> json = await jsonDecode(contents);
+    List<dynamic> json = [];
+
+    try {
+      json = await jsonDecode(contents);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
 
     return json;
   }

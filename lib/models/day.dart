@@ -25,6 +25,12 @@ class Day extends TimeSlept implements Data {
     date = DateTime.parse(json['date']);
   }
 
+  Day.midnight() {
+    sleepTime = TimeOfDay(hour: 0, minute: 0);
+    wakeTime = TimeOfDay(hour: 0, minute: 0);
+    date = DateTime.now();
+  }
+
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -85,6 +91,7 @@ extension DayGroups on List<Day> {
   /// Retourne un [Day] avec le [sleepTime] et le [wakeTime] moyens
   /// d'une [List] crée à partir des [amount] dernières valeurs de [this]
   Day averageFromLast([int amount = 1]) {
+    if (isEmpty) return Day.midnight();
     double totalTimeBeforeMidnight = 0;
     double totalTimeAfterMidnight = 0;
 

@@ -61,11 +61,13 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                     ),
                     Text(
                       widget.schedule.sleepTime.toStringFormatted(),
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.background),
                     ),
                     Text(
                       widget.schedule.wakeTime.toStringFormatted(),
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.background),
                     )
                   ],
                 ),

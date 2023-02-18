@@ -127,7 +127,7 @@ class _NewScheduleState extends State<NewSchedule> {
                     ),
                     Text(
                       'Couleur',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     ColorPicker((Color color) {
                       setState(() {

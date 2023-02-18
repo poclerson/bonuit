@@ -10,7 +10,6 @@ import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
 import '../../models/notifications.dart';
-import '../../models/time_of_day_extension.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -70,6 +69,7 @@ class _HomeState extends State<Home> {
                           child: Text(
                             'Dormez pour commencer à afficher des données!',
                             style: Theme.of(context).textTheme.headlineLarge,
+                            textAlign: TextAlign.center,
                           ),
                         ),
                     ],
@@ -108,8 +108,7 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ...screens
-                          .where((screen) =>
-                              screen.getPage.name != '/') // Enlever Home
+                          .where((screen) => screen.getPage.name != '/')
                           .map((screen) => IconButton(
                                 iconSize: 50,
                                 onPressed: () =>
