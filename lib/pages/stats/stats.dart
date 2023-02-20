@@ -60,6 +60,7 @@ class _StatsState extends State<Stats> {
               appBar: DatesAppBar(sortMethod.display(pageIndex)),
               bottomNavigationBar: NavBar(),
               body: Stack(
+                alignment: Alignment.center,
                 children: [
                   Column(
                     children: [

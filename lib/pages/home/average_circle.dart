@@ -23,14 +23,10 @@ class _AverageCircleState extends State<AverageCircle> {
   Widget build(BuildContext context) {
     PickedTime start = widget.averageDay.sleepTime.toPickedTime();
     PickedTime end = widget.averageDay.wakeTime.toPickedTime();
-    return Expanded(
-      child: TextButton(
-        style: ButtonStyle(
-            backgroundColor:
-                MaterialStatePropertyAll<Color>(Colors.transparent),
-            overlayColor: MaterialStatePropertyAll<Color>(Colors.transparent)),
-        onPressed: () => widget.onPressed(),
-        child: Column(children: [
+    return Flexible(
+      child: GestureDetector(
+        onTap: () => widget.onPressed(),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Stack(
             children: [
               TimePicker(
@@ -42,7 +38,7 @@ class _AverageCircleState extends State<AverageCircle> {
                 onSelectionEnd: (sleep, wake, isDisableRange) {
                   setState(() {});
                 },
-                width: 300,
+                width: 150,
                 height: 150,
                 isInitHandlerSelectable: false,
                 isEndHandlerSelectable: false,
@@ -75,11 +71,11 @@ class _AverageCircleState extends State<AverageCircle> {
                   ),
                 ),
               ),
-              Container(
-                width: 350,
-                height: 100,
-                color: Colors.transparent,
-              )
+              // Container(
+              //   width: 350,
+              //   height: 100,
+              //   color: Colors.transparent,
+              // )
             ],
           ),
           Padding(

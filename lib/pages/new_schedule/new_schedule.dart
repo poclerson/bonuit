@@ -71,7 +71,7 @@ class _NewScheduleState extends State<NewSchedule> {
             padding: EdgeInsets.all(25),
             child: SingleChildScrollView(
               child: SeparatedColumn(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   separatorBuilder: (context, index) => SizedBox(
                         height: 20,
@@ -100,10 +100,10 @@ class _NewScheduleState extends State<NewSchedule> {
                     if (widget.schedule.hoursSlept < SleepTarget.total)
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Il vous manque ${(SleepTarget.total - widget.schedule.hoursSlept).toTimeOfDay().toStringFormatted()} pour atteindre votre objectif de sommeil',
+                            'Il vous manque ${(SleepTarget.total - widget.schedule.hoursSlept).toTimeOfDay().toStringFormatted('h')} pour atteindre votre objectif de sommeil',
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),

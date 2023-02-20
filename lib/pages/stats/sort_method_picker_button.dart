@@ -28,7 +28,7 @@ class SortMethodPickerButton extends StatelessWidget {
           RoundedRectangleBorder(borderRadius: BorderRadius.zero));
     }
 
-    return TextButton(
+    return ElevatedButton(
         onPressed: () => _sortMethod.onChanged(_sortMethod),
         style: Theme.of(context)
             .textButtonTheme

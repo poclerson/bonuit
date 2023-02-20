@@ -21,12 +21,16 @@ class _AppCircleTimePickerState extends State<AppCircleTimePicker> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      alignment: WrapAlignment.center,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppCircleTimePickerIndicator(
                 time: widget.schedule.sleepTime, period: TimePeriod.sleep),
+            SizedBox(
+              width: 100,
+            ),
             AppCircleTimePickerIndicator(
                 time: widget.schedule.wakeTime, period: TimePeriod.wake)
           ],
@@ -38,8 +42,8 @@ class _AppCircleTimePickerState extends State<AppCircleTimePicker> {
               widget.onSelectionChanged(sleep, wake, isDisableRange),
           onSelectionEnd: (sleep, wake, isDisableRange) =>
               widget.onSelectionEnded(sleep, wake, isDisableRange),
-          width: 400,
-          height: 400,
+          width: 350,
+          height: 350,
           primarySectors: 12,
           secondarySectors: 48,
           decoration: TimePickerDecoration(
@@ -83,8 +87,8 @@ class _AppCircleTimePickerState extends State<AppCircleTimePicker> {
               clockNumberDecoration: TimePickerClockNumberDecoration(
                   clockTimeFormat: ClockTimeFormat.TWENTYFOURHOURS,
                   defaultTextColor: Theme.of(context).colorScheme.onBackground,
-                  clockIncrementTimeFormat: ClockIncrementTimeFormat.FIVEMIN,
-                  scaleFactor: 2.75,
+                  clockIncrementTimeFormat: ClockIncrementTimeFormat.FIFTEENMIN,
+                  scaleFactor: 3,
                   textScaleFactor: .4)),
           child: Align(
             child: Text(

@@ -17,6 +17,10 @@ class WeekdayBlock extends StatefulWidget {
 }
 
 class WeekdayBlockState extends State<WeekdayBlock> {
+  final double padding = 10;
+  late double boxWidth =
+      (MediaQuery.of(context).size.width / 4 - 30).clamp(50, 100);
+
   @override
   Widget build(BuildContext context) {
     return DragTarget<Schedule>(
@@ -27,14 +31,13 @@ class WeekdayBlockState extends State<WeekdayBlock> {
             widget.updateWeekdays();
           },
           child: Container(
-              width: 75,
-              height: 75,
-              padding: const EdgeInsets.all(20),
-              margin: const EdgeInsets.all(15),
+              width: boxWidth,
+              height: boxWidth,
+              margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: widget._color ??
                       Theme.of(context).colorScheme.onBackground,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
               child: Align(
                 child: Text(
                   widget.weekday.day[0].toUpperCase(),

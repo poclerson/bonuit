@@ -97,15 +97,19 @@ class _SchedulesState extends State<Schedules> {
                 if (snapshot.hasData) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width / 3,
+                    height:
+                        (MediaQuery.of(context).size.width / 3).clamp(0, 200),
                     child: CustomScrollView(
                       scrollDirection: Axis.horizontal,
                       slivers: [
                         SliverPadding(
-                          padding: const EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(5),
                           sliver: SliverGrid.count(
                             crossAxisCount: 1,
-                            childAspectRatio: 1 / 1.35,
+                            childAspectRatio:
+                                MediaQuery.of(context).size.width > 700
+                                    ? 1
+                                    : 1 / 1.35,
                             children: [
                               ...snapshot.data!
                                   .map((schedule) => DraggableScheduleBox(

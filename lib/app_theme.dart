@@ -59,6 +59,7 @@ class AppTheme {
       // Text button
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
+              maximumSize: MaterialStatePropertyAll<Size>(Size(600, 500)),
               padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
                   EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
               foregroundColor:
@@ -79,7 +80,7 @@ class AppTheme {
                   MaterialStatePropertyAll<Color>(colorScheme.onSecondary),
               side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: colorScheme.onBackground)),
               shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))),
-      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(colorScheme.primary), foregroundColor: MaterialStatePropertyAll<Color>(colorScheme.background), fixedSize: MaterialStatePropertyAll<Size>(Size(50, 50)), shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))))),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(colorScheme.primary), foregroundColor: MaterialStatePropertyAll<Color>(colorScheme.background), fixedSize: MaterialStatePropertyAll<Size>(Size(75, 65)), shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))), maximumSize: MaterialStatePropertyAll<Size>(Size(100, 100)))),
 
       /// TEXTES ///
       textTheme: TextTheme(
