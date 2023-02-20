@@ -29,9 +29,7 @@ class TimeInterval {
           .wakeTime;
 
       late double difference =
-          Day(earliestSleepTime, latestWakeTime, DateTime.now())
-              .hoursSlept
-              .toDouble();
+          Day(earliestSleepTime, latestWakeTime).hoursSlept.toDouble();
 
       List<int> intervals = [];
 

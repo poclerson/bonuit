@@ -15,9 +15,6 @@ extension TimeOfDayExtension on TimeOfDay {
     return TimeOfDay(hour: newHour.abs(), minute: newMinute);
   }
 
-  double get distanceFromMidnight =>
-      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
-
   /// Additionne deux [TimeOfDay] en prenant en compte la limite à 23:59
   TimeOfDay operator +(TimeOfDay other) {
     int newMinute = minute;
@@ -41,6 +38,11 @@ extension TimeOfDayExtension on TimeOfDay {
 
   TimeOfDay operator /(int divider) =>
       TimeOfDay(hour: hour ~/ divider, minute: minute ~/ divider);
+
+  double get distanceFromMidnight =>
+      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
+
+  bool isEqual(TimeOfDay other) => hour == other.hour && minute == other.minute;
 
   TimeOfDay dividedByTimeOfDay(TimeOfDay other) =>
       TimeOfDay(hour: hour ~/ other.hour, minute: minute ~/ other.minute);
@@ -95,6 +97,7 @@ extension PickedTimeExtension on PickedTime {
 
 extension Hour on double {
   TimeOfDay toTimeOfDay() {
+    assert(isFinite);
     int floored = floor();
     double decimal = this - floored;
     int hour = floored % 24;

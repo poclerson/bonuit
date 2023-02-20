@@ -1,6 +1,9 @@
+import 'dart:async';
+
+import 'package:bonuit/models/weekday.dart';
+
 import 'time_slept.dart';
 import 'local_files.dart';
-import 'time_interval.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'time_of_day_extension.dart';
@@ -12,9 +15,8 @@ class Day extends TimeSlept implements Data {
   static var localFile = LocalFiles('days', null);
   static late TimeOfDay? nextDaySleepTime;
   static late TimeOfDay? nextDayWakeTime;
-  late DateTime date;
 
-  Day(TimeOfDay sleepTime, TimeOfDay wakeTime, this.date) {
+  Day(TimeOfDay sleepTime, TimeOfDay wakeTime) {
     this.sleepTime = sleepTime;
     this.wakeTime = wakeTime;
   }
@@ -22,30 +24,30 @@ class Day extends TimeSlept implements Data {
   Day.fromJson(Map<String, dynamic> json) {
     sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
     wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
-    date = DateTime.parse(json['date']);
   }
 
   Day.midnight() {
     sleepTime = TimeOfDay(hour: 0, minute: 0);
     wakeTime = TimeOfDay(hour: 0, minute: 0);
-    date = DateTime.now();
   }
 
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['sleepTime'] = sleepTime.toString();
-    data['wakeTime'] = wakeTime.toString();
+    data['sleepTime'] = sleepTime.toStringFormatted();
+    data['wakeTime'] = wakeTime.toStringFormatted();
     return data;
   }
 
   static Day? get next => nextDaySleepTime != null && nextDayWakeTime != null
-      ? Day(nextDaySleepTime!, nextDayWakeTime!, DateTime.now())
+      ? Day(nextDaySleepTime!, nextDayWakeTime!)
       : null;
 
-  static add() async {
+  static onAwakened() async {
+    debugPrint("Réveil");
+    Day.nextDayWakeTime = TimeOfDay.now();
     if (Day.next != null) {
-      final days = await getAll();
+      final days = await all;
       days.add(Day.next!);
       Data.write(days, localFile);
       nextDaySleepTime = null;
@@ -53,11 +55,22 @@ class Day extends TimeSlept implements Data {
     }
   }
 
-  static Future<List<Day>> getAll() async {
+  static onWentToSleep() async {
+    final today = await Weekday.today;
+    debugPrint("Dodo");
+    Day.nextDaySleepTime = TimeOfDay.now();
+    Timer(today.schedule!.durationSlept, () => onAwakened());
+  }
+
+  static Future<List<Day>> get all async {
     final json = await localFile.readAll();
 
     return json.map((element) => Day.fromJson(element)).toList();
   }
+
+  @override
+  String toString() =>
+      'Day(${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
 }
 
 extension DayGroups on List<Day> {
@@ -92,11 +105,12 @@ extension DayGroups on List<Day> {
   /// d'une [List] crée à partir des [amount] dernières valeurs de [this]
   Day averageFromLast([int amount = 1]) {
     if (isEmpty) return Day.midnight();
+    if (length == 1) return first;
     double totalTimeBeforeMidnight = 0;
     double totalTimeAfterMidnight = 0;
 
-    int amountOfDaysBeforeMidnight = 0;
-    int amountOfDaysAfterMidnight = 0;
+    int amountOfSleepTimesBeforeMidnight = 0;
+    int amountOfSleepTimesAfterMidnight = 0;
 
     Day combinedDay = getRange(length > amount ? length - amount : 0, length)
         .toList()
@@ -104,26 +118,24 @@ extension DayGroups on List<Day> {
       // Si c'est le même jour, sleepTime arrive avant minuit
       if (!next.isSameDay) {
         totalTimeBeforeMidnight += next.sleepTime.distanceFromMidnight;
-        amountOfDaysBeforeMidnight++;
+        amountOfSleepTimesBeforeMidnight++;
       }
 
       // Si ce n'est pas le même jour, sleepTime arrive après minuit
       if (next.isSameDay) {
         totalTimeAfterMidnight += next.sleepTime.toDouble();
-        amountOfDaysAfterMidnight++;
+        amountOfSleepTimesAfterMidnight++;
       }
-
-      return Day(
-          curr.sleepTime, [curr.wakeTime, next.wakeTime].average(), curr.date);
+      return Day(curr.sleepTime, [curr.wakeTime, next.wakeTime].average());
     });
 
-    // Faire la différence entre les deux moyennes de temps d'avant et d'après minuit
     return Day(
-        (totalTimeAfterMidnight / amountOfDaysAfterMidnight -
-                totalTimeBeforeMidnight / amountOfDaysBeforeMidnight)
+        (totalTimeAfterMidnight.safeDivide(amountOfSleepTimesAfterMidnight) -
+                totalTimeBeforeMidnight
+                    .safeDivide(amountOfSleepTimesBeforeMidnight)
+                    .toDouble())
             .toTimeOfDay(),
-        combinedDay.wakeTime,
-        first.date);
+        combinedDay.wakeTime);
   }
 
   /// Retourne les [hoursSlept] moyennenes
@@ -133,7 +145,17 @@ extension DayGroups on List<Day> {
     return getRange(length > amount ? length - amount : 0, length)
             .toList()
             .map((day) => day.hoursSlept)
-            .reduce((curr, next) => curr + next) /
+            .reduce((curr, next) {
+          // if (curr == next) return 0;
+          return curr + next;
+        }) /
         length;
+  }
+}
+
+extension NumExtension on num {
+  num safeDivide(num other) {
+    if (other == 0) return this;
+    return this / other;
   }
 }

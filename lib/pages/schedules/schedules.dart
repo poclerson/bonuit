@@ -9,6 +9,7 @@ import '../new_schedule/new_schedule.dart';
 import 'weekday_block.dart';
 import 'draggable_schedule_box.dart';
 import '../../widgets/choices_prompt.dart';
+import '../../models/day.dart';
 
 class Schedules extends StatefulWidget {
   @override
@@ -22,6 +23,13 @@ class _SchedulesState extends State<Schedules> {
 
   late Future<List<Schedule>> _schedules;
   late Future<List<Weekday>> _weekdays;
+
+  @override
+  void initState() {
+    Day.onWentToSleep();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     updateSchedules() {

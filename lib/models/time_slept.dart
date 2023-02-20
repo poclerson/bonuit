@@ -1,4 +1,3 @@
-import 'data.dart';
 import 'package:flutter/material.dart';
 import 'time_of_day_extension.dart';
 
@@ -9,6 +8,7 @@ abstract class TimeSlept {
   double get hoursSlept {
     double doubleSleepTime = sleepTime.toDouble();
     double doubleWakeTime = wakeTime.toDouble();
+    if (doubleSleepTime == doubleWakeTime) return 0;
     if (!isSameDay) {
       return TimeOfDay.hoursPerDay.toDouble() -
           doubleSleepTime +
@@ -17,5 +17,8 @@ abstract class TimeSlept {
     return doubleWakeTime - doubleSleepTime;
   }
 
-  bool get isSameDay => sleepTime.toDouble() < wakeTime.toDouble();
+  bool get isSameDay => sleepTime.toDouble() <= wakeTime.toDouble();
+
+  Duration get durationSlept =>
+      Duration(seconds: (hoursSlept * 60 * 60).toInt());
 }

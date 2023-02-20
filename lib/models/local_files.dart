@@ -17,6 +17,7 @@ class LocalFiles {
 
   Future<File> get _file async {
     final path = await _path;
+    // _path.then((value) => debugPrint(value.toString()));
     return File('$path/$fileName.json');
   }
 

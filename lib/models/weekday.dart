@@ -54,6 +54,12 @@ class Weekday extends Data {
   late int? sleepNotificationID;
   late int? wakeNotificationID;
 
+  static Future<Weekday> get today async {
+    final weekdays = await getAll();
+
+    return weekdays[DateTime.now().weekday - 1];
+  }
+
   Weekday.fromJson(Map<String, dynamic> json) {
     day = json['day'];
     schedule =

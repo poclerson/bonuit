@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
         body: Padding(
       padding: EdgeInsets.only(top: 125),
       child: FutureBuilder(
-        future: Day.getAll(),
+        future: Day.all,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
