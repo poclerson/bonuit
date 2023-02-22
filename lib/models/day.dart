@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:bonuit/models/weekday.dart';
-
 import 'time_slept.dart';
 import 'local_files.dart';
 import 'package:flutter/material.dart';
@@ -9,24 +7,22 @@ import 'dart:core';
 import 'time_of_day_extension.dart';
 import 'data.dart';
 
-enum DayTime { sleep, wake }
-
-class DayUnit extends TimeSlept implements Data {
+class SleepDay extends TimeSlept implements Data {
   static var localFile = LocalFiles('days', null);
   static late TimeOfDay? nextDaySleepTime;
   static late TimeOfDay? nextDayWakeTime;
 
-  DayUnit(TimeOfDay sleepTime, TimeOfDay wakeTime) {
+  SleepDay(TimeOfDay sleepTime, TimeOfDay wakeTime) {
     this.sleepTime = sleepTime;
     this.wakeTime = wakeTime;
   }
 
-  DayUnit.fromJson(Map<String, dynamic> json) {
+  SleepDay.fromJson(Map<String, dynamic> json) {
     sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
     wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
   }
 
-  DayUnit.midnight() {
+  SleepDay.midnight() {
     sleepTime = TimeOfDay(hour: 0, minute: 0);
     wakeTime = TimeOfDay(hour: 0, minute: 0);
   }
@@ -39,34 +35,37 @@ class DayUnit extends TimeSlept implements Data {
     return data;
   }
 
-  static DayUnit? get next =>
+  /// Représente le prochain `SleepDay`, ou celui qui est entrain de se produire
+  /// si `nextDaySleepTime` n'est pas `null`
+  ///
+  /// `sleepTime` et `wakeTime` ne peuvent pas être `null`, donc on doit créer
+  /// un getter statique avec deux `TimeOfDay` statiques
+  static SleepDay? get next =>
       nextDaySleepTime != null && nextDayWakeTime != null
-          ? DayUnit(nextDaySleepTime!, nextDayWakeTime!)
+          ? SleepDay(nextDaySleepTime!, nextDayWakeTime!)
           : null;
 
+  /// Appelée au réveil par le système de notifications
   static onAwakened() async {
-    debugPrint("Réveil");
-    DayUnit.nextDayWakeTime = TimeOfDay.now();
-    if (DayUnit.next != null) {
+    SleepDay.nextDayWakeTime = TimeSlept.now;
+    if (SleepDay.next != null) {
       final days = await all;
-      days.add(DayUnit.next!);
+      days.add(SleepDay.next!);
       Data.write(days, localFile);
       nextDaySleepTime = null;
       nextDayWakeTime = null;
     }
   }
 
+  /// Appelée au coucher par le système de notifications
   static onWentToSleep() async {
-    final today = await Weekday.today;
-    debugPrint("Dodo");
-    DayUnit.nextDaySleepTime = TimeOfDay.now();
-    Timer(today.schedule!.durationSlept, () => onAwakened());
+    SleepDay.nextDaySleepTime = TimeSlept.now;
   }
 
-  static Future<List<DayUnit>> get all async {
+  static Future<List<SleepDay>> get all async {
     final json = await localFile.readAll();
 
-    return json.map((element) => DayUnit.fromJson(element)).toList();
+    return json.map((element) => SleepDay.fromJson(element)).toList();
   }
 
   @override
@@ -74,20 +73,20 @@ class DayUnit extends TimeSlept implements Data {
       'Day(${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
 }
 
-extension DayGroups on List<DayUnit> {
+extension DayGroups on List<SleepDay> {
   /// Crée une [List] de [List] à partir de [groupSize]
   ///
   /// Par exemple, si [this.length] est 14 et que [groupSize] est 7,
   ///
   /// La fonction retournera une [List] contenant deux [List] de longueur 7
-  List<List<DayUnit>> groupBySize(int groupSize) {
+  List<List<SleepDay>> groupBySize(int groupSize) {
     // Liste des jours présentement itérée
-    late List<DayUnit> daysInCurrentGroup = [];
+    late List<SleepDay> daysInCurrentGroup = [];
 
     // Toutes les listes
-    late List<List<DayUnit>> dayGroups = [];
+    late List<List<SleepDay>> dayGroups = [];
     for (var i = 0; i < length; i++) {
-      DayUnit currentDay = this[i];
+      SleepDay currentDay = this[i];
       // Ajoute au groupe présent le jour présent
       daysInCurrentGroup.add(currentDay);
 
@@ -102,10 +101,10 @@ extension DayGroups on List<DayUnit> {
     return dayGroups;
   }
 
-  /// Retourne un [DayUnit] avec le [sleepTime] et le [wakeTime] moyens
+  /// Retourne un [SleepDay] avec le [sleepTime] et le [wakeTime] moyens
   /// d'une [List] crée à partir des [amount] dernières valeurs de [this]
-  DayUnit averageFromLast([int amount = 1]) {
-    if (isEmpty) return DayUnit.midnight();
+  SleepDay averageFromLast([int amount = 1]) {
+    if (isEmpty) return SleepDay.midnight();
     if (length == 1) return first;
     double totalTimeBeforeMidnight = 0;
     double totalTimeAfterMidnight = 0;
@@ -113,7 +112,7 @@ extension DayGroups on List<DayUnit> {
     int amountOfSleepTimesBeforeMidnight = 0;
     int amountOfSleepTimesAfterMidnight = 0;
 
-    DayUnit combinedDay =
+    SleepDay combinedDay =
         getRange(length > amount ? length - amount : 0, length)
             .toList()
             .reduce((curr, next) {
@@ -128,10 +127,10 @@ extension DayGroups on List<DayUnit> {
         totalTimeAfterMidnight += next.sleepTime.toDouble();
         amountOfSleepTimesAfterMidnight++;
       }
-      return DayUnit(curr.sleepTime, [curr.wakeTime, next.wakeTime].average());
+      return SleepDay(curr.sleepTime, [curr.wakeTime, next.wakeTime].average());
     });
 
-    return DayUnit(
+    return SleepDay(
         (totalTimeAfterMidnight.safeDivide(amountOfSleepTimesAfterMidnight) -
                 totalTimeBeforeMidnight
                     .safeDivide(amountOfSleepTimesBeforeMidnight)

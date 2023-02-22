@@ -4,7 +4,7 @@ import 'package:progressive_time_picker/progressive_time_picker.dart';
 import '../../models/day.dart';
 
 class AverageCircle extends StatefulWidget {
-  DayUnit averageDay;
+  SleepDay averageDay;
   double averageHoursSlept;
   String text;
   Function onPressed = () {};

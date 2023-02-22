@@ -9,7 +9,7 @@ import '../../models/sort_method.dart';
 import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
-import '../../models/notifications.dart';
+import '../../models/notification_controller.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -20,10 +20,8 @@ class _HomeState extends State<Home> {
   @override
   @pragma("vm:entry-point")
   void initState() {
-    Notifications.initialize();
-    Notifications.selectStream.stream.listen((event) {
-      debugPrint(event.toString());
-    });
+    NotificationController.initialize();
+    NotificationController.flnp.cancelAll();
     super.initState();
   }
 
@@ -33,16 +31,12 @@ class _HomeState extends State<Home> {
         body: Padding(
       padding: EdgeInsets.only(top: 125),
       child: FutureBuilder(
-        future: DayUnit.all,
+        future: SleepDay.all,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
-                    onPressed: () =>
-                        Notifications.show(options: Notifications.sleep),
-                    child: Text('Notification')),
                 Container(
                   child: Column(
                     children: [

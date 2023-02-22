@@ -10,19 +10,22 @@ class LocalFiles {
     this.defaultContents = defaultContents ?? [];
   }
 
-  Future<String> get _path async {
+  /// Obtient le chemin vers les documents des applications
+  Future<String> get path async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
   }
 
-  Future<File> get _file async {
-    final path = await _path;
-    // _path.then((value) => debugPrint(value.toString()));
+  /// Crée une instance d'un fichier d'après `path`
+  Future<File> get file async {
+    final path = await this.path;
+    // path.then((value) => debugPrint(value.toString()));
     return File('$path/$fileName.json');
   }
 
+  /// Crée un fichier d'apres `defaultContents`
   create() async {
-    final file = await _file;
+    final file = await this.file;
     final exists = await file.exists();
     if (!exists) {
       await file.create();
@@ -30,8 +33,9 @@ class LocalFiles {
     }
   }
 
+  /// Lit tout le contenu d'un fichier
   Future<List<dynamic>> readAll() async {
-    final file = await _file;
+    final file = await this.file;
     await create();
     final contents = await file.readAsString();
     List<dynamic> json = [];
@@ -45,8 +49,9 @@ class LocalFiles {
     return json;
   }
 
+  /// Écrit vers un fichier
   Future<File> write(List<dynamic> json) async {
-    final file = await _file;
+    final file = await this.file;
     return file.writeAsString(jsonEncode(json));
   }
 }

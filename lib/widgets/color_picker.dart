@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/color_extension.dart';
 
 List<Color> colors = [
   Color(0xFFFFCA1B),

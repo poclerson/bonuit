@@ -26,18 +26,18 @@ class _SchedulesState extends State<Schedules> {
   Widget build(BuildContext context) {
     updateSchedules() {
       setState(() {
-        _schedules = Schedule.getAll();
+        _schedules = Schedule.all;
       });
     }
 
     updateWeekdays() {
       setState(() {
-        _weekdays = Weekday.getAll();
+        _weekdays = Weekday.all;
       });
     }
 
-    _schedules = Schedule.getAll();
-    _weekdays = Weekday.getAll();
+    _schedules = Schedule.all;
+    _weekdays = Weekday.all;
     return Scaffold(
       bottomNavigationBar: NavBar(Container(
         width: 60,

@@ -5,6 +5,7 @@ abstract class Data {
   Data();
   Data.fromJson(Map<String, dynamic> json);
 
+  /// Écrit vers `localFile`
   static write(List<Data> json, LocalFiles localFile) {
     localFile.write(json.map((element) => element.toJson()).toList());
   }

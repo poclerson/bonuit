@@ -57,8 +57,8 @@ class Schedule extends TimeSlept implements Data {
     data['name'] = name;
     data['color'] = color.value;
     data['songURL'] = songURL;
-    data['sleepTime'] = sleepTime!.toStringFormatted();
-    data['wakeTime'] = wakeTime!.toStringFormatted();
+    data['sleepTime'] = sleepTime.toStringFormatted();
+    data['wakeTime'] = wakeTime.toStringFormatted();
     return data;
   }
 
@@ -69,25 +69,25 @@ class Schedule extends TimeSlept implements Data {
   }
 
   add() async {
-    final schedules = await getAll();
+    final schedules = await all;
     schedules.add(this);
-    Data.write(schedules as List<Data>, localFile);
+    Data.write(schedules, localFile);
   }
 
   delete() async {
-    final schedules = await getAll();
+    final schedules = await all;
     schedules.removeWhere((schedule) => schedule.name == name);
     Data.write(schedules, localFile);
   }
 
   edit(Schedule newSchedule) async {
-    final schedules = await getAll();
+    final schedules = await all;
     schedules[schedules.indexWhere((schedule) => schedule.name == name)] =
         newSchedule;
     Data.write(schedules, localFile);
   }
 
-  static Future<List<Schedule>> getAll() async {
+  static Future<List<Schedule>> get all async {
     final json = await localFile.readAll();
 
     return json.map((element) => Schedule.fromJson(element)).toList();
