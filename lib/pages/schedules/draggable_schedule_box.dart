@@ -5,12 +5,8 @@ import '../../models/time_of_day_extension.dart';
 
 class DraggableScheduleBox extends StatefulWidget {
   final Schedule schedule;
-  final Function onDeleted;
   final Function onEdited;
-  DraggableScheduleBox(
-      {required this.schedule,
-      required this.onDeleted,
-      required this.onEdited});
+  DraggableScheduleBox({required this.schedule, required this.onEdited});
   @override
   _DraggableScheduleBoxState createState() => _DraggableScheduleBoxState();
 }

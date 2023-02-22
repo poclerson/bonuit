@@ -21,14 +21,23 @@ class _HomeState extends State<Home> {
   @pragma("vm:entry-point")
   void initState() {
     DateTime now = DateTime.now();
-    AwesomeNotifications().actionStream.listen((event) {
-      Notifications.handleResponses(event);
-    });
+    // AwesomeNotifications().actionStream.listen((event) {
+    //   debugPrint(event.toString());
+    //   Notifications.handleResponses(event);
+    // });
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: Notifications.onActionReceived,
+        onNotificationDisplayedMethod: (event) =>
+            Notifications.onDisplayed(event),
+        onNotificationCreatedMethod: (event) => Notifications.onCreated(event),
+        onDismissActionReceivedMethod: (event) =>
+            Notifications.onDismissed(event));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    AwesomeNotifications().requestPermissionToSendNotifications();
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(top: 125),

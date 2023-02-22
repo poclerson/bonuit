@@ -1,17 +1,27 @@
 PODS:
-  - awesome_notifications (0.0.3):
+  - awesome_notifications (0.0.5):
     - Flutter
+    - IosAwnCore (= 0.7.3)
   - Flutter (1.0.0)
+  - IosAwnCore (0.7.3)
   - path_provider_ios (0.0.1):
     - Flutter
   - permission_handler_apple (9.0.4):
     - Flutter
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - Flutter (from `Flutter`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
+
+SPEC REPOS:
+  trunk:
+    - IosAwnCore
 
 EXTERNAL SOURCES:
   awesome_notifications:
@@ -22,12 +32,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_ios/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
 
 SPEC CHECKSUMS:
-  awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
+  awesome_notifications: d63d9a25f126860f9a600850d99772237895b3ba
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  IosAwnCore: 6494e0e174d49f04f513e8a002187be226889a37
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
 
 PODFILE CHECKSUM: 9902006262f5afecda884bfa25967683a0e07897
 
