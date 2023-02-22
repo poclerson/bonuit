@@ -51,11 +51,11 @@ class _StatsState extends State<Stats> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Day.all,
+      future: DayUnit.all,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           timeInterval = TimeInterval(
-              days: (snapshot.data as List<Day>), intervalAmount: 4);
+              days: (snapshot.data as List<DayUnit>), intervalAmount: 4);
           return Scaffold(
               appBar: DatesAppBar(sortMethod.display(pageIndex)),
               bottomNavigationBar: NavBar(),

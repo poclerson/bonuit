@@ -43,7 +43,8 @@ dependencies:
   flutter_time_picker_spinner: ^2.0.0
   timezone:
   rxdart:
-  awesome_notifications: ^0.7.4+1
+  # awesome_notifications: ^0.7.4+1
+  flutter_local_notifications:
   permission_handler:
   shared_preferences:
 

@@ -6,7 +6,7 @@ class TimeInterval {
   late int length;
   late List<int> intervals;
 
-  TimeInterval({required List<Day> days, required int intervalAmount}) {
+  TimeInterval({required List<DayUnit> days, required int intervalAmount}) {
     if (days.isNotEmpty) {
       TimeOfDay earliestSleepTime = days.reduce((current, next) {
         // Les deux jours ont des heures de coucher après minuit
@@ -29,7 +29,7 @@ class TimeInterval {
           .wakeTime;
 
       late double difference =
-          Day(earliestSleepTime, latestWakeTime).hoursSlept.toDouble();
+          DayUnit(earliestSleepTime, latestWakeTime).hoursSlept.toDouble();
 
       List<int> intervals = [];
 

@@ -1,4 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,34 +20,29 @@ class _HomeState extends State<Home> {
   @override
   @pragma("vm:entry-point")
   void initState() {
-    DateTime now = DateTime.now();
-    // AwesomeNotifications().actionStream.listen((event) {
-    //   debugPrint(event.toString());
-    //   Notifications.handleResponses(event);
-    // });
-    AwesomeNotifications().setListeners(
-        onActionReceivedMethod: Notifications.onActionReceived,
-        onNotificationDisplayedMethod: (event) =>
-            Notifications.onDisplayed(event),
-        onNotificationCreatedMethod: (event) => Notifications.onCreated(event),
-        onDismissActionReceivedMethod: (event) =>
-            Notifications.onDismissed(event));
+    Notifications.initialize();
+    Notifications.selectStream.stream.listen((event) {
+      debugPrint(event.toString());
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    AwesomeNotifications().requestPermissionToSendNotifications();
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(top: 125),
       child: FutureBuilder(
-        future: Day.all,
+        future: DayUnit.all,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                TextButton(
+                    onPressed: () =>
+                        Notifications.show(options: Notifications.sleep),
+                    child: Text('Notification')),
                 Container(
                   child: Column(
                     children: [

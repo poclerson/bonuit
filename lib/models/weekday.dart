@@ -92,10 +92,10 @@ class Weekday extends Data {
     int index = weekdays.indexOf(weekdayToChange);
     weekdays[index] = this;
 
-    sleepNotificationID = await Notifications.add(
-        options: Notifications.sleep,
-        weekday: Date.weekdays.indexOf(day) + 1,
-        time: schedule!.sleepTime);
+    // sleepNotificationID = await Notifications.add(
+    //     options: Notifications.sleep,
+    //     weekday: Date.weekdays.indexOf(day) + 1,
+    //     time: schedule!.sleepTime);
 
     Data.write(weekdays, localFile);
   }
@@ -135,10 +135,10 @@ class Weekday extends Data {
         if (weekday.schedule!.name == editedSchedule.name) {
           weekday.schedule = editedSchedule;
 
-          Notifications.delete(weekday.sleepNotificationID!);
+          // Notifications.delete(weekday.sleepNotificationID!);
 
-          weekday.sleepNotificationID = await Notifications.add(
-              options: Notifications.sleep, time: weekday.schedule!.sleepTime);
+          // weekday.sleepNotificationID = await Notifications.add(
+          //     options: Notifications.sleep, time: weekday.schedule!.sleepTime);
         }
       }
     });

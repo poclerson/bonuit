@@ -1,7 +1,8 @@
 import UIKit
 import Flutter
-import awesome_notifications
-import shared_preferences_foundation
+// import awesome_notifications
+// import shared_preferences_foundation
+import flutter_local_notifications
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -11,14 +12,20 @@ import shared_preferences_foundation
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
     if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
-    }
-    SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in          
-          SwiftAwesomeNotificationsPlugin.register(
-            with: registry.registrar(forPlugin: "io.flutter.plugins.awesomenotifications.AwesomeNotificationsPlugin")!)          
-          SharedPreferencesPlugin.register(
-            with: registry.registrar(forPlugin: "io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin")!)
+        // FLUTTER LOCAL NOTIFICATIONS
+        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+        FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+        GeneratedPluginRegistrant.register(with: registry)
       }
+    }
+
+    // AWESOME NOTIFICATIONS
+    // SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in          
+    //       SwiftAwesomeNotificationsPlugin.register(
+    //         with: registry.registrar(forPlugin: "io.flutter.plugins.awesomenotifications.AwesomeNotificationsPlugin")!)          
+    //       SharedPreferencesPlugin.register(
+    //         with: registry.registrar(forPlugin: "io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin")!)
+    //   }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

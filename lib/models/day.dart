@@ -11,22 +11,22 @@ import 'data.dart';
 
 enum DayTime { sleep, wake }
 
-class Day extends TimeSlept implements Data {
+class DayUnit extends TimeSlept implements Data {
   static var localFile = LocalFiles('days', null);
   static late TimeOfDay? nextDaySleepTime;
   static late TimeOfDay? nextDayWakeTime;
 
-  Day(TimeOfDay sleepTime, TimeOfDay wakeTime) {
+  DayUnit(TimeOfDay sleepTime, TimeOfDay wakeTime) {
     this.sleepTime = sleepTime;
     this.wakeTime = wakeTime;
   }
 
-  Day.fromJson(Map<String, dynamic> json) {
+  DayUnit.fromJson(Map<String, dynamic> json) {
     sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
     wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
   }
 
-  Day.midnight() {
+  DayUnit.midnight() {
     sleepTime = TimeOfDay(hour: 0, minute: 0);
     wakeTime = TimeOfDay(hour: 0, minute: 0);
   }
@@ -39,16 +39,17 @@ class Day extends TimeSlept implements Data {
     return data;
   }
 
-  static Day? get next => nextDaySleepTime != null && nextDayWakeTime != null
-      ? Day(nextDaySleepTime!, nextDayWakeTime!)
-      : null;
+  static DayUnit? get next =>
+      nextDaySleepTime != null && nextDayWakeTime != null
+          ? DayUnit(nextDaySleepTime!, nextDayWakeTime!)
+          : null;
 
   static onAwakened() async {
     debugPrint("Réveil");
-    Day.nextDayWakeTime = TimeOfDay.now();
-    if (Day.next != null) {
+    DayUnit.nextDayWakeTime = TimeOfDay.now();
+    if (DayUnit.next != null) {
       final days = await all;
-      days.add(Day.next!);
+      days.add(DayUnit.next!);
       Data.write(days, localFile);
       nextDaySleepTime = null;
       nextDayWakeTime = null;
@@ -58,14 +59,14 @@ class Day extends TimeSlept implements Data {
   static onWentToSleep() async {
     final today = await Weekday.today;
     debugPrint("Dodo");
-    Day.nextDaySleepTime = TimeOfDay.now();
+    DayUnit.nextDaySleepTime = TimeOfDay.now();
     Timer(today.schedule!.durationSlept, () => onAwakened());
   }
 
-  static Future<List<Day>> get all async {
+  static Future<List<DayUnit>> get all async {
     final json = await localFile.readAll();
 
-    return json.map((element) => Day.fromJson(element)).toList();
+    return json.map((element) => DayUnit.fromJson(element)).toList();
   }
 
   @override
@@ -73,20 +74,20 @@ class Day extends TimeSlept implements Data {
       'Day(${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
 }
 
-extension DayGroups on List<Day> {
+extension DayGroups on List<DayUnit> {
   /// Crée une [List] de [List] à partir de [groupSize]
   ///
   /// Par exemple, si [this.length] est 14 et que [groupSize] est 7,
   ///
   /// La fonction retournera une [List] contenant deux [List] de longueur 7
-  List<List<Day>> groupBySize(int groupSize) {
+  List<List<DayUnit>> groupBySize(int groupSize) {
     // Liste des jours présentement itérée
-    late List<Day> daysInCurrentGroup = [];
+    late List<DayUnit> daysInCurrentGroup = [];
 
     // Toutes les listes
-    late List<List<Day>> dayGroups = [];
+    late List<List<DayUnit>> dayGroups = [];
     for (var i = 0; i < length; i++) {
-      Day currentDay = this[i];
+      DayUnit currentDay = this[i];
       // Ajoute au groupe présent le jour présent
       daysInCurrentGroup.add(currentDay);
 
@@ -101,10 +102,10 @@ extension DayGroups on List<Day> {
     return dayGroups;
   }
 
-  /// Retourne un [Day] avec le [sleepTime] et le [wakeTime] moyens
+  /// Retourne un [DayUnit] avec le [sleepTime] et le [wakeTime] moyens
   /// d'une [List] crée à partir des [amount] dernières valeurs de [this]
-  Day averageFromLast([int amount = 1]) {
-    if (isEmpty) return Day.midnight();
+  DayUnit averageFromLast([int amount = 1]) {
+    if (isEmpty) return DayUnit.midnight();
     if (length == 1) return first;
     double totalTimeBeforeMidnight = 0;
     double totalTimeAfterMidnight = 0;
@@ -112,9 +113,10 @@ extension DayGroups on List<Day> {
     int amountOfSleepTimesBeforeMidnight = 0;
     int amountOfSleepTimesAfterMidnight = 0;
 
-    Day combinedDay = getRange(length > amount ? length - amount : 0, length)
-        .toList()
-        .reduce((curr, next) {
+    DayUnit combinedDay =
+        getRange(length > amount ? length - amount : 0, length)
+            .toList()
+            .reduce((curr, next) {
       // Si c'est le même jour, sleepTime arrive avant minuit
       if (!next.isSameDay) {
         totalTimeBeforeMidnight += next.sleepTime.distanceFromMidnight;
@@ -126,10 +128,10 @@ extension DayGroups on List<Day> {
         totalTimeAfterMidnight += next.sleepTime.toDouble();
         amountOfSleepTimesAfterMidnight++;
       }
-      return Day(curr.sleepTime, [curr.wakeTime, next.wakeTime].average());
+      return DayUnit(curr.sleepTime, [curr.wakeTime, next.wakeTime].average());
     });
 
-    return Day(
+    return DayUnit(
         (totalTimeAfterMidnight.safeDivide(amountOfSleepTimesAfterMidnight) -
                 totalTimeBeforeMidnight
                     .safeDivide(amountOfSleepTimesBeforeMidnight)
