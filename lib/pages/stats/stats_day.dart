@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/day.dart';
+import '../../models/sleep_day.dart';
 import '../../models/time_interval.dart';
 
 class StatsDay extends StatelessWidget {

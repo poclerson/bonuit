@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/nav_bar.dart';
 import '../../widgets/week_app_bar.dart';
-import '../../models/day.dart';
+import '../../models/sleep_day.dart';
 import '../../models/time_interval.dart';
 import '../../models/sort_method.dart';
 import 'stats_groups.dart';

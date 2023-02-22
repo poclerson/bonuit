@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 
+/// Interagit avec le système de fichiers
+/// pour créer et modifier des fichiers json
 class LocalFiles {
   String fileName;
   late List<dynamic>? defaultContents;
@@ -19,7 +21,7 @@ class LocalFiles {
   /// Crée une instance d'un fichier d'après `path`
   Future<File> get file async {
     final path = await this.path;
-    // path.then((value) => debugPrint(value.toString()));
+    // this.path.then((value) => debugPrint(value.toString()));
     return File('$path/$fileName.json');
   }
 

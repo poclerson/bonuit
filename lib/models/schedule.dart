@@ -62,9 +62,13 @@ class Schedule extends TimeSlept implements Data {
     return data;
   }
 
+  @override
+  String toString() =>
+      'Schedule($name, ${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
+
   String timeInterval() {
     PickedTime intervalTime = formatIntervalTime(
-        init: sleepTime.toPickedTime(), end: wakeTime!.toPickedTime());
+        init: sleepTime.toPickedTime(), end: wakeTime.toPickedTime());
     return '${intervalTime.h}:${intervalTime.m == 0 ? '00' : intervalTime.m}';
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
 
+/// Fournit plusieurs méthodes, opérateurs et méthodes de convertissement
+/// en plus de celles déjà existantes dans `TimeOfDay`
 extension TimeOfDayExtension on TimeOfDay {
   /// Soustrait deux `TimeOfDay` en prenant en compte de la limite de 23:59
   /// Si `this` va devenir négatif, on le ramnène pour faire le cycle complet
@@ -48,13 +50,10 @@ extension TimeOfDayExtension on TimeOfDay {
   bool operator <=(TimeOfDay other) => toDouble() <= other.toDouble();
   bool operator >=(TimeOfDay other) => toDouble() >= other.toDouble();
 
-  double get distanceFromMidnight =>
-      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
-
   bool isEqual(TimeOfDay other) => hour == other.hour && minute == other.minute;
 
-  TimeOfDay dividedByTimeOfDay(TimeOfDay other) =>
-      TimeOfDay(hour: hour ~/ other.hour, minute: minute ~/ other.minute);
+  double get distanceFromMidnight =>
+      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
 
   double toDouble() {
     int hour = this.hour;

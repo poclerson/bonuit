@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:separated_column/separated_column.dart';
 import '../../models/time_interval.dart';
-import '../../models/day.dart';
+import '../../models/sleep_day.dart';
 import 'stats_day.dart';
 
 class StatsGroup extends StatefulWidget {

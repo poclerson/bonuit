@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/screens.dart';
-import '../../models/day.dart';
+import '../../models/sleep_day.dart';
 import '../../models/sort_method.dart';
 import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
 import '../../models/notification_controller.dart';
+import '../../models/screen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ...screens
+                      ...Screen.screens
                           .where((screen) => screen.getPage.name != '/')
                           .map((screen) => IconButton(
                                 iconSize: 50,

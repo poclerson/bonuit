@@ -7,7 +7,7 @@ class WeekdayBlock extends StatefulWidget {
   final Color defaultColor;
   final Function updateWeekdays;
   late Color? _color =
-      weekday.schedule != null ? weekday.schedule!.color : defaultColor;
+      weekday.schedule != null ? weekday.schedule!.color : null;
   WeekdayBlock(
       {required this.weekday,
       required this.defaultColor,

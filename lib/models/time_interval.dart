@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import 'time_of_day_extension.dart';
-import 'day.dart';
+import 'sleep_day.dart';
 
+/// Liste des intervalles de temps générées dynamiquement depuis une `List<SleepDay>`
+/// en y trouvant le plus tôt `sleepTime` et le plus tard `wakeTime`
+///
+/// Génère une `List<int>` de temps, représentant les heures.
+///
+/// La première valeur y sera toujours le `sleepTime` le plus tôt, arrondi vers le bas
+/// La dernière valeur y sera toujours le `wakeTime` le plus tard, arrondi vers le haut
+///
+/// Toutes les valeurs entre auront un écart égal décidé par `length`.
+///
+/// Le nombre d'intervalles est décidé lors de l'instantiation de `TimeInterval`
 class TimeInterval {
   late int length;
   late List<int> intervals;

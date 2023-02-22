@@ -1,5 +1,6 @@
 import 'dart:async';
 
+/// Permet de récupérer les données d'un `Stream` au runtime
 class SimpleStream<T> {
   final StreamController<T> _stream = StreamController<T>();
 

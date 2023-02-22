@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'app_theme.dart';
 
-import 'data/screens.dart';
+import 'models/screen.dart';
 import 'pages/home/home.dart';
 
 class App extends StatefulWidget {
@@ -23,7 +23,7 @@ class _AppState extends State<App> {
             initialRoute: '/',
             debugShowCheckedModeBanner: false,
             home: Home(),
-            getPages: screens.map((screen) => screen.getPage).toList(),
+            getPages: Screen.screens.map((screen) => screen.getPage).toList(),
             theme: AppTheme.themeBuilder(LightColorScheme),
             darkTheme: AppTheme.themeBuilder(DarkColorScheme),
             themeMode: snapshot.data!,

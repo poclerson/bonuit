@@ -1,3 +1,4 @@
+/// Durée cible de sommeil décidée par l'utilisateur
 class SleepTarget {
   static Duration duration = const Duration(hours: 8, minutes: 0);
 

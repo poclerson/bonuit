@@ -135,10 +135,10 @@ class _NewScheduleState extends State<NewSchedule> {
                       });
                     }),
                     TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           switch (widget.operation) {
                             case Operation.addition:
-                              Schedule.pickedTime(
+                              await Schedule.pickedTime(
                                       name: widget.schedule.name,
                                       color: widget.schedule.color,
                                       songURL:
@@ -148,7 +148,7 @@ class _NewScheduleState extends State<NewSchedule> {
                                   .add();
                               break;
                             case Operation.edition:
-                              widget.oldSchedule.edit(Schedule.pickedTime(
+                              await widget.oldSchedule.edit(Schedule.pickedTime(
                                   name: widget.schedule.name,
                                   color: widget.schedule.color,
                                   songURL:

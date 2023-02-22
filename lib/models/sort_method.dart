@@ -1,10 +1,20 @@
 import 'date.dart';
 
 class SortMethod {
+  /// Nom s'affichant dans les widgets
   String name;
+
+  /// Tableau des identifiants permettant de visualiser les données dans un diagramme
+  /// En triant par semaine, on ajoute la première lettre de chaque jour de la semaine
+  /// En triant par mois/par 6 mois, on ajoute différentes dates
   late List<dynamic> identifiers = [];
+  // Quantité de jours dans la méthode de tri
   late int dayAmount;
+
+  /// S'exécute lorsqu'on change de méthode de tri
   late void Function(SortMethod) onChanged;
+
+  /// Là où la méthode de tri commence à compter les dates (pour le triage par mois/6 mois)
   late DateTime startDate;
 
   static int weekly = 7;
@@ -13,6 +23,7 @@ class SortMethod {
 
   SortMethod(this.name, this.dayAmount);
 
+  /// Remplit `identifiers` à partir d'intervalles de dates
   SortMethod.dated(
       {required this.name,
       required this.dayAmount,
@@ -23,6 +34,7 @@ class SortMethod {
     identifiers = createIntervals(date, intervalAmount);
   }
 
+  /// Remplit `identifiers` à partir des premières lettres des jours de la semaine
   SortMethod.weekdays(
       {required this.name,
       this.dayAmount = 7,
@@ -37,6 +49,9 @@ class SortMethod {
     }
   }
 
+  /// Crée une `List` des intervalles de date, où
+  /// `from` est la date de début et `intervalAmount` la quantité d'intervalles
+  /// à afficher
   List<dynamic> createIntervals(DateTime from, int intervalAmount) {
     List<dynamic> intervals = [];
 
@@ -56,6 +71,8 @@ class SortMethod {
         7);
   }
 
+  /// Montre le texte dans l'`appBar` d'une page permettant de savoir
+  /// à quel point on se situe dans le temps
   String display(int distance) {
     if (dayAmount == 7) {
       switch (distance) {

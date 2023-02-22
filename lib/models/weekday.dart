@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'time_of_day_extension.dart';
 import 'notification_controller.dart';
 
+/// Représente un jour de la semaine où on peut assigner un horaire
+///
+/// Gère les différents horaires assignables vers chaque jour de la semaine
+/// et permet leur affichage dynamique
 class Weekday extends Data {
   static LocalFiles localFile = LocalFiles('weekdays', [
     {"day": "lundi", "schedule": null},
@@ -16,6 +20,8 @@ class Weekday extends Data {
     {"day": "samedi", "schedule": null},
     {"day": "dimanche", "schedule": null}
   ]);
+
+  /// Nom du jour
   late String day;
   late Schedule? schedule;
 
@@ -45,6 +51,9 @@ class Weekday extends Data {
     return data;
   }
 
+  @override
+  String toString() => 'Weekday($day, $schedule)';
+
   static Future<List<Weekday>> get all async {
     final json = await localFile.readAll();
 
@@ -64,11 +73,11 @@ class Weekday extends Data {
     int index = weekdays.indexOf(weekdayToChange);
     weekdays[index] = this;
 
-    NotificationController.addScheduled(this);
+    NotificationController.addSleepScheduled(this);
     Data.write(weekdays, localFile);
   }
 
-  /// S'exécute lorsqu'un bloc de jour de la semaine avait déjà un [Scheule],
+  /// S'exécute lorsqu'un bloc de jour de la semaine avait déjà un [Schedule],
   /// mais qu'il en reçoit un nouveau
   ///
   /// Assigne le nouveau [Schedule] dans le json et crée
@@ -82,7 +91,7 @@ class Weekday extends Data {
     weekdays[index] = this;
 
     NotificationController.deleteScheduled(this);
-    NotificationController.addScheduled(this);
+    NotificationController.addSleepScheduled(this);
     Data.write(weekdays, localFile);
   }
 
@@ -108,7 +117,7 @@ class Weekday extends Data {
     weekdays.forEach((weekday) async {
       if (weekday.schedule != null &&
           (weekday.schedule!.name == schedule.name)) {
-        await NotificationController.deleteScheduled(weekday);
+        NotificationController.deleteScheduled(weekday);
         weekday.schedule = null;
       }
     });
@@ -129,7 +138,7 @@ class Weekday extends Data {
           weekday.schedule = editedSchedule;
 
           NotificationController.deleteScheduled(weekday);
-          NotificationController.addScheduled(weekday);
+          NotificationController.addSleepScheduled(weekday);
         }
       }
     });

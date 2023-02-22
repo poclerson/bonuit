@@ -7,6 +7,7 @@ import 'dart:core';
 import 'time_of_day_extension.dart';
 import 'data.dart';
 
+/// Représente les données relatives à chaque jour de sommeil
 class SleepDay extends TimeSlept implements Data {
   static var localFile = LocalFiles('days', null);
   static late TimeOfDay? nextDaySleepTime;
