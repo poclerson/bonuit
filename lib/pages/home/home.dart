@@ -1,4 +1,4 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:bonuit/models/background_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +8,7 @@ import '../../models/sort_method.dart';
 import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
-import '../../models/notification_controller.dart';
+import 'package:background_fetch/background_fetch.dart';
 import '../../models/screen.dart';
 
 class Home extends StatefulWidget {
@@ -20,8 +20,7 @@ class _HomeState extends State<Home> {
   @override
   @pragma("vm:entry-point")
   void initState() {
-    NotificationController.initialize();
-    NotificationController.flnp.cancelAll();
+    // NotificationController.flnp.cancelAll();
     super.initState();
   }
 

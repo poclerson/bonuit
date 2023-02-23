@@ -16,16 +16,12 @@ import flutter_local_notifications
         UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
         FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
         GeneratedPluginRegistrant.register(with: registry)
+
+//        // WORKMANAGER
+//        UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(15))
+//        WorkmanagerPlugin.registerTask(withIdentifier: "com.company.simpleTask")
       }
     }
-
-    // AWESOME NOTIFICATIONS
-    // SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in          
-    //       SwiftAwesomeNotificationsPlugin.register(
-    //         with: registry.registrar(forPlugin: "io.flutter.plugins.awesomenotifications.AwesomeNotificationsPlugin")!)          
-    //       SharedPreferencesPlugin.register(
-    //         with: registry.registrar(forPlugin: "io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin")!)
-    //   }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
