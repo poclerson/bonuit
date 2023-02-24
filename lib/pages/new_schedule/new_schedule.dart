@@ -135,6 +135,10 @@ class _NewScheduleState extends State<NewSchedule> {
                     /// SoundPicker (sleep)
                     NewScheduleSection(title: 'Son de coucher', content: [
                       SoundPicker(
+                        defaultSoundFilePath:
+                            widget.operation == Operation.addition
+                                ? null
+                                : widget.schedule.sleepSound,
                         sounds: Sound.sleep,
                         onSoundPicked: ((sound) {
                           setState(() {
@@ -146,9 +150,12 @@ class _NewScheduleState extends State<NewSchedule> {
                     ]),
 
                     /// SoundPicker (wake)
-                    /// SoundPicker (wake)
                     NewScheduleSection(title: 'Son de lever', content: [
                       SoundPicker(
+                        defaultSoundFilePath:
+                            widget.operation == Operation.addition
+                                ? null
+                                : widget.schedule.wakeSound,
                         sounds: Sound.sleep,
                         onSoundPicked: ((sound) {
                           setState(() {

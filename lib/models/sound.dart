@@ -9,8 +9,8 @@ class Sound {
 
   String get filePath => 'audio/$fileName';
   static final List<Sound> sleep = [
-    Sound('bells.wav', CupertinoIcons.bell_fill),
     Sound('classic.mp3', CupertinoIcons.waveform),
+    Sound('bells.wav', CupertinoIcons.bell_fill),
     Sound('deduction.mp3', CupertinoIcons.piano),
     Sound('electro.wav', CupertinoIcons.bolt_fill),
     Sound('jeu.wav', CupertinoIcons.gamecontroller_fill),
@@ -20,4 +20,10 @@ class Sound {
     Sound('ant.mp3', CupertinoIcons.ant),
     Sound('boopbeep.mp3', CupertinoIcons.wrench_fill),
   ];
+}
+
+extension SoundListExtension on List<Sound> {
+  int indexOfFromFileName(String fileName) {
+    return indexOf(firstWhere((sound) => sound.fileName == fileName));
+  }
 }
