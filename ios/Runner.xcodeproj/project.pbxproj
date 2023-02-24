@@ -17,6 +17,16 @@
 		00BFBF5929A8363E008A7ACE /* boopbeep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF5629A8363E008A7ACE /* boopbeep.mp3 */; };
 		00BFBF5A29A8363E008A7ACE /* achievement.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF5729A8363E008A7ACE /* achievement.mp3 */; };
 		00BFBF5B29A8363E008A7ACE /* ant.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF5829A8363E008A7ACE /* ant.mp3 */; };
+		00BFBF5F29A86629008A7ACE /* daybreak.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF5C29A86629008A7ACE /* daybreak.mp3 */; };
+		00BFBF6029A86629008A7ACE /* earlyriser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF5D29A86629008A7ACE /* earlyriser.mp3 */; };
+		00BFBF6129A86629008A7ACE /* slowmorning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF5E29A86629008A7ACE /* slowmorning.mp3 */; };
+		00BFBF6929A8666D008A7ACE /* coq.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6229A8666D008A7ACE /* coq.mp3 */; };
+		00BFBF6A29A8666D008A7ACE /* indian.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6329A8666D008A7ACE /* indian.mp3 */; };
+		00BFBF6B29A8666D008A7ACE /* flute.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6429A8666D008A7ACE /* flute.mp3 */; };
+		00BFBF6C29A8666D008A7ACE /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6529A8666D008A7ACE /* alarm.mp3 */; };
+		00BFBF6D29A8666D008A7ACE /* guitare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6629A8666D008A7ACE /* guitare.mp3 */; };
+		00BFBF6E29A8666D008A7ACE /* lava.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6729A8666D008A7ACE /* lava.mp3 */; };
+		00BFBF6F29A8666D008A7ACE /* alarm_fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 00BFBF6829A8666D008A7ACE /* alarm_fast.mp3 */; };
 		118DDD741A50502E4FFA9655 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C328CE8BDC529C69C3FB1891 /* Pods_Runner.framework */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -50,6 +60,16 @@
 		00BFBF5629A8363E008A7ACE /* boopbeep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boopbeep.mp3; sourceTree = "<group>"; };
 		00BFBF5729A8363E008A7ACE /* achievement.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = achievement.mp3; sourceTree = "<group>"; };
 		00BFBF5829A8363E008A7ACE /* ant.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ant.mp3; sourceTree = "<group>"; };
+		00BFBF5C29A86629008A7ACE /* daybreak.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = daybreak.mp3; sourceTree = "<group>"; };
+		00BFBF5D29A86629008A7ACE /* earlyriser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = earlyriser.mp3; sourceTree = "<group>"; };
+		00BFBF5E29A86629008A7ACE /* slowmorning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = slowmorning.mp3; sourceTree = "<group>"; };
+		00BFBF6229A8666D008A7ACE /* coq.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coq.mp3; sourceTree = "<group>"; };
+		00BFBF6329A8666D008A7ACE /* indian.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = indian.mp3; sourceTree = "<group>"; };
+		00BFBF6429A8666D008A7ACE /* flute.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flute.mp3; sourceTree = "<group>"; };
+		00BFBF6529A8666D008A7ACE /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
+		00BFBF6629A8666D008A7ACE /* guitare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = guitare.mp3; sourceTree = "<group>"; };
+		00BFBF6729A8666D008A7ACE /* lava.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lava.mp3; sourceTree = "<group>"; };
+		00BFBF6829A8666D008A7ACE /* alarm_fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_fast.mp3; sourceTree = "<group>"; };
 		00E9A5643D47D44E87E45FA7 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		08A2A1AC3D77E66B5FBB2045 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
@@ -103,6 +123,16 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				00BFBF6829A8666D008A7ACE /* alarm_fast.mp3 */,
+				00BFBF6529A8666D008A7ACE /* alarm.mp3 */,
+				00BFBF6229A8666D008A7ACE /* coq.mp3 */,
+				00BFBF6429A8666D008A7ACE /* flute.mp3 */,
+				00BFBF6629A8666D008A7ACE /* guitare.mp3 */,
+				00BFBF6329A8666D008A7ACE /* indian.mp3 */,
+				00BFBF6729A8666D008A7ACE /* lava.mp3 */,
+				00BFBF5C29A86629008A7ACE /* daybreak.mp3 */,
+				00BFBF5D29A86629008A7ACE /* earlyriser.mp3 */,
+				00BFBF5E29A86629008A7ACE /* slowmorning.mp3 */,
 				00BFBF5729A8363E008A7ACE /* achievement.mp3 */,
 				00BFBF5829A8363E008A7ACE /* ant.mp3 */,
 				00BFBF5629A8363E008A7ACE /* boopbeep.mp3 */,
@@ -219,18 +249,28 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				00BFBF5429A832F6008A7ACE /* jeu.wav in Resources */,
+				00BFBF5F29A86629008A7ACE /* daybreak.mp3 in Resources */,
 				00BFBF5129A832F6008A7ACE /* classic.mp3 in Resources */,
+				00BFBF6A29A8666D008A7ACE /* indian.mp3 in Resources */,
+				00BFBF6C29A8666D008A7ACE /* alarm.mp3 in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				00BFBF5329A832F6008A7ACE /* hmm.mp3 in Resources */,
 				00BFBF5529A832F6008A7ACE /* deduction.mp3 in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				00BFBF4B29A83216008A7ACE /* pop.mp3 in Resources */,
 				00BFBF5229A832F6008A7ACE /* electro.wav in Resources */,
+				00BFBF6D29A8666D008A7ACE /* guitare.mp3 in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				00BFBF5B29A8363E008A7ACE /* ant.mp3 in Resources */,
+				00BFBF6E29A8666D008A7ACE /* lava.mp3 in Resources */,
+				00BFBF6929A8666D008A7ACE /* coq.mp3 in Resources */,
 				00BFBF5929A8363E008A7ACE /* boopbeep.mp3 in Resources */,
 				00BFBF5A29A8363E008A7ACE /* achievement.mp3 in Resources */,
+				00BFBF6029A86629008A7ACE /* earlyriser.mp3 in Resources */,
 				00BFBF4929A8317B008A7ACE /* bells.wav in Resources */,
+				00BFBF6129A86629008A7ACE /* slowmorning.mp3 in Resources */,
+				00BFBF6F29A8666D008A7ACE /* alarm_fast.mp3 in Resources */,
+				00BFBF6B29A8666D008A7ACE /* flute.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -156,7 +156,7 @@ class _NewScheduleState extends State<NewSchedule> {
                             widget.operation == Operation.addition
                                 ? null
                                 : widget.schedule.wakeSound,
-                        sounds: Sound.sleep,
+                        sounds: Sound.wake,
                         onSoundPicked: ((sound) {
                           setState(() {
                             widget.schedule.wakeSound = sound.fileName;
