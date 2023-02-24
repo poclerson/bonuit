@@ -13,21 +13,24 @@ class Schedule extends TimeSlept implements Data {
   static LocalFiles localFile = LocalFiles('schedules', []);
   late String name;
   late Color color;
-  late String songURL;
+  late String sleepSound;
+  late String wakeSound;
 
   static String baseName = 'Nouvel horaire';
 
   Schedule(
       {required this.name,
       required this.color,
-      required this.songURL,
+      required this.sleepSound,
+      required this.wakeSound,
       required sleepTime,
       required wakeTime});
 
   Schedule.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     color = Color(json['color']);
-    songURL = json['songURL'];
+    sleepSound = json['sleepSound'];
+    wakeSound = json['wakeSound'];
     sleepTime = TimeOfDayExtension.parse(json['sleepTime']);
     wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
   }
@@ -35,7 +38,8 @@ class Schedule extends TimeSlept implements Data {
   Schedule.pickedTime(
       {required this.name,
       required this.color,
-      required this.songURL,
+      required this.sleepSound,
+      required this.wakeSound,
       required PickedTime sleepTime,
       required PickedTime wakeTime}) {
     this.sleepTime = TimeOfDayExtension.parse(
@@ -46,7 +50,8 @@ class Schedule extends TimeSlept implements Data {
 
   Schedule.base(this.color) {
     name = 'Nouvel horaire';
-    songURL = '';
+    sleepSound = 'classic.mp3';
+    wakeSound = 'classic.mp3';
     sleepTime = const TimeOfDay(hour: 22, minute: 0);
     wakeTime = const TimeOfDay(hour: 6, minute: 0);
   }
@@ -56,7 +61,8 @@ class Schedule extends TimeSlept implements Data {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['color'] = color.value;
-    data['songURL'] = songURL;
+    data['sleepSound'] = sleepSound;
+    data['wakeSound'] = wakeSound;
     data['sleepTime'] = sleepTime.toStringFormatted();
     data['wakeTime'] = wakeTime.toStringFormatted();
     return data;
@@ -64,7 +70,7 @@ class Schedule extends TimeSlept implements Data {
 
   @override
   String toString() =>
-      'Schedule($name, ${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
+      'Schedule($name, $color, $sleepSound, $wakeSound, ${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
 
   String timeInterval() {
     PickedTime intervalTime = formatIntervalTime(

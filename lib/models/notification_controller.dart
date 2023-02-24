@@ -31,6 +31,13 @@ class NotificationController {
       onDismissed: (response) => Timer(
           Duration(seconds: 30), () => show(optionsFromResponse(response))));
 
+  static final NotificationOptions debugOptions = NotificationOptions(
+      title: 'Ceci est un test',
+      body: 'Débogage en cours',
+      category: 'debug',
+      onAccepted: () => debugPrint('Notification de debug acceptée'),
+      onDismissed: (response) => debugPrint(response.toString()));
+
   static List<NotificationOptions> options = [sleepOptions, wakeOptions];
 
   /// Donne les `NotificationOptions` relatifs au `payload` de la `response`
@@ -53,6 +60,7 @@ class NotificationController {
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true,
+        defaultPresentSound: false,
         notificationCategories: [
           DarwinNotificationCategory(sleepOptions.category, actions: [
             DarwinNotificationAction.plain(acceptResponse, 'Aller dormir',
@@ -71,7 +79,8 @@ class NotificationController {
             DarwinNotificationAction.plain(acceptResponse, 'Se réveiller'),
             DarwinNotificationAction.plain(
                 denyResponse, 'Me rappeler dans 15 minutes'),
-          ])
+          ]),
+          DarwinNotificationCategory(debugOptions.category),
         ]);
 
     final initSettings =
@@ -91,25 +100,30 @@ class NotificationController {
   /// Continue d'afficher des notifications chaque semaine grâce à
   /// `flnp.periodicallyShow`
   static addSleepScheduled(Weekday weekday) async {
+    NotificationOptions sleepOptionsCopy = NotificationOptions.withSong(
+        options: sleepOptions, songFilePath: weekday.schedule!.sleepSound);
+
     // Commencer la notification du coucher
     Timer(weekday.schedule!.beforeSleep, () async {
       // Prochaine
-      await show(sleepOptions);
+      await show(sleepOptionsCopy);
       // Toutes les autres
       Timer.periodic(Duration(days: 7), (timer) async {
-        await show(sleepOptions, weekday.sleepID);
+        await show(sleepOptionsCopy, weekday.sleepID);
         listenForDismissed();
       });
     });
 
+    NotificationOptions wakeOptionsCopy = NotificationOptions.withSong(
+        options: wakeOptions, songFilePath: weekday.schedule!.wakeSound);
     // Commencer la notification du lever
     Timer(weekday.schedule!.beforeWake, () async {
       // Prochaine
-      await show(wakeOptions);
+      await show(wakeOptionsCopy);
 
       // Toutes les autres
       Timer.periodic(Duration(days: 7), (timer) async {
-        await show(wakeOptions, weekday.wakeID);
+        await show(wakeOptionsCopy, weekday.wakeID);
         listenForDismissed();
       });
     });
@@ -175,16 +189,17 @@ class NotificationController {
 }
 
 class NotificationOptions {
-  String title;
-  String body;
-  String category;
+  late String title;
+  late String body;
+  late String category;
+  late String? songFilePath;
 
   /// Appelée lorsqu'une notification répond avec `'accept'`
-  Function onAccepted;
+  late Function onAccepted;
 
   /// Appelée lorsqu'une notification ne reçoit pas de réponse
   /// 30 secondes après son envoi
-  Function(NotificationResponse response) onDismissed;
+  late Function(NotificationResponse response) onDismissed;
   NotificationOptions(
       {required this.title,
       required this.body,
@@ -197,10 +212,22 @@ class NotificationOptions {
         'android_channel_id', 'android_channel_name',
         category: AndroidNotificationCategory(category));
 
-    DarwinNotificationDetails iOSDetails =
-        DarwinNotificationDetails(categoryIdentifier: category);
+    DarwinNotificationDetails iOSDetails = DarwinNotificationDetails(
+      categoryIdentifier: category,
+      sound: songFilePath ?? '',
+      presentSound: true,
+    );
 
     return NotificationDetails(android: androidDetails, iOS: iOSDetails);
+  }
+
+  NotificationOptions.withSong(
+      {required NotificationOptions options, required this.songFilePath}) {
+    title = options.title;
+    body = options.body;
+    category = options.category;
+    onAccepted = options.onAccepted;
+    onDismissed = options.onDismissed;
   }
 }
 

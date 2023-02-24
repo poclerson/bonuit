@@ -8,6 +8,7 @@ import '../../models/sort_method.dart';
 import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
+import '../../models/notification_controller.dart';
 import 'package:background_fetch/background_fetch.dart';
 import '../../models/screen.dart';
 
@@ -36,6 +37,10 @@ class _HomeState extends State<Home> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                TextButton(
+                    onPressed: () async => NotificationController.show(
+                        NotificationController.debugOptions),
+                    child: Text('Notif')),
                 Container(
                   child: Column(
                     children: [

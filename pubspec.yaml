@@ -47,6 +47,7 @@ dependencies:
   flutter_background_service: ^2.4.6
   workmanager:
   background_fetch:
+  audioplayers:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -76,7 +77,17 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # assets:
+  assets:
+    - assets/audio/bells.wav
+    - assets/audio/classic.mp3
+    - assets/audio/deduction.mp3
+    - assets/audio/electro.wav
+    - assets/audio/jeu.wav
+    - assets/audio/hmm.mp3
+    - assets/audio/pop.mp3
+    - assets/audio/achievement.mp3
+    - assets/audio/ant.mp3
+    - assets/audio/boopbeep.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

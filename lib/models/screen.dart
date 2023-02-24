@@ -34,7 +34,7 @@ class Screen {
     ),
     Screen(
       'Statistiques',
-      Icons.bar_chart_rounded,
+      CupertinoIcons.chart_bar_alt_fill,
       GetPage(
         name: '/stats',
         page: () => Stats(SortMethod.weekly),
