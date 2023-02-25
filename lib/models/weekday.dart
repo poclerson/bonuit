@@ -1,3 +1,5 @@
+import 'package:bonuit/models/sleep_day.dart';
+
 import 'schedule.dart';
 import 'local_files.dart';
 import 'data.dart';
@@ -90,7 +92,7 @@ class Weekday extends Data {
     int index = weekdays.indexOf(weekdayToChange);
     weekdays[index] = this;
 
-    NotificationController.deleteScheduled(this);
+    NotificationController.deleteSleepScheduled(this);
     NotificationController.addSleepScheduled(this);
     Data.write(weekdays, localFile);
   }
@@ -103,7 +105,7 @@ class Weekday extends Data {
 
     weekdays.firstWhere((weekday) => weekday.day == day).schedule = null;
 
-    NotificationController.deleteScheduled(this);
+    NotificationController.deleteSleepScheduled(this);
     await Data.write(weekdays, localFile);
   }
 
@@ -117,7 +119,7 @@ class Weekday extends Data {
     weekdays.forEach((weekday) async {
       if (weekday.schedule != null &&
           (weekday.schedule!.name == schedule.name)) {
-        NotificationController.deleteScheduled(weekday);
+        NotificationController.deleteSleepScheduled(weekday);
         weekday.schedule = null;
       }
     });
@@ -137,12 +139,44 @@ class Weekday extends Data {
         if (weekday.schedule!.name == editedSchedule.name) {
           weekday.schedule = editedSchedule;
 
-          NotificationController.deleteScheduled(weekday);
+          NotificationController.deleteSleepScheduled(weekday);
           NotificationController.addSleepScheduled(weekday);
         }
       }
     });
 
     await Data.write(weekdays, localFile);
+  }
+
+  /// Génère la liste de toutes les `NotificationOptions` disponibles.
+  ///
+  /// Si un `weekday` a un `schedule`, c'est nécessairement qu'une notification
+  /// existe pour ce `weekday`
+  ///
+  /// On retourne donc la notification de coucher et celle de lever pour chaque
+  /// `weekday` qui a un `schedule`
+  static Future<List<NotificationOptions>> get allNotificationOptions async {
+    final weekdays = await all;
+    List<NotificationOptions> options = [];
+    weekdays.forEach((weekday) {
+      if (weekday.schedule != null) {
+        options.add(NotificationOptions(
+            id: weekday.sleepID,
+            title: NotificationController.sleepTitle,
+            body: weekday.schedule!.name,
+            sound: weekday.schedule!.sleepSound,
+            category: NotificationController.sleepCategory,
+            onAccepted: SleepDay.onWentToSleep));
+        options.add(NotificationOptions(
+            id: weekday.wakeID,
+            title: NotificationController.wakeTitle,
+            body: weekday.schedule!.name,
+            sound: weekday.schedule!.wakeSound,
+            category: NotificationController.wakeCategory,
+            onAccepted: SleepDay.onAwakened));
+      }
+    });
+
+    return options;
   }
 }

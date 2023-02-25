@@ -195,6 +195,7 @@ class _NewScheduleState extends State<NewSchedule> {
                             }
                             widget.updateSchedules();
                             Navigator.of(Get.overlayContext!).pop();
+                            await Sound.stop();
                           },
                           child: Text('Terminé')),
                       SizedBox(
@@ -218,6 +219,7 @@ class _NewScheduleState extends State<NewSchedule> {
                               widget.updateSchedules();
                               widget.updateWeekdays!();
                               Navigator.of(Get.overlayContext!).pop();
+                              await Sound.stop();
                             },
                             child: Text('Supprimer'))
                     ])

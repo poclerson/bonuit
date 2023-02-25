@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../models/sound.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class SoundPicker extends StatefulWidget {
   String? defaultSoundFilePath;
   List<Sound> sounds;
   Function(Sound sound) onSoundPicked;
-  AudioPlayer player = AudioPlayer();
 
   SoundPicker(
       {required this.defaultSoundFilePath,
@@ -17,9 +15,6 @@ class SoundPicker extends StatefulWidget {
 }
 
 class _SoundPickerState extends State<SoundPicker> {
-  /// Représente le chemin vers l'`AssetSource` que `player` vient juste de jouer
-  String? oldSourcePath;
-
   String? currentSoundFileName;
   @override
   Widget build(BuildContext context) {
@@ -33,19 +28,7 @@ class _SoundPickerState extends State<SoundPicker> {
                 enableFeedback: false,
                 onTap: () async {
                   widget.onSoundPicked(widget.sounds[index]);
-                  // Sound.source =
-                  //     AssetSource(widget.sounds[index].filePath);
-                  // if (oldSourcePath != Sound.source!.path) {
-                  //   widget.player.setSource(Sound.source!).then((value) {
-                  //     widget.player.play(Sound.source!);
-                  //   });
-                  //   Sound.oldSourcePath = Sound.source!.path;
-                  // } else {
-                  //   oldSourcePath = null;
-                  // }
-
-                  // await widget.player.stop();
-                  await Sound.play(AssetSource(widget.sounds[index].filePath));
+                  await Sound.play(widget.sounds[index].filePath);
                   await Sound.stop();
                   setState(() {
                     currentSoundFileName = widget.sounds[index].fileName;

@@ -28,8 +28,8 @@ class Sound {
   ///
   /// Si `player` est entrain de jouer et que `play` est appelée, on `stop`
   /// ce qui jouait auparavant et on fait jouer depuis `source`
-  static play(AssetSource source) async {
-    Sound.source = source;
+  static play(String sourcePath) async {
+    source = AssetSource(sourcePath);
     if (oldSourcePath != Sound.source!.path) {
       player.setSource(Sound.source!).then((value) {
         player.play(Sound.source!);

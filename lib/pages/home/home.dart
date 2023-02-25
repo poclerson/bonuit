@@ -20,11 +20,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   @pragma("vm:entry-point")
-  void initState() {
-    // NotificationController.flnp.cancelAll();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +32,6 @@ class _HomeState extends State<Home> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
-                    onPressed: () async => NotificationController.show(
-                        NotificationController.debugOptions),
-                    child: Text('Notif')),
                 Container(
                   child: Column(
                     children: [

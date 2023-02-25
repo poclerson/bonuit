@@ -10,31 +10,31 @@ import 'package:background_fetch/background_fetch.dart';
 import 'notification_controller.dart';
 
 class BackgroundController {
-  static final FlutterBackgroundService service = FlutterBackgroundService();
-  static initialize() async {
-    // Service
-    // service.configure(
-    //     iosConfiguration: IosConfiguration(
-    //         autoStart: true,
-    //         onForeground: onStartService,
-    //         onBackground: onBackground),
-    //     androidConfiguration: AndroidConfiguration(
-    //         onStart: onStartService, isForegroundMode: true));
-    // service.startService();
+  // static final FlutterBackgroundService service = FlutterBackgroundService();
+  // static initialize() async {
+  //   // Service
+  //   // service.configure(
+  //   //     iosConfiguration: IosConfiguration(
+  //   //         autoStart: true,
+  //   //         onForeground: onStartService,
+  //   //         onBackground: onBackground),
+  //   //     androidConfiguration: AndroidConfiguration(
+  //   //         onStart: onStartService, isForegroundMode: true));
+  //   // service.startService();
 
-    // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-    // await Workmanager().registerOneOffTask('0', 'com.company.bonuit.simpleTask',
-    //     // frequency: Duration(seconds: 10),
-    //     constraints: Constraints(
-    //         networkType: NetworkType.connected, requiresCharging: true),
-    //     inputData: {'task-identifier': 'task-identifier'});
+  //   // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  //   // await Workmanager().registerOneOffTask('0', 'com.company.bonuit.simpleTask',
+  //   //     // frequency: Duration(seconds: 10),
+  //   //     constraints: Constraints(
+  //   //         networkType: NetworkType.connected, requiresCharging: true),
+  //   //     inputData: {'task-identifier': 'task-identifier'});
 
-    BackgroundFetch.registerHeadlessTask(headlessTask);
-    initPlatformState();
-    BackgroundFetch.start()
-        .then((value) => debugPrint('BackgroundFetch started successfully'))
-        .catchError((e) => debugPrint('BackgroundFetch error $e'));
-  }
+  //   BackgroundFetch.registerHeadlessTask(headlessTask);
+  //   initPlatformState();
+  //   BackgroundFetch.start()
+  //       .then((value) => debugPrint('BackgroundFetch started successfully'))
+  //       .catchError((e) => debugPrint('BackgroundFetch error $e'));
+  // }
 
   // @pragma('vm:entry-point')
   // static callbackDispatcher() async {
@@ -46,31 +46,31 @@ class BackgroundController {
   //   debugPrint('workmanager');
   // }
 
-  static headlessTask(HeadlessTask task) async {
-    String taskId = task.taskId;
-    bool isTimeout = task.timeout;
-    print('Headless task $taskId received');
-    await NotificationController.show(NotificationController.sleepOptions);
-    NotificationController.show(NotificationController.sleepOptions);
-    BackgroundFetch.finish(taskId);
-  }
+  // static headlessTask(HeadlessTask task) async {
+  //   String taskId = task.taskId;
+  //   bool isTimeout = task.timeout;
+  //   print('Headless task $taskId received');
+  //   await NotificationController.show(NotificationController.sleepOptions);
+  //   NotificationController.show(NotificationController.sleepOptions);
+  //   BackgroundFetch.finish(taskId);
+  // }
 
-  static initPlatformState() async {
-    await BackgroundFetch.configure(
-        BackgroundFetchConfig(
-            startOnBoot: true,
-            minimumFetchInterval: 15,
-            stopOnTerminate: false,
-            enableHeadless: true,
-            requiresBatteryNotLow: true,
-            requiresCharging: true,
-            requiresDeviceIdle: false,
-            requiredNetworkType: NetworkType.ANY), (String taskId) async {
-      debugPrint('Yolo');
-      await NotificationController.show(NotificationController.wakeOptions);
-      BackgroundFetch.finish(taskId);
-    }).then((value) => debugPrint('$value init'));
-  }
+  // static initPlatformState() async {
+  //   await BackgroundFetch.configure(
+  //       BackgroundFetchConfig(
+  //           startOnBoot: true,
+  //           minimumFetchInterval: 15,
+  //           stopOnTerminate: false,
+  //           enableHeadless: true,
+  //           requiresBatteryNotLow: true,
+  //           requiresCharging: true,
+  //           requiresDeviceIdle: false,
+  //           requiredNetworkType: NetworkType.ANY), (String taskId) async {
+  //     debugPrint('Yolo');
+  //     await NotificationController.show(NotificationController.wakeOptions);
+  //     BackgroundFetch.finish(taskId);
+  //   }).then((value) => debugPrint('$value init'));
+  // }
 
   // @pragma('vm:entry-point')
   // static onStartService(ServiceInstance service) {

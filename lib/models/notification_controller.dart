@@ -15,35 +15,16 @@ class NotificationController {
   static const String acceptResponse = 'accept';
   static const String denyResponse = 'deny';
 
-  static final NotificationOptions sleepOptions = NotificationOptions(
-      title: "C'est l'heure de dormir!",
-      body: 'Glisser pour accepter',
-      category: 'sleep',
-      onAccepted: SleepDay.onWentToSleep,
-      onDismissed: (response) => Timer(
-          Duration(minutes: 30), () => show(optionsFromResponse(response))));
-
-  static final NotificationOptions wakeOptions = NotificationOptions(
-      title: "On se réveille",
-      body: 'Glisser pour accepter',
-      category: 'wake',
-      onAccepted: SleepDay.onAwakened,
-      onDismissed: (response) => Timer(
-          Duration(seconds: 30), () => show(optionsFromResponse(response))));
-
-  static final NotificationOptions debugOptions = NotificationOptions(
-      title: 'Ceci est un test',
-      body: 'Débogage en cours',
-      category: 'debug',
-      onAccepted: () => debugPrint('Notification de debug acceptée'),
-      onDismissed: (response) => debugPrint(response.toString()));
-
-  static List<NotificationOptions> options = [sleepOptions, wakeOptions];
+  static const String sleepCategory = 'sleep';
+  static const String sleepTitle = "C'est l'heure d'aller dormir";
+  static const String wakeCategory = 'wake';
+  static const String wakeTitle = 'Réveillez-vous!';
 
   /// Donne les `NotificationOptions` relatifs au `payload` de la `response`
-  static NotificationOptions optionsFromResponse(
-          NotificationResponse response) =>
-      options.firstWhere((options) => options.category == response.payload);
+  static Future<NotificationOptions> optionsFromResponse(
+          NotificationResponse response) async =>
+      (await Weekday.allNotificationOptions)
+          .firstWhere((options) => options.category == response.payload);
 
   static late NotificationResponse oldResponse;
   static late NotificationResponse newResponse;
@@ -62,7 +43,7 @@ class NotificationController {
         requestSoundPermission: true,
         defaultPresentSound: false,
         notificationCategories: [
-          DarwinNotificationCategory(sleepOptions.category, actions: [
+          DarwinNotificationCategory(sleepCategory, actions: [
             DarwinNotificationAction.plain(acceptResponse, 'Aller dormir',
                 options: <DarwinNotificationActionOption>{
                   DarwinNotificationActionOption.foreground
@@ -75,12 +56,11 @@ class NotificationController {
           ], options: <DarwinNotificationCategoryOption>{
             DarwinNotificationCategoryOption.customDismissAction
           }),
-          DarwinNotificationCategory(wakeOptions.category, actions: [
+          DarwinNotificationCategory(wakeCategory, actions: [
             DarwinNotificationAction.plain(acceptResponse, 'Se réveiller'),
             DarwinNotificationAction.plain(
                 denyResponse, 'Me rappeler dans 15 minutes'),
           ]),
-          DarwinNotificationCategory(debugOptions.category),
         ]);
 
     final initSettings =
@@ -100,39 +80,52 @@ class NotificationController {
   /// Continue d'afficher des notifications chaque semaine grâce à
   /// `flnp.periodicallyShow`
   static addSleepScheduled(Weekday weekday) async {
-    NotificationOptions sleepOptionsCopy = NotificationOptions.withSong(
-        options: sleepOptions, songFilePath: weekday.schedule!.sleepSound);
+    debugPrint('Horaire ${weekday.schedule!.name} ajouté le ${weekday.day}');
+    NotificationOptions sleepOptions = NotificationOptions(
+        id: weekday.sleepID,
+        title: sleepTitle,
+        body: weekday.schedule!.name,
+        sound: weekday.schedule!.sleepSound,
+        category: sleepCategory,
+        onAccepted: SleepDay.onWentToSleep);
 
     // Commencer la notification du coucher
     Timer(weekday.schedule!.beforeSleep, () async {
-      // Prochaine
-      await show(sleepOptionsCopy);
-      // Toutes les autres
-      Timer.periodic(Duration(days: 7), (timer) async {
-        await show(sleepOptionsCopy, weekday.sleepID);
-        listenForDismissed();
-      });
+      await periodicallyShow(sleepOptions);
     });
 
-    NotificationOptions wakeOptionsCopy = NotificationOptions.withSong(
-        options: wakeOptions, songFilePath: weekday.schedule!.wakeSound);
+    NotificationOptions wakeOptions = NotificationOptions(
+        id: weekday.wakeID,
+        title: wakeTitle,
+        body: weekday.schedule!.name,
+        sound: weekday.schedule!.wakeSound,
+        category: wakeCategory,
+        onAccepted: SleepDay.onAwakened);
     // Commencer la notification du lever
     Timer(weekday.schedule!.beforeWake, () async {
-      // Prochaine
-      await show(wakeOptionsCopy);
-
-      // Toutes les autres
-      Timer.periodic(Duration(days: 7), (timer) async {
-        await show(wakeOptionsCopy, weekday.wakeID);
-        listenForDismissed();
-      });
+      await periodicallyShow(wakeOptions);
     });
   }
 
+  /// Annule la notification de réveil et celle de coucher de `weekday`
+  static deleteSleepScheduled(Weekday weekday) {
+    debugPrint('Horaire ${weekday.schedule!.name} retiré du ${weekday.day}');
+    flnp.cancel(weekday.sleepID);
+    flnp.cancel(weekday.wakeID);
+  }
+
   /// Fait apparaitre une notification à l'instant d'après une `NotificationCategory`
-  static show(NotificationOptions options, [int? id]) async {
-    id ??= Random().nextInt(1000);
+  static show(NotificationOptions options) async {
+    int id = Random().nextInt(1000);
     await flnp.show(id, options.title, options.body, options.details,
+        payload: options.category);
+  }
+
+  static periodicallyShow(NotificationOptions options) async {
+    debugPrint('Horaire ${options.body} planifié');
+    await show(options);
+    await flnp.periodicallyShow(options.id, options.title, options.body,
+        RepeatInterval.weekly, options.details,
         payload: options.category);
   }
 
@@ -151,61 +144,44 @@ class NotificationController {
     // Accepte la réponse
     if (response.actionId == acceptResponse) {
       // On appelle la fonction correspondante
-      optionsFromResponse(response).onAccepted();
+      (await optionsFromResponse(response)).onAccepted();
     }
 
     // Refuse la réponse
     // On réenvoie la même notification dans 30 minutes, et seulement une fois
     if (response.actionId == denyResponse) {
-      Timer(Duration(minutes: 30), () => show(optionsFromResponse(response)));
+      Timer(Duration(minutes: 30),
+          () async => show(await optionsFromResponse(response)));
     }
   }
 
-  static deleteScheduled(Weekday weekday) {
-    flnp.cancel(weekday.sleepID);
-    flnp.cancel(weekday.wakeID);
-  }
-
-  /// Executée en même temps que l'envoie de notifications programmées
-  ///
-  /// Attend ensuite 30 secondes avant de vérifier si `oldResponse` et `newResponse`
-  /// correspondent.
-  ///
-  /// Si c'est le cas, ça veut dire que `newResponse` n'a jamais été actualisée
-  /// par `onReceived`, et donc, qu'on n'a jamais répondu à la plus récente notification
-  ///
-  /// On appelle alors `onDismissed` relatif aux `NotificationOptions`
-  ///
-  /// Si les réponse ne sont pas égales, on ne fait rien mais on actualise
-  /// `oldResponse` à `newResponse` pour les appels futurs
-  static listenForDismissed() {
-    Timer(Duration(seconds: 30), () {
-      if (oldResponse.isEqual(newResponse)) {
-        optionsFromResponse(oldResponse).onDismissed(oldResponse);
-      }
-    });
-    oldResponse = newResponse;
+  static printAllPendingNotificationRequests() async {
+    List<PendingNotificationRequest> pendingNotificationRequests =
+        await NotificationController.flnp.pendingNotificationRequests();
+    pendingNotificationRequests.map((e) => debugPrint(e.toStringFormatted()));
+    debugPrint('All pending notification requests: ' +
+        pendingNotificationRequests.toStringFormatted().toString());
   }
 }
 
 class NotificationOptions {
-  late String title;
-  late String body;
-  late String category;
-  late String? songFilePath;
+  final int id;
+  final String title;
+  final String body;
+  final String sound;
+  final String category;
 
   /// Appelée lorsqu'une notification répond avec `'accept'`
-  late Function onAccepted;
+  final Function onAccepted;
 
-  /// Appelée lorsqu'une notification ne reçoit pas de réponse
-  /// 30 secondes après son envoi
-  late Function(NotificationResponse response) onDismissed;
-  NotificationOptions(
-      {required this.title,
-      required this.body,
-      required this.category,
-      required this.onAccepted,
-      required this.onDismissed});
+  NotificationOptions({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.sound,
+    required this.category,
+    required this.onAccepted,
+  });
 
   NotificationDetails get details {
     AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
@@ -214,23 +190,25 @@ class NotificationOptions {
 
     DarwinNotificationDetails iOSDetails = DarwinNotificationDetails(
       categoryIdentifier: category,
-      sound: songFilePath ?? '',
+      sound: sound,
       presentSound: true,
+      badgeNumber: 0,
     );
 
     return NotificationDetails(android: androidDetails, iOS: iOSDetails);
-  }
-
-  NotificationOptions.withSong(
-      {required NotificationOptions options, required this.songFilePath}) {
-    title = options.title;
-    body = options.body;
-    category = options.category;
-    onAccepted = options.onAccepted;
-    onDismissed = options.onDismissed;
   }
 }
 
 extension NotificationResponseExtension on NotificationResponse {
   bool isEqual(NotificationResponse other) => id == other.id;
+}
+
+extension PendingNotificationRequestExtension on PendingNotificationRequest {
+  String toStringFormatted() => 'PNR($id, $payload)';
+}
+
+extension PendingNotificationRequestListExtension
+    on List<PendingNotificationRequest> {
+  List<String> toStringFormatted() =>
+      map((e) => '\n${e.toStringFormatted()}').toList();
 }
