@@ -1,3 +1,4 @@
+import 'package:bonuit/widgets/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
@@ -32,131 +33,155 @@ const LightColorScheme = ColorScheme(
 
 class AppTheme {
   static ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
+        /// THEME ///
+        colorScheme: colorScheme,
+        scaffoldBackgroundColor: colorScheme.background,
+        dividerColor: colorScheme.secondary,
 
-      /// THEME ///
-      colorScheme: colorScheme,
-      scaffoldBackgroundColor: colorScheme.background,
-      dividerColor: colorScheme.secondary,
+        /// DIALOGUE ///
+        dialogTheme: DialogTheme(
+            backgroundColor: colorScheme.surface,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(width: 2, color: colorScheme.onBackground))),
 
-      /// DIALOGUE ///
-      dialogTheme: DialogTheme(
-          backgroundColor: colorScheme.surface,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: BorderSide(width: 2, color: colorScheme.onBackground))),
+        /// NAVIGATION ///
+        appBarTheme: AppBarTheme(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+            titleTextStyle: TextStyle(
+                color: colorScheme.onBackground,
+                fontSize: 20,
+                fontWeight: FontWeight.w900)),
+        bottomAppBarTheme: BottomAppBarTheme(color: colorScheme.background),
 
-      /// NAVIGATION ///
-      appBarTheme: AppBarTheme(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          titleTextStyle: TextStyle(
+        /// TEXTES ///
+        textTheme: TextTheme(
+          /// DISPLAY
+          displayLarge: GoogleFonts.karla(
+              letterSpacing: -5,
+              height: .7,
+              fontWeight: FontWeight.w900,
+              fontSize: 120,
+              color: colorScheme.secondary),
+          displayMedium: GoogleFonts.familjenGrotesk(
+              letterSpacing: -2,
+              fontWeight: FontWeight.w900,
+              fontSize: 80,
+              color: colorScheme.secondary),
+          displaySmall: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w900,
+              fontSize: 60,
+              color: colorScheme.secondary),
+
+          /// HEADLINE
+          headlineLarge: GoogleFonts.karla(
+              fontWeight: FontWeight.w900,
+              fontSize: 30,
+              color: colorScheme.secondary),
+          headlineMedium: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w700,
+              fontSize: 26,
+              color: colorScheme.onBackground),
+          headlineSmall: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w700,
+              fontSize: 22,
+              color: colorScheme.onBackground),
+
+          /// TITLE
+          titleLarge: GoogleFonts.karla(
+              fontWeight: FontWeight.w700,
+              color: colorScheme.secondary,
+              fontSize: 28),
+          titleMedium: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w500,
               color: colorScheme.onBackground,
+              fontSize: 24),
+          titleSmall: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w500,
+              color: colorScheme.onBackground,
+              fontSize: 22),
+
+          /// LABEL
+          labelLarge: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w700,
               fontSize: 20,
-              fontWeight: FontWeight.w900)),
-      bottomAppBarTheme: BottomAppBarTheme(color: colorScheme.background),
+              color: colorScheme.secondary),
+          labelMedium: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              color: colorScheme.onBackground),
+          labelSmall: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w300,
+              fontSize: 16,
+              color: colorScheme.onBackground),
 
-      /// BOUTONS ///
-      // Text button
-      textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-              maximumSize: MaterialStatePropertyAll<Size>(Size(600, 500)),
-              padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
-              foregroundColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.onSurface),
-              backgroundColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.surface),
-              overlayColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.surface),
-              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))))),
-      // Outlined button
-      outlinedButtonTheme: OutlinedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.secondary),
-              foregroundColor:
-                  MaterialStatePropertyAll<Color>(colorScheme.onSecondary),
-              side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: colorScheme.onBackground)),
-              shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))))),
-      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(colorScheme.primary), foregroundColor: MaterialStatePropertyAll<Color>(colorScheme.background), fixedSize: MaterialStatePropertyAll<Size>(Size(75, 65)), shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))), maximumSize: MaterialStatePropertyAll<Size>(Size(100, 100)))),
+          // BODY
+          bodyLarge: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w500,
+              color: colorScheme.secondary,
+              fontSize: 16),
+          bodyMedium: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w300,
+              color: colorScheme.onBackground,
+              fontSize: 14),
+          bodySmall: GoogleFonts.familjenGrotesk(
+              fontWeight: FontWeight.w300,
+              color: colorScheme.onBackground,
+              fontSize: 12),
+        ),
 
-      /// TEXTES ///
-      textTheme: TextTheme(
-        /// DISPLAY
-        displayLarge: GoogleFonts.karla(
-            letterSpacing: -5,
-            height: .7,
-            fontWeight: FontWeight.w900,
-            fontSize: 120,
-            color: colorScheme.secondary),
-        displayMedium: GoogleFonts.familjenGrotesk(
-            letterSpacing: -2,
-            fontWeight: FontWeight.w900,
-            fontSize: 80,
-            color: colorScheme.secondary),
-        displaySmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w900,
-            fontSize: 60,
-            color: colorScheme.secondary),
+        /// BOUTONS ///
+        // Elevated button
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.primary),
+                foregroundColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.background),
+                fixedSize: MaterialStatePropertyAll<Size>(Size(75, 65)),
+                shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))),
+                maximumSize: MaterialStatePropertyAll<Size>(Size(100, 100)))),
 
-        /// HEADLINE
-        headlineLarge: GoogleFonts.karla(
-            fontWeight: FontWeight.w900,
-            fontSize: 30,
-            color: colorScheme.secondary),
-        headlineMedium: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w700,
-            fontSize: 26,
-            color: colorScheme.onBackground),
-        headlineSmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w700,
-            fontSize: 22,
-            color: colorScheme.onBackground),
+        // Toggle button
+        toggleButtonsTheme: ToggleButtonsThemeData(
+            borderWidth: 2,
+            color: colorScheme.primary,
+            selectedColor: colorScheme.onPrimary,
+            fillColor: colorScheme.primary,
+            borderRadius: BorderRadius.all(Radius.circular(15))),
 
-        /// TITLE
-        titleLarge: GoogleFonts.karla(
-            fontWeight: FontWeight.w700,
-            color: colorScheme.secondary,
-            fontSize: 28),
-        titleMedium: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            color: colorScheme.onBackground,
-            fontSize: 24),
-        titleSmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            color: colorScheme.onBackground,
-            fontSize: 22),
+        /// Outlined button
+        outlinedButtonTheme: OutlinedButtonThemeData(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.secondary),
+                foregroundColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.onSecondary),
+                side: MaterialStatePropertyAll<BorderSide>(
+                    BorderSide(color: colorScheme.onBackground)),
+                shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))))),
 
-        /// LABEL
-        labelLarge: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w700,
-            fontSize: 20,
-            color: colorScheme.secondary),
-        labelMedium: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-            color: colorScheme.onBackground),
-        labelSmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w300,
-            fontSize: 16,
-            color: colorScheme.onBackground),
-
-        // BODY
-        bodyLarge: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w500,
-            color: colorScheme.secondary,
-            fontSize: 16),
-        bodyMedium: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w300,
-            color: colorScheme.onBackground,
-            fontSize: 14),
-        bodySmall: GoogleFonts.familjenGrotesk(
-            fontWeight: FontWeight.w300,
-            color: colorScheme.onBackground,
-            fontSize: 12),
-      ));
+        // Text button
+        textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+                maximumSize: MaterialStatePropertyAll<Size>(Size(600, 500)),
+                padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
+                foregroundColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.onSurface),
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.surface),
+                overlayColor:
+                    MaterialStatePropertyAll<Color>(colorScheme.surface),
+                shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))))),
+      );
 
   static SimpleStream<ThemeMode> themeMode = SimpleStream();
 }

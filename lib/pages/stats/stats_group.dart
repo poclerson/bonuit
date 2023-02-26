@@ -5,16 +5,18 @@ import '../../models/sleep_day.dart';
 import 'stats_day.dart';
 
 class StatsGroup extends StatefulWidget {
-  List<SleepDay> days;
+  late List<SleepDay> days;
   TimeInterval timeInterval;
   Size parentSize;
   double dayHeight;
   int sortingBy;
-  StatsGroup(this.days,
+  StatsGroup(List<SleepDay> days,
       {required this.timeInterval,
       required this.parentSize,
       required this.dayHeight,
-      required this.sortingBy});
+      required this.sortingBy}) {
+    this.days = days.reversed.toList();
+  }
   @override
   _StatsGroupState createState() => _StatsGroupState();
 }
@@ -37,15 +39,17 @@ class _StatsGroupState extends State<StatsGroup> {
                 )
               : Expanded(child: SizedBox()),
           children: [
-            ...widget.days.reversed.map((day) => StatsDay(
-                size: Size(
-                    // widget.timeInterval
-                    //     .timeToRatio(day.hoursSlept, widget.parentSize.width),
-                    widget.timeInterval.ratioedOffset(
-                        day.timeOfDaySlept, widget.parentSize.width),
-                    widget.dayHeight),
-                offset: widget.timeInterval
-                    .ratioedOffset(day.sleepTime, widget.parentSize.width)))
+            ...widget.days.map(
+              (day) => StatsDay(
+                  size: Size(
+                      // widget.timeInterval
+                      //     .timeToRatio(day.hoursSlept, widget.parentSize.width),
+                      widget.timeInterval.ratioedOffset(
+                          day.timeOfDaySlept, widget.parentSize.width),
+                      widget.dayHeight),
+                  offset: widget.timeInterval
+                      .ratioedOffset(day.sleepTime, widget.parentSize.width)),
+            )
           ],
         ));
   }

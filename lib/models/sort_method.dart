@@ -41,12 +41,11 @@ class SortMethod {
       required DateTime date,
       required this.onChanged,
       required this.startDate}) {
-    for (var i = date.weekday; i <= weekly; i++) {
-      identifiers.add(Date.weekdays[i - 1][0].toUpperCase());
-    }
-    for (var i = 0; i <= weekly - identifiers.length + 1; i++) {
-      identifiers.add(Date.weekdays[i][0].toUpperCase());
-    }
+    identifiers.addAll(Date.weekdays.getRange(date.weekday - 1, weekly));
+    identifiers.addAll(Date.weekdays.getRange(0, date.weekday - 1));
+    identifiers = identifiers
+        .map((identifier) => (identifier[0] as String).toUpperCase())
+        .toList();
   }
 
   /// Crée une `List` des intervalles de date, où

@@ -66,13 +66,11 @@ class TimeInterval {
   }
 
   double ratioedOffset(TimeOfDay offset, double ratio) {
-    debugPrint('offset: $offset');
     List<int> intervalsFromZero = [];
     double value = offset.toDouble();
     for (var i = 0; i < intervals.length; i++) {
       intervalsFromZero.add(i * length);
     }
-    debugPrint('intervals: $intervals');
 
     double difference = 0;
 

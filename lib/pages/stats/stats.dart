@@ -92,7 +92,9 @@ class _StatsState extends State<Stats> {
                     ],
                   ),
                   SortMethodPicker(
-                      [byWeek, byMonth, bySixMonths], updateSortMethod)
+                      [byWeek, byMonth, bySixMonths],
+                      [byWeek, byMonth, bySixMonths].indexOf(sortMethod),
+                      updateSortMethod)
                 ],
               ));
         }
