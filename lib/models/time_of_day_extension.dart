@@ -6,7 +6,11 @@ import 'package:progressive_time_picker/progressive_time_picker.dart';
 extension TimeOfDayExtension on TimeOfDay {
   /// Soustrait deux `TimeOfDay` en prenant en compte de la limite de 23:59
   /// Si `this` va devenir négatif, on le ramnène pour faire le cycle complet
-  TimeOfDay operator -(TimeOfDay other) {
+  TimeOfDay operator -(dynamic other) {
+    if (other is! TimeOfDay) {
+      if (other is int) other = other.toDouble();
+      other = (other as double).toTimeOfDay();
+    }
     int newMinute = minute;
     int newHour = hour;
     if (minute - other.minute < 0) {
@@ -41,25 +45,40 @@ extension TimeOfDayExtension on TimeOfDay {
     return this;
   }
 
-  /// Additionne deux [TimeOfDay] sans prendre en compte de la limite à 23:59
-  TimeOfDay operator *(TimeOfDay other) =>
-      TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
-
-  bool operator >(TimeOfDay other) => toDouble() > other.toDouble();
-  bool operator <(TimeOfDay other) => toDouble() < other.toDouble();
-  bool operator <=(TimeOfDay other) => toDouble() <= other.toDouble();
-  bool operator >=(TimeOfDay other) => toDouble() >= other.toDouble();
-
-  bool isEqual(TimeOfDay other) => hour == other.hour && minute == other.minute;
-
-  double get distanceFromMidnight =>
-      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
-
   double toDouble() {
     int hour = this.hour;
     double minute = this.minute / 60;
     return hour + minute;
   }
+
+  /// Additionne deux [TimeOfDay] sans prendre en compte de la limite à 23:59
+  TimeOfDay operator *(TimeOfDay other) =>
+      TimeOfDay(hour: hour + other.hour, minute: minute + other.minute);
+
+  bool operator >(dynamic other) {
+    if (other is double || other is int) return toDouble() > other;
+    return toDouble() > (other as TimeOfDay).toDouble();
+  }
+
+  bool operator <(dynamic other) {
+    if (other is double || other is int) return toDouble() < other;
+    return toDouble() < (other as TimeOfDay).toDouble();
+  }
+
+  bool operator <=(dynamic other) {
+    if (other is double || other is int) return toDouble() <= other;
+    return toDouble() <= (other as TimeOfDay).toDouble();
+  }
+
+  bool operator >=(dynamic other) {
+    if (other is double || other is int) return toDouble() >= other;
+    return toDouble() >= (other as TimeOfDay).toDouble();
+  }
+
+  bool isEqual(TimeOfDay other) => hour == other.hour && minute == other.minute;
+
+  double get distanceFromMidnight =>
+      (TimeOfDay(hour: 24, minute: 0) - this).toDouble();
 
   int toInt() => toDouble().round();
 
@@ -97,6 +116,9 @@ extension TimeOfDayListExtension on List<TimeOfDay> {
         .toList()
         .average();
   }
+
+  TimeOfDay get latest => reduce((curr, next) => curr > next ? curr : next);
+  TimeOfDay get earliest => reduce((curr, next) => curr < next ? curr : next);
 }
 
 extension PickedTimeExtension on PickedTime {

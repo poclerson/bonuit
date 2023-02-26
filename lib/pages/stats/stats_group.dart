@@ -41,7 +41,8 @@ class _StatsGroupState extends State<StatsGroup> {
                 size: Size(
                     // widget.timeInterval
                     //     .timeToRatio(day.hoursSlept, widget.parentSize.width),
-                    200,
+                    widget.timeInterval.ratioedOffset(
+                        day.timeOfDaySlept, widget.parentSize.width),
                     widget.dayHeight),
                 offset: widget.timeInterval
                     .ratioedOffset(day.sleepTime, widget.parentSize.width)))

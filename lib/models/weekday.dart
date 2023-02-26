@@ -160,19 +160,17 @@ class Weekday extends Data {
     List<NotificationOptions> options = [];
     weekdays.forEach((weekday) {
       if (weekday.schedule != null) {
-        options.add(NotificationOptions(
+        options.add(NotificationOptions.fromTemplate(
+            template: NotificationController.sleepTemplate,
             id: weekday.sleepID,
-            title: NotificationController.sleepTitle,
             body: weekday.schedule!.name,
             sound: weekday.schedule!.sleepSound,
-            category: NotificationController.sleepCategory,
             onAccepted: SleepDay.onWentToSleep));
-        options.add(NotificationOptions(
+        options.add(NotificationOptions.fromTemplate(
+            template: NotificationController.wakeTemplate,
             id: weekday.wakeID,
-            title: NotificationController.wakeTitle,
             body: weekday.schedule!.name,
             sound: weekday.schedule!.wakeSound,
-            category: NotificationController.wakeCategory,
             onAccepted: SleepDay.onAwakened));
       }
     });

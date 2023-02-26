@@ -24,10 +24,13 @@ abstract class TimeSlept {
     return doubleWakeTime - doubleSleepTime;
   }
 
+  /// Vérifie que `wakeTime` est plus grand que `sleepTime`
   bool get isSameDay => sleepTime.toDouble() <= wakeTime.toDouble();
 
   Duration get durationSlept =>
       Duration(seconds: (hoursSlept * 60 * 60).toInt());
+
+  TimeOfDay get timeOfDaySlept => hoursSlept.toTimeOfDay();
 
   /// `Duration` entre maintenant et le temps de coucher
   Duration get beforeSleep {

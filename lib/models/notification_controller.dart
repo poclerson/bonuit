@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get_connect.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'weekday.dart';
 import 'sleep_day.dart';
@@ -15,10 +16,14 @@ class NotificationController {
   static const String acceptResponse = 'accept';
   static const String denyResponse = 'deny';
 
-  static const String sleepCategory = 'sleep';
-  static const String sleepTitle = "C'est l'heure d'aller dormir";
-  static const String wakeCategory = 'wake';
-  static const String wakeTitle = 'Réveillez-vous!';
+  static final NotificationTemplate sleepTemplate = NotificationTemplate(
+      title: "C'est l'heure d'aller dormir",
+      category: 'sleep',
+      onDeniedDelay: Duration(minutes: 30));
+  static final NotificationTemplate wakeTemplate = NotificationTemplate(
+      title: 'On se réveille!',
+      category: 'wake',
+      onDeniedDelay: Duration(minutes: 10));
 
   /// Donne les `NotificationOptions` relatifs au `payload` de la `response`
   static Future<NotificationOptions> optionsFromResponse(
@@ -43,7 +48,7 @@ class NotificationController {
         requestSoundPermission: true,
         defaultPresentSound: false,
         notificationCategories: [
-          DarwinNotificationCategory(sleepCategory, actions: [
+          DarwinNotificationCategory(sleepTemplate.category, actions: [
             DarwinNotificationAction.plain(acceptResponse, 'Aller dormir',
                 options: <DarwinNotificationActionOption>{
                   DarwinNotificationActionOption.foreground
@@ -56,7 +61,7 @@ class NotificationController {
           ], options: <DarwinNotificationCategoryOption>{
             DarwinNotificationCategoryOption.customDismissAction
           }),
-          DarwinNotificationCategory(wakeCategory, actions: [
+          DarwinNotificationCategory(wakeTemplate.category, actions: [
             DarwinNotificationAction.plain(acceptResponse, 'Se réveiller'),
             DarwinNotificationAction.plain(
                 denyResponse, 'Me rappeler dans 15 minutes'),
@@ -81,12 +86,11 @@ class NotificationController {
   /// `flnp.periodicallyShow`
   static addSleepScheduled(Weekday weekday) async {
     debugPrint('Horaire ${weekday.schedule!.name} ajouté le ${weekday.day}');
-    NotificationOptions sleepOptions = NotificationOptions(
+    NotificationOptions sleepOptions = NotificationOptions.fromTemplate(
+        template: sleepTemplate,
         id: weekday.sleepID,
-        title: sleepTitle,
         body: weekday.schedule!.name,
         sound: weekday.schedule!.sleepSound,
-        category: sleepCategory,
         onAccepted: SleepDay.onWentToSleep);
 
     // Commencer la notification du coucher
@@ -94,13 +98,13 @@ class NotificationController {
       await periodicallyShow(sleepOptions);
     });
 
-    NotificationOptions wakeOptions = NotificationOptions(
-        id: weekday.wakeID,
-        title: wakeTitle,
-        body: weekday.schedule!.name,
-        sound: weekday.schedule!.wakeSound,
-        category: wakeCategory,
-        onAccepted: SleepDay.onAwakened);
+    NotificationOptions wakeOptions = NotificationOptions.fromTemplate(
+      template: wakeTemplate,
+      id: weekday.wakeID,
+      body: weekday.schedule!.name,
+      sound: weekday.schedule!.wakeSound,
+      onAccepted: SleepDay.onAwakened,
+    );
     // Commencer la notification du lever
     Timer(weekday.schedule!.beforeWake, () async {
       await periodicallyShow(wakeOptions);
@@ -119,6 +123,10 @@ class NotificationController {
     int id = Random().nextInt(1000);
     await flnp.show(id, options.title, options.body, options.details,
         payload: options.category);
+  }
+
+  static showDelayed(NotificationOptions options, Duration delay) async {
+    Timer(delay, () async => await show(options));
   }
 
   static periodicallyShow(NotificationOptions options) async {
@@ -164,24 +172,69 @@ class NotificationController {
   }
 }
 
+class NotificationTemplate {
+  final String title;
+  final String category;
+  final Duration onDeniedDelay;
+
+  NotificationTemplate(
+      {required this.title,
+      required this.category,
+      required this.onDeniedDelay});
+}
+
 class NotificationOptions {
   final int id;
-  final String title;
+
+  /// Information statique par rapport au type de notification.
+  /// Par exemple, une notification de coucher aura toujours le même titre
+  late String title;
+
+  /// Information dynamique par rapport au type de notification.
+  /// `body` changera d'après la valeur du nom de l'horaire du jour
+  /// de la semaine assigné
   final String body;
+
+  /// Son émis lors de la réception de la notification
   final String sound;
-  final String category;
+
+  /// Sert à identifier le type de notification pour `FlutterLocalNotificationPlugin`
+  /// et à la réception d'une notification dans le `payload`
+  late String category;
 
   /// Appelée lorsqu'une notification répond avec `'accept'`
   final Function onAccepted;
 
-  NotificationOptions({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.sound,
-    required this.category,
-    required this.onAccepted,
-  });
+  /// Appelée lorsqu'une notification répond avec `'deny'`
+  late Function onDenied;
+
+  /// Construit un `NotificationOptions` à partir de tous les éléments nécessaires
+  /// et d'une `Duration` qui instantiera `onDenied`
+  NotificationOptions(
+      {required this.id,
+      required this.title,
+      required this.body,
+      required this.sound,
+      required this.category,
+      required this.onAccepted,
+      required Duration onDeniedDelay}) {
+    onDenied = () async =>
+        await NotificationController.showDelayed(this, onDeniedDelay);
+  }
+
+  /// Construit un `NotificationOptions` à partir d'un `NotificationTemplate`
+  /// pour du code plus clair
+  NotificationOptions.fromTemplate(
+      {required NotificationTemplate template,
+      required this.id,
+      required this.body,
+      required this.sound,
+      required this.onAccepted}) {
+    title = template.title;
+    category = template.category;
+    onDenied = () async =>
+        await NotificationController.showDelayed(this, template.onDeniedDelay);
+  }
 
   NotificationDetails get details {
     AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
