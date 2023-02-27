@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'app_theme.dart';
+import 'models/app_theme.dart';
 
 import 'models/screen.dart';
 import 'pages/home/home.dart';
-import 'models/background_controller.dart';
 import 'package:background_fetch/background_fetch.dart';
 
 class App extends StatefulWidget {

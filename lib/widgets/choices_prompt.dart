@@ -2,23 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChoicesPrompt extends StatelessWidget {
-  final Function _onDeleted;
-  ChoicesPrompt(this._onDeleted);
+  final String text;
+  final Function onAccepted;
+  final Function? onDenied;
+  ChoicesPrompt({required this.text, required this.onAccepted, this.onDenied});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Supprimer l'horaire?"),
       actionsAlignment: MainAxisAlignment.center,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      actionsPadding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+              width: 1, color: Theme.of(context).colorScheme.onSurface),
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       actions: [
-        OutlinedButton(
-            onPressed: () async {
+        TextButton(
+            style: Theme.of(context).textButtonTheme.style!.copyWith(
+                backgroundColor: MaterialStatePropertyAll<Color>(
+                    Theme.of(context).colorScheme.error),
+                foregroundColor: MaterialStatePropertyAll<Color>(
+                    Theme.of(context).colorScheme.onError)),
+            onPressed: () {
               Navigator.of(Get.overlayContext!).pop();
-              await _onDeleted();
+              onAccepted();
             },
             child: Text('OK')),
-        OutlinedButton(
+        TextButton(
+            style: Theme.of(context).textButtonTheme.style!.copyWith(
+                backgroundColor: MaterialStatePropertyAll<Color>(
+                    Theme.of(context).colorScheme.onSurface),
+                foregroundColor: MaterialStatePropertyAll<Color>(
+                    Theme.of(context).colorScheme.surface)),
             onPressed: () async {
               Navigator.of(Get.overlayContext!).pop();
+              if (onDenied != null) onDenied!();
             },
             child: Text('Annuler'))
       ],

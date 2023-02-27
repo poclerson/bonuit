@@ -69,6 +69,10 @@ class SleepDay extends TimeSlept implements Data {
     return json.map((element) => SleepDay.fromJson(element)).toList();
   }
 
+  static deleteAll() async {
+    await Data.write([], localFile);
+  }
+
   @override
   String toString() =>
       'Day(${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';

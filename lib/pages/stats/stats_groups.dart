@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'stats_group.dart';
-import '../../widgets/size_mesurer.dart';
+import '../../widgets/child_size_notifier.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import '../../models/sleep_day.dart';
 import '../../models/time_interval.dart';

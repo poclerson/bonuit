@@ -2,7 +2,9 @@ import 'package:bonuit/widgets/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
-import 'models/simple_stream.dart';
+import 'simple_stream.dart';
+import 'data.dart';
+import 'local_files.dart';
 
 const DarkColorScheme = ColorScheme(
   brightness: Brightness.dark,
@@ -31,7 +33,49 @@ const LightColorScheme = ColorScheme(
     background: Color(0xFFE0E0E0),
     onBackground: Color(0xFF313131));
 
-class AppTheme {
+class AppTheme extends Data {
+  static SimpleStream<ThemeMode> themeMode = SimpleStream();
+  static final localFile = LocalFiles('theme-mode', [
+    {'themeMode': 'system'}
+  ]);
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['themeMode'] = themeMode.current!.name;
+    return data;
+  }
+
+  /// Initialise la valeur de `themeMode` d'après ce qui se trouve dans les
+  /// fichiers
+  ///
+  /// À appeler dans `main`
+  static initialize() async {
+    final themeMode = (await localFile.readAll())[0]['themeMode'];
+
+    switch (themeMode) {
+      case 'system':
+        changeMode(ThemeMode.system);
+        break;
+      case 'light':
+        changeMode(ThemeMode.light);
+        break;
+      case 'dark':
+        changeMode(ThemeMode.dark);
+        break;
+      default:
+        return ThemeMode.system;
+    }
+  }
+
+  /// Change au runtime la valeur de `themeMode` et l'actualise dans les fichiers
+  static changeMode(ThemeMode mode) async {
+    themeMode.update(mode);
+    await localFile.write([
+      {'themeMode': themeMode.current!.name}
+    ]);
+  }
+
+  /// Construit un `ThemeData` d'après un `ColorScheme`
   static ThemeData themeBuilder(ColorScheme colorScheme) => ThemeData(
         /// THEME ///
         colorScheme: colorScheme,
@@ -182,6 +226,4 @@ class AppTheme {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))))),
       );
-
-  static SimpleStream<ThemeMode> themeMode = SimpleStream();
 }

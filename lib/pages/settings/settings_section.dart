@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class SettingsSection extends StatelessWidget {
   IconData iconData;
@@ -24,10 +25,12 @@ class SettingsSection extends StatelessWidget {
             SizedBox(
               width: 15,
             ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineLarge,
-            )
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 75),
+              child: AutoSizeText(title,
+                  style: Theme.of(context).textTheme.titleLarge, maxLines: 1),
+            ),
           ],
         ),
         SizedBox(

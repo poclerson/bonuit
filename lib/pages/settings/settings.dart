@@ -8,6 +8,8 @@ import '../../models/sleep_target.dart';
 import 'app_time_picker_spinner.dart';
 import 'theme_mode_picker.dart';
 import 'package:flutter/cupertino.dart';
+import '../../widgets/choices_prompt.dart';
+import '../../models/sleep_day.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -67,6 +69,24 @@ class _SettingsState extends State<Settings> {
                       title: 'Thème',
                       children: [ThemeModePicker()],
                       isButtonSection: false),
+                  SettingsSection(
+                      iconData: CupertinoIcons.calendar,
+                      title: 'Données de sommeil',
+                      children: [
+                        SettingsButton(
+                            text: 'Réintialiser les données',
+                            content: Icon(
+                              CupertinoIcons.delete_solid,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                            onPressed: () => showDialog(
+                                  context: context,
+                                  builder: (context) => ChoicesPrompt(
+                                    text: 'Supprimer les données?',
+                                    onAccepted: () => SleepDay.deleteAll(),
+                                  ),
+                                ))
+                      ])
                 ],
               ),
             )

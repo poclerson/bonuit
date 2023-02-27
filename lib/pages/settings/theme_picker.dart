@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../app_theme.dart';
+import '../../models/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 
 class ThemePicker extends StatefulWidget {
@@ -18,9 +18,10 @@ class ThemePicker extends StatefulWidget {
 class _ThemePickerState extends State<ThemePicker> {
   @override
   Widget build(BuildContext context) {
+    // debugPrint(AppTheme.themeMode.current!.name);
     return IconButton(
         onPressed: () => setState(() {
-              AppTheme.themeMode.update(widget.themeMode);
+              AppTheme.changeMode(widget.themeMode);
             }),
         icon: Icon(
           widget.iconData,

@@ -19,7 +19,10 @@ class TimeInterval {
   late List<int> intervals;
   TimeInterval({required List<SleepDay> days, required int intervalAmount}) {
     if (days.isNotEmpty) {
+      /// Représente l'écart maximal entre le `sleepTime` le plus tôt
+      /// et le `wakeTime` le plus tard
       SleepDay maximumDay = days.reduce((curr, next) {
+        // Convertir le sommeil en double
         double currentSleepDouble = curr.sleepTime.toDouble();
         double nextSleepDouble = next.sleepTime.toDouble();
 
