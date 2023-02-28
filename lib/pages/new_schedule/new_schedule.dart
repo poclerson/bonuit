@@ -97,13 +97,13 @@ class _NewScheduleState extends State<NewSchedule> {
                                 _sleepTime = sleep;
                                 _wakeTime = wake;
                               }))),
-                      if (widget.schedule.hoursSlept < SleepTarget.total)
+                      if (SleepTarget().duration > widget.schedule.hoursSlept)
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Il vous manque ${(SleepTarget.total - widget.schedule.hoursSlept).toTimeOfDay().toStringFormatted('h')} pour atteindre votre objectif de sommeil',
+                              'Il vous manque ${(SleepTarget().duration - widget.schedule.hoursSlept).toStringFormatted('h', true)} pour atteindre votre objectif de sommeil',
                               style: Theme.of(context).textTheme.titleLarge,
                               textAlign: TextAlign.center,
                             ),

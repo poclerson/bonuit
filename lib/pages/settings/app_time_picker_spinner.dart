@@ -16,7 +16,7 @@ class _AppTimePickerSpinnerState extends State<AppTimePickerSpinner> {
     return TimePickerSpinner(
         alignment: Alignment.center,
         isForce2Digits: true,
-        minutesInterval: 5,
+        minutesInterval: 15,
         time: DateTime(
             0, 0, 0, widget.defaultTime.hour, widget.defaultTime.minute),
         itemWidth: 80,

@@ -18,8 +18,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
-  @pragma("vm:entry-point")
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
@@ -79,7 +77,7 @@ class _HomeState extends State<Home> {
                               .averageHoursSleptFromLast(SortMethod.weekly),
                           text: 'Moyenne\nhebdomadaire',
                           onPressed: () {
-                            Get.to(Stats(SortMethod.weekly));
+                            Get.to(() => Stats(SortMethod.weekly));
                           }),
                       AverageCircle(
                           averageDay: snapshot.data!
@@ -88,7 +86,7 @@ class _HomeState extends State<Home> {
                               .averageHoursSleptFromLast(SortMethod.monthly),
                           text: 'Moyenne\nmensuelle',
                           onPressed: () {
-                            Get.to(Stats(SortMethod.monthly));
+                            Get.to(() => Stats(SortMethod.monthly));
                           }),
                     ],
                   ),

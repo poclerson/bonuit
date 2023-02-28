@@ -54,11 +54,16 @@ class _StatsState extends State<Stats> {
       future: SleepDay.json.all,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          timeInterval = TimeInterval(
-              days: (snapshot.data as List<SleepDay>), intervalAmount: 4);
+          timeInterval = TimeInterval(days: snapshot.data!, intervalAmount: 4);
           return Scaffold(
               appBar: DatesAppBar(sortMethod.display(pageIndex)),
-              bottomNavigationBar: NavBar(),
+              bottomNavigationBar: NavBar(
+                child: SortMethodPicker(
+                    [byWeek, byMonth, bySixMonths],
+                    [byWeek, byMonth, bySixMonths].indexOf(sortMethod),
+                    updateSortMethod),
+                alignment: MainAxisAlignment.center,
+              ),
               body: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -79,9 +84,10 @@ class _StatsState extends State<Stats> {
                               sortMethod: sortMethod,
                               onPageChanged: (pageIndex) => setState(() {
                                 this.pageIndex = pageIndex;
-                                if (sortMethod.dayAmount != 7)
-                                  sortMethod.identifiers =
-                                      sortMethod.go(-pageIndex);
+                                if (sortMethod.dayAmount != 7) {
+                                  sortMethod.identifiers = sortMethod
+                                      .createIntervalsFormatted(-pageIndex);
+                                }
                               }),
                             )
 
@@ -91,10 +97,6 @@ class _StatsState extends State<Stats> {
                       )
                     ],
                   ),
-                  SortMethodPicker(
-                      [byWeek, byMonth, bySixMonths],
-                      [byWeek, byMonth, bySixMonths].indexOf(sortMethod),
-                      updateSortMethod)
                 ],
               ));
         }

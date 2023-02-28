@@ -10,6 +10,7 @@ import 'theme_mode_picker.dart';
 import 'package:flutter/cupertino.dart';
 import '../../widgets/choices_prompt.dart';
 import '../../models/sleep_day.dart';
+import '../../models/time_of_day_extension.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class _SettingsState extends State<Settings> {
                         SettingsButton(
                           text: 'Objectif de sommeil',
                           content: Text(
-                            SleepTarget.duration.toStringHoursMinutes(),
+                            SleepTarget().duration.toStringFormatted('h'),
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
@@ -54,13 +55,11 @@ class _SettingsState extends State<Settings> {
                           onPressed: () => showModalBottomSheet(
                               context: context,
                               builder: (context) => AppTimePickerSpinner(
-                                  defaultTime: TimeOfDay(
-                                      hour: SleepTarget.hours,
-                                      minute: SleepTarget.minutes),
+                                  defaultTime: SleepTarget().duration,
                                   onTimeChanged: (time) => setState(() {
-                                        SleepTarget.duration = Duration(
-                                            hours: time.hour,
-                                            minutes: time.minute);
+                                        SleepTarget().setDuration(TimeOfDay(
+                                            hour: time.hour,
+                                            minute: time.minute));
                                       }))),
                         )
                       ]),

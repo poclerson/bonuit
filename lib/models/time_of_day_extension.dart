@@ -19,7 +19,7 @@ extension TimeOfDayExtension on TimeOfDay {
     } else {
       newMinute = minute - other.minute;
     }
-    newHour = hour - other.hour;
+    newHour -= other.hour;
     return TimeOfDay(hour: newHour.abs(), minute: newMinute);
   }
 
@@ -82,11 +82,24 @@ extension TimeOfDayExtension on TimeOfDay {
 
   int toInt() => toDouble().round();
 
-  String toStringFormatted([String separator = ':']) {
+  String toStringFormatted(
+      [String separator = ':', bool formatBeautifully = false]) {
     String time = toString()
         .substring(toString().indexOf('(') + 1, toString().indexOf(')'))
         .replaceAll(':', separator);
-    if (time[0] == '0') time = time.substring(1, time.length);
+    // Retirer le premier 0 si les heures n'ont qu'une chiffre
+    if (hour < 10) time = time.substring(1, time.length);
+
+    if (formatBeautifully) {
+      // N'afficher que les minutes si c'est sous une heure
+      if (hour == 0) time = '${time.substring(2, time.length)} minutes';
+
+      if (minute == 0) {
+        time =
+            '${time.substring(0, 2).replaceAll(separator, '')} heure${hour > 1 ? 's' : ''}';
+      }
+    }
+
     return time;
   }
 

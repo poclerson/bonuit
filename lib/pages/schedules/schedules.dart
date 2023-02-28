@@ -39,7 +39,8 @@ class _SchedulesState extends State<Schedules> {
     _schedules = Schedule.json.all;
     _weekdays = Weekday.json.all;
     return Scaffold(
-      bottomNavigationBar: NavBar(Container(
+      bottomNavigationBar: NavBar(
+          child: Container(
         width: 60,
         height: 60,
         child: ElevatedButton(

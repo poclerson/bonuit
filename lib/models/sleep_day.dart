@@ -9,7 +9,7 @@ import 'data.dart';
 
 /// Représente les données relatives à chaque jour de sommeil
 class SleepDay extends TimeSlept implements Data {
-  static LocalFiles<SleepDay> localFile = LocalFiles('days');
+  static LocalFiles localFile = LocalFiles('days');
   static JSONManager<SleepDay> json = JSONManager(
       localFile: localFile, constructor: ((json) => SleepDay.fromJson(json)));
   static late TimeOfDay? nextDaySleepTime;
@@ -38,10 +38,6 @@ class SleepDay extends TimeSlept implements Data {
     return data;
   }
 
-  @override
-  SleepDay constructFromJson(Map<String, dynamic> json) =>
-      SleepDay.fromJson(json);
-
   /// Représente le prochain `SleepDay`, ou celui qui est entrain de se produire
   /// si `nextDaySleepTime` n'est pas `null`
   ///
@@ -67,9 +63,7 @@ class SleepDay extends TimeSlept implements Data {
     SleepDay.nextDaySleepTime = TimeSlept.now;
   }
 
-  static deleteAll() async {
-    // await Data.write([], localFile);
-  }
+  static deleteAll() async => await json.deleteAll();
 
   @override
   String toString() =>

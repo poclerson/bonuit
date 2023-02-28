@@ -48,7 +48,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ThemeMode>(
-        initialData: ThemeMode.dark,
+        initialData: AppTheme.themeMode.current,
         stream: AppTheme.themeMode.output,
         builder: ((context, snapshot) {
           return GetMaterialApp(

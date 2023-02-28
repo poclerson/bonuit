@@ -7,7 +7,7 @@ class AverageCircle extends StatefulWidget {
   SleepDay averageDay;
   double averageHoursSlept;
   String text;
-  Function onPressed = () {};
+  Function onPressed;
   AverageCircle(
       {required this.averageDay,
       required this.averageHoursSlept,
@@ -32,12 +32,8 @@ class _AverageCircleState extends State<AverageCircle> {
               TimePicker(
                 initTime: start,
                 endTime: end,
-                onSelectionChange: (sleep, wake, isDisableRange) {
-                  setState(() {});
-                },
-                onSelectionEnd: (sleep, wake, isDisableRange) {
-                  setState(() {});
-                },
+                onSelectionChange: (sleep, wake, isDisableRange) {},
+                onSelectionEnd: (sleep, wake, isDisableRange) {},
                 width: 150,
                 height: 150,
                 isInitHandlerSelectable: false,

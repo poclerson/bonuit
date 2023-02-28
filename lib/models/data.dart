@@ -56,11 +56,15 @@ class JSONManager<T extends Data> {
 
   /// Modifie toutes les instances de données `T` qui remplissent
   /// la condition `shouldEditWhere` à `data`
+  ///
+  /// Si `shouldEditWhere` n'est pas définie, tous les éléments seront
+  /// modifiés à `data`
   Future<List<T>> edit(
-      {required T data, required bool Function(T data) shouldEditWhere}) async {
+      {required T data, bool Function(T data)? shouldEditWhere}) async {
+    shouldEditWhere ??= (_) => true;
     List<T> json = await all;
-    int indexOfData = json.indexWhere((element) => shouldEditWhere(element));
-    json.removeWhere((element) => shouldEditWhere(element));
+    int indexOfData = json.indexWhere((element) => shouldEditWhere!(element));
+    json.removeWhere((element) => shouldEditWhere!(element));
     json.insert(indexOfData, data);
     await write(json);
     return json;

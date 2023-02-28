@@ -3,8 +3,11 @@ import '../models/sound.dart';
 import 'package:get/get.dart';
 
 class NavBar extends StatelessWidget {
-  final Widget _title;
-  NavBar([this._title = const Text('')]);
+  final Widget child;
+  final MainAxisAlignment alignment;
+  NavBar(
+      {this.child = const Text(''),
+      this.alignment = MainAxisAlignment.spaceBetween});
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -17,7 +20,11 @@ class NavBar extends StatelessWidget {
             await Sound.stop();
           },
         ),
-        _title
+        child,
+        if (alignment != MainAxisAlignment.spaceBetween)
+          SizedBox(
+            width: 50,
+          )
       ]),
     ));
   }

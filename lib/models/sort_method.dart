@@ -63,7 +63,7 @@ class SortMethod {
     return intervals;
   }
 
-  List<dynamic> go(int distance) {
+  List<dynamic> createIntervalsFormatted(int distance) {
     return createIntervals(
         DateTime(startDate.year, startDate.month,
             startDate.day + distance * dayAmount),
@@ -93,11 +93,9 @@ class SortMethod {
           return 'Il y a $distance mois';
       }
     }
-    if (go(distance).first is DateTime && go(distance).last is DateTime) {
-      return 'Du ' +
-          (go(distance).last as DateTime).toFrench() +
-          ' au ' +
-          (go(distance).first as DateTime).toFrench();
+    if (createIntervalsFormatted(distance).first is DateTime &&
+        createIntervalsFormatted(distance).last is DateTime) {
+      return 'Du ${(createIntervalsFormatted(distance).last as DateTime).toFrench()} au ${(createIntervalsFormatted(distance).first as DateTime).toFrench()}';
     }
     return '';
   }

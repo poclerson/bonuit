@@ -87,12 +87,12 @@ class _AppCircleTimePickerState extends State<AppCircleTimePicker> {
               clockNumberDecoration: TimePickerClockNumberDecoration(
                   clockTimeFormat: ClockTimeFormat.TWENTYFOURHOURS,
                   defaultTextColor: Theme.of(context).colorScheme.onBackground,
-                  clockIncrementTimeFormat: ClockIncrementTimeFormat.ONEMIN,
+                  clockIncrementTimeFormat: ClockIncrementTimeFormat.FIFTEENMIN,
                   scaleFactor: 3,
                   textScaleFactor: .4)),
           child: Align(
             child: Text(
-              widget.schedule.timeOfDaySlept.toStringFormatted(),
+              widget.schedule.timeOfDaySlept.toStringFormatted('h'),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),

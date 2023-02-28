@@ -16,29 +16,26 @@ class SortMethodPicker extends StatefulWidget {
 class _SortMethodPickerState extends State<SortMethodPicker> {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 10,
-      child: ToggleButtons(
-          isSelected: widget.sortMethodsActivation,
-          textStyle: Theme.of(context).textTheme.labelLarge,
-          onPressed: (index) {
-            setState(() {
-              for (var i = 0; i < widget.sortMethods.length; i++) {
-                if (i == index) {
-                  widget.sortMethodsActivation[i] = true;
-                  widget.sortMethods[i].onChanged(widget.sortMethods[i]);
-                } else {
-                  widget.sortMethodsActivation[i] = false;
-                }
+    return ToggleButtons(
+        isSelected: widget.sortMethodsActivation,
+        textStyle: Theme.of(context).textTheme.labelLarge,
+        onPressed: (index) {
+          setState(() {
+            for (var i = 0; i < widget.sortMethods.length; i++) {
+              if (i == index) {
+                widget.sortMethodsActivation[i] = true;
+                widget.sortMethods[i].onChanged(widget.sortMethods[i]);
+              } else {
+                widget.sortMethodsActivation[i] = false;
               }
-            });
-          },
-          children: [
-            ...widget.sortMethods.map((sortMethod) => Text(
-                  sortMethod.name,
-                  // style: Theme.of(context).textTheme.labelLarge,
-                ))
-          ]),
-    );
+            }
+          });
+        },
+        children: [
+          ...widget.sortMethods.map((sortMethod) => Text(
+                sortMethod.name,
+                // style: Theme.of(context).textTheme.labelLarge,
+              ))
+        ]);
   }
 }
