@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 /// Interagit avec le système de fichiers
 /// pour créer et modifier des fichiers json
-class LocalFiles {
+class LocalFiles<T> {
+  static const defaultDefaultContent = [];
   String fileName;
-  late List<dynamic>? defaultContents;
-  LocalFiles(this.fileName, List<dynamic>? defaultContents) {
-    this.defaultContents = defaultContents ?? [];
-  }
+  late List<dynamic> defaultContents;
+  LocalFiles(this.fileName,
+      [List<dynamic> defaultContents = defaultDefaultContent]);
 
   /// Obtient le chemin vers les documents des applications
   Future<String> get path async {
@@ -36,11 +36,11 @@ class LocalFiles {
   }
 
   /// Lit tout le contenu d'un fichier
-  Future<List<dynamic>> readAll() async {
+  Future<List<T>> readAll() async {
     final file = await this.file;
     await create();
     final contents = await file.readAsString();
-    List<dynamic> json = [];
+    List<T> json = [];
 
     try {
       json = await jsonDecode(contents);

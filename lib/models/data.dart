@@ -49,6 +49,11 @@ class JSONManager<T extends Data> {
     return json;
   }
 
+  /// Restore les données de `localFile` à `localFile.defaultContents`
+  deleteAll() async {
+    await write(localFile.defaultContents);
+  }
+
   /// Modifie toutes les instances de données `T` qui remplissent
   /// la condition `shouldEditWhere` à `data`
   Future<List<T>> edit(
@@ -81,7 +86,7 @@ class JSONManager<T extends Data> {
     return newJson;
   }
 
-  write(List<Data> json) async {
+  write(List<dynamic> json) async {
     localFile.write(json.map((element) => element.toJson()).toList());
   }
 }

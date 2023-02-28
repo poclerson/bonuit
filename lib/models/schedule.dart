@@ -10,7 +10,7 @@ import 'data.dart';
 enum Operation { addition, edition }
 
 class Schedule extends TimeSlept implements Data {
-  static LocalFiles localFile = LocalFiles('schedules', []);
+  static LocalFiles<Schedule> localFile = LocalFiles('schedules', []);
   static JSONManager<Schedule> json = JSONManager(
       localFile: localFile, constructor: ((json) => Schedule.fromJson(json)));
   late String name;

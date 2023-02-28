@@ -13,7 +13,7 @@ import 'notification_controller.dart';
 /// Gère les différents horaires assignables vers chaque jour de la semaine
 /// et permet leur affichage dynamique
 class Weekday extends Data {
-  static LocalFiles localFile = LocalFiles('weekdays', [
+  static LocalFiles<Weekday> localFile = LocalFiles<Weekday>('weekdays', [
     {"day": "lundi", "schedule": null},
     {"day": "mardi", "schedule": null},
     {"day": "mercredi", "schedule": null},
@@ -57,6 +57,10 @@ class Weekday extends Data {
     data['schedule'] = schedule != null ? schedule!.toJson() : null;
     return data;
   }
+
+  @override
+  Weekday constructFromJson(Map<String, dynamic> json) =>
+      Weekday.fromJson(json);
 
   @override
   String toString() => 'Weekday($day, $schedule)';
