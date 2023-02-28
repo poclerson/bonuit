@@ -51,7 +51,7 @@ class _StatsState extends State<Stats> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: SleepDay.all,
+      future: SleepDay.json.all,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           timeInterval = TimeInterval(

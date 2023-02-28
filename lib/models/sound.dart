@@ -73,6 +73,6 @@ class Sound {
 
 extension SoundListExtension on List<Sound> {
   int indexOfFromFileName(String fileName) {
-    return indexOf(firstWhere((sound) => sound.fileName == fileName));
+    return indexWhere((sound) => sound.fileName == fileName);
   }
 }

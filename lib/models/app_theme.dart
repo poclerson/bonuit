@@ -33,7 +33,7 @@ const LightColorScheme = ColorScheme(
     background: Color(0xFFE0E0E0),
     onBackground: Color(0xFF313131));
 
-class AppTheme extends Data {
+abstract class AppTheme extends Data {
   static SimpleStream<ThemeMode> themeMode = SimpleStream();
   static final localFile = LocalFiles('theme-mode', [
     {'themeMode': 'system'}

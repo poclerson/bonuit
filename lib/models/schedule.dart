@@ -11,6 +11,8 @@ enum Operation { addition, edition }
 
 class Schedule extends TimeSlept implements Data {
   static LocalFiles localFile = LocalFiles('schedules', []);
+  static JSONManager<Schedule> json = JSONManager(
+      localFile: localFile, constructor: ((json) => Schedule.fromJson(json)));
   late String name;
   late Color color;
   late String sleepSound;
@@ -72,34 +74,11 @@ class Schedule extends TimeSlept implements Data {
   String toString() =>
       'Schedule($name, $color, $sleepSound, $wakeSound, ${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
 
-  String timeInterval() {
-    PickedTime intervalTime = formatIntervalTime(
-        init: sleepTime.toPickedTime(), end: wakeTime.toPickedTime());
-    return '${intervalTime.h}:${intervalTime.m == 0 ? '00' : intervalTime.m}';
-  }
+  add() async => await json.add(this);
 
-  add() async {
-    final schedules = await all;
-    schedules.add(this);
-    Data.write(schedules, localFile);
-  }
+  delete() async =>
+      await json.delete(shouldDeleteWhere: (schedule) => schedule.name == name);
 
-  delete() async {
-    final schedules = await all;
-    schedules.removeWhere((schedule) => schedule.name == name);
-    Data.write(schedules, localFile);
-  }
-
-  edit(Schedule newSchedule) async {
-    final schedules = await all;
-    schedules[schedules.indexWhere((schedule) => schedule.name == name)] =
-        newSchedule;
-    Data.write(schedules, localFile);
-  }
-
-  static Future<List<Schedule>> get all async {
-    final json = await localFile.readAll();
-
-    return json.map((element) => Schedule.fromJson(element)).toList();
-  }
+  edit(Schedule newSchedule) async => await json.edit(
+      data: newSchedule, shouldEditWhere: (schedule) => schedule.name == name);
 }

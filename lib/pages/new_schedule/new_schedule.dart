@@ -49,7 +49,7 @@ class _NewScheduleState extends State<NewSchedule> {
                 context: context,
                 builder: (context) => TextPrompt(
                       (value) async {
-                        final schedules = await Schedule.all;
+                        final schedules = await Schedule.json.all;
                         bool nameExists =
                             schedules.any((schedule) => schedule.name == value);
                         if (!nameExists) {

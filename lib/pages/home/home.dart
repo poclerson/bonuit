@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
         body: Padding(
       padding: EdgeInsets.only(top: 125),
       child: FutureBuilder(
-        future: SleepDay.all,
+        future: SleepDay.json.all,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(

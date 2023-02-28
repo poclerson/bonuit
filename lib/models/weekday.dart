@@ -23,12 +23,15 @@ class Weekday extends Data {
     {"day": "dimanche", "schedule": null}
   ]);
 
+  static JSONManager<Weekday> json = JSONManager(
+      localFile: localFile, constructor: ((json) => Weekday.fromJson(json)));
+
   /// Nom du jour
   late String day;
   late Schedule? schedule;
 
   static Future<Weekday> get today async {
-    final weekdays = await all;
+    final weekdays = await json.all;
 
     return weekdays[DateTime.now().weekday - 1];
   }
@@ -38,6 +41,8 @@ class Weekday extends Data {
 
   /// Crée un identifiant unique d'après le jour de la semaine, pour les notificationControllers
   int get wakeID => Date.weekdays.indexOf(day) * 2 + 1;
+
+  Weekday({required this.day, required this.schedule});
 
   Weekday.fromJson(Map<String, dynamic> json) {
     day = json['day'];
@@ -56,27 +61,18 @@ class Weekday extends Data {
   @override
   String toString() => 'Weekday($day, $schedule)';
 
-  static Future<List<Weekday>> get all async {
-    final json = await localFile.readAll();
-
-    return json.map((element) => Weekday.fromJson(element)).toList();
-  }
-
   /// S'exécute lorsqu'un nouveau [Schedule] est ajouté sur un bloc
   /// de jour de la semaine
   ///
   /// Assigne le nouveau [Schedule] dans le json et crée
   /// une nouvelle notification
   onScheduleAdded(Schedule newSchedule) async {
-    final weekdays = await all;
-    schedule = newSchedule;
-    Weekday weekdayToChange =
-        weekdays.firstWhere((weekday) => weekday.day == day);
-    int index = weekdays.indexOf(weekdayToChange);
-    weekdays[index] = this;
+    Weekday newWeekday = Weekday(day: day, schedule: newSchedule);
 
-    NotificationController.addSleepScheduled(this);
-    Data.write(weekdays, localFile);
+    await json.edit(
+        data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
+
+    NotificationController.addSleepScheduled(newWeekday);
   }
 
   /// S'exécute lorsqu'un bloc de jour de la semaine avait déjà un [Schedule],
@@ -85,46 +81,44 @@ class Weekday extends Data {
   /// Assigne le nouveau [Schedule] dans le json et crée
   /// une nouvelle notification
   onScheduleChanged(Schedule newSchedule) async {
-    final weekdays = await all;
-    schedule = newSchedule;
-    Weekday weekdayToChange =
-        weekdays.firstWhere((weekday) => weekday.day == day);
-    int index = weekdays.indexOf(weekdayToChange);
-    weekdays[index] = this;
+    Weekday newWeekday = Weekday(day: day, schedule: newSchedule);
+
+    await json.edit(
+        data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
 
     NotificationController.deleteSleepScheduled(this);
     NotificationController.addSleepScheduled(this);
-    Data.write(weekdays, localFile);
   }
 
   /// S'exécute lorsqu'on enlève le [Schedule] d'un bloc de jour de la semaine
   ///
   /// Enlève le [Schedule] du jour dans le json et supprime sa notification
   onScheduleRemoved() async {
-    final weekdays = await all;
+    Weekday newWeekday = Weekday(day: day, schedule: null);
 
-    weekdays.firstWhere((weekday) => weekday.day == day).schedule = null;
+    await json.edit(
+        data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
 
     NotificationController.deleteSleepScheduled(this);
-    await Data.write(weekdays, localFile);
   }
 
   /// S'exécute lorsqu'un [Schedule] se fait supprimer
   /// Supprime le [Schedule] supprimé de tous les jours de la semaine qui l'avaient
   ///
   /// Enlève le [Schedule] des jours de la semaine du json et supprime les notifications
-  static onScheduleDeleted(Schedule schedule) async {
-    final weekdays = await all;
+  static onScheduleDeleted(Schedule deletedSchedule) async {
+    final weekdays = await json.editAll(
+        editTo: (weekday) => Weekday(day: weekday.day, schedule: null),
+        shouldEditWhere: (weekday) => weekday.schedule != null
+            ? weekday.schedule!.name == deletedSchedule.name
+            : false);
 
     weekdays.forEach((weekday) async {
       if (weekday.schedule != null &&
-          (weekday.schedule!.name == schedule.name)) {
+          (weekday.schedule!.name == deletedSchedule.name)) {
         NotificationController.deleteSleepScheduled(weekday);
-        weekday.schedule = null;
       }
     });
-
-    await Data.write(weekdays, localFile);
   }
 
   /// S'exécute lorsqu'un [Schedule] se fait modifier
@@ -132,20 +126,21 @@ class Weekday extends Data {
   ///
   /// Enlève le [Schedule] des jours de la semaine du json et supprime les notifications
   static onScheduleEdited(Schedule editedSchedule) async {
-    final weekdays = await all;
+    final weekdays = await json.editAll(
+        editTo: (weekday) =>
+            Weekday(day: weekday.day, schedule: editedSchedule),
+        shouldEditWhere: (weekday) => weekday.schedule != null
+            ? weekday.schedule!.name == editedSchedule.name
+            : false);
 
     weekdays.forEach((weekday) async {
       if (weekday.schedule != null) {
         if (weekday.schedule!.name == editedSchedule.name) {
-          weekday.schedule = editedSchedule;
-
           NotificationController.deleteSleepScheduled(weekday);
           NotificationController.addSleepScheduled(weekday);
         }
       }
     });
-
-    await Data.write(weekdays, localFile);
   }
 
   /// Génère la liste de toutes les `NotificationOptions` disponibles.
@@ -156,7 +151,7 @@ class Weekday extends Data {
   /// On retourne donc la notification de coucher et celle de lever pour chaque
   /// `weekday` qui a un `schedule`
   static Future<List<NotificationOptions>> get allNotificationOptions async {
-    final weekdays = await all;
+    final weekdays = await json.all;
     List<NotificationOptions> options = [];
     weekdays.forEach((weekday) {
       if (weekday.schedule != null) {

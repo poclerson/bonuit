@@ -92,7 +92,7 @@ class _AppCircleTimePickerState extends State<AppCircleTimePicker> {
                   textScaleFactor: .4)),
           child: Align(
             child: Text(
-              widget.schedule.timeInterval(),
+              widget.schedule.timeOfDaySlept.toStringFormatted(),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),

@@ -10,6 +10,8 @@ import 'data.dart';
 /// Représente les données relatives à chaque jour de sommeil
 class SleepDay extends TimeSlept implements Data {
   static var localFile = LocalFiles('days', null);
+  static JSONManager<SleepDay> json = JSONManager(
+      localFile: localFile, constructor: ((json) => SleepDay.fromJson(json)));
   static late TimeOfDay? nextDaySleepTime;
   static late TimeOfDay? nextDayWakeTime;
 
@@ -50,9 +52,7 @@ class SleepDay extends TimeSlept implements Data {
   static onAwakened() async {
     SleepDay.nextDayWakeTime = TimeSlept.now;
     if (SleepDay.next != null) {
-      final days = await all;
-      days.add(SleepDay.next!);
-      Data.write(days, localFile);
+      json.add(SleepDay.next!);
       nextDaySleepTime = null;
       nextDayWakeTime = null;
     }
@@ -63,14 +63,8 @@ class SleepDay extends TimeSlept implements Data {
     SleepDay.nextDaySleepTime = TimeSlept.now;
   }
 
-  static Future<List<SleepDay>> get all async {
-    final json = await localFile.readAll();
-
-    return json.map((element) => SleepDay.fromJson(element)).toList();
-  }
-
   static deleteAll() async {
-    await Data.write([], localFile);
+    // await Data.write([], localFile);
   }
 
   @override
