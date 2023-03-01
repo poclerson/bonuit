@@ -1,9 +1,31 @@
-# Gestionnaire de sommeil en Flutter
+# Bonuit
+### Gestionnaire de sommeil en Flutter
 Ce projet est réalisé dans le cadre d'un cours au collège de Maisonneuve en tant que projet de fin d'études.
 
-## Fonctionnalités
-- Pouvoir estimer la quantité de sommeil que l’utilisateur obtient chaque nuit automatiquement (détecter lorsque l’appareil mobile arrête d’être utilisé). Je ne sais pas encore si cette fonctionnalité sera possible sous iOS, puisque Apple est reconnue pour ne pas laisser beaucoup de contrôle sur leur système d’opération.
+## Dépendances
+- [material](https://api.flutter.dev/flutter/material/material-library.html)
+- [cupertino](https://api.flutter.dev/flutter/cupertino/cupertino-library.html)
+- [get](https://pub.dev/packages/get)
+- [intl](https://pub.dev/packages/intl)
+- [path_provider](https://pub.dev/packages/path_provider)
+- [google_fonts](https://pub.dev/packages/google_fonts)
+- [progressive_time_picker](https://pub.dev/packages/progressive_time_picker)
+- [flutter_dash](https://pub.dev/packages/flutter_dash)
+- [separated_row](https://pub.dev/packages/separated_row)
+- [separated_column](https://pub.dev/packages/separated_column)
+- [https://pub.dev/packages/flutter_time_picker_spinner](https://pub.dev/packages/flutter_time_picker_spinner)
+- [timezone](https://pub.dev/packages/timezone)
+- [rxdart](https://pub.dev/packages/rxdart)
+- [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
+- [audioplayers](https://pub.dev/packages/audioplayers)
+- [auto_size_text](https://pub.dev/packages/auto_size_text)
 
-- Permettre à l’utilisateur de créer des alarmes pour chaque jour de la semaine réutilisables (par exemple, on pourrait avoir l’alarme « Travail » lundi, mardi et mercredi et l’alarme « École » jeudi et vendredi, qui auraient toutes deux des horaires différents)
+## Fichiers créés par l'étudiant
+L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/sommeil/tree/main/lib) sont ma création. J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/sommeil/tree/main/ios).
 
-- Gérer les heures de sommeil de l’utilisateur. C’est-à-dire que si, par exemple, l’utilisateur décide qu’il doit dormir 8 heures par nuit et que son alarme du lendemain est à 7 heures, un rappel de coucher devra se déclencher automatiquement pour 23 heures.
+## Démarrage de l'application sur macOS avec VSCode et Xcode
+- Suivre [ce tutoriel](https://www.youtube.com/watch?v=THsihXK1-14) pour l'installation de xcode et Flutter sur macOS.
+- Ouvrir le dossier sommeil dans VSCode
+- Ouvrir une fenêtre de terminal dans le dossier sommeil
+- Y écrire `flutter pub get`
+- Y écrire `flutter run`

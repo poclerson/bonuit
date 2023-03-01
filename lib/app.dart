@@ -5,7 +5,6 @@ import 'models/app_theme.dart';
 
 import 'models/screen.dart';
 import 'pages/home/home.dart';
-import 'package:background_fetch/background_fetch.dart';
 
 class App extends StatefulWidget {
   @override

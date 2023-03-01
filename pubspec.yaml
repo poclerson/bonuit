@@ -39,14 +39,10 @@ dependencies:
   flutter_dash:
   separated_row:
   separated_column:
-  pie_chart:
   flutter_time_picker_spinner: ^2.0.0
   timezone:
   rxdart:
   flutter_local_notifications:
-  flutter_background_service: ^2.4.6
-  workmanager:
-  background_fetch:
   audioplayers: ^2.0.0
   auto_size_text:
 
