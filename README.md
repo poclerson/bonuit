@@ -1,6 +1,5 @@
 # Bonuit
-### Gestionnaire de sommeil en Flutter
-Ce projet est réalisé dans le cadre d'un cours au collège de Maisonneuve en tant que projet de fin d'études.
+Ce projet réalisé dans le cadre du projet de fin d'études de techniques d'intégration multimédia au collège de Maisonneuve vise à créer un meilleur gestionnaire de sommeil que les alternatives populaires. En mettant un accent sur la création d'horaires réutilisables et en limitant les fonctionnalités, c'est-à-dire en ne procurant à l'utilisateur que le nécessaire, Bonuit permet de bien gérer le sommeil.
 
 ## Dépendances
 - [material](https://api.flutter.dev/flutter/material/material-library.html)
