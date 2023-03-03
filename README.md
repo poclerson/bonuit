@@ -2,6 +2,9 @@
 Ce projet réalisé dans le cadre du projet de fin d'études de techniques d'intégration multimédia au collège de Maisonneuve vise à créer un meilleur gestionnaire de sommeil que les alternatives populaires. En mettant un accent sur la création d'horaires réutilisables et en limitant les fonctionnalités, c'est-à-dire en ne procurant à l'utilisateur que le nécessaire, Bonuit permet de bien gérer le sommeil.
 
 ## Dépendances
+Je n'ai créé aucun des fichiers se trouvant dans [/pubspec.yaml](https://github.com/poclerson/bonuit/blob/main/pubspec.yaml).
+
+En voici la liste:
 - [material](https://api.flutter.dev/flutter/material/material-library.html)
 - [cupertino](https://api.flutter.dev/flutter/cupertino/cupertino-library.html)
 - [get](https://pub.dev/packages/get)
