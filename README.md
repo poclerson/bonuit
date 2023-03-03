@@ -22,6 +22,8 @@ En voici la liste:
 - [audioplayers](https://pub.dev/packages/audioplayers)
 - [auto_size_text](https://pub.dev/packages/auto_size_text)
 
+Je ne suis pas non plus le créateur d'aucun des fichiers de son (listés dans [/pubspec.yaml](https://github.com/poclerson/bonuit/blob/main/pubspec.yaml)).
+
 ## Fichiers créés par l'étudiant
 L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/sommeil/tree/main/lib) sont ma création. J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/sommeil/tree/main/ios).
 
