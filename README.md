@@ -24,8 +24,11 @@ Ce projet est réalisé dans le cadre d'un cours au collège de Maisonneuve en t
 L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/sommeil/tree/main/lib) sont ma création. J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/sommeil/tree/main/ios).
 
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
-- Suivre [ce tutoriel](https://www.youtube.com/watch?v=THsihXK1-14) pour l'installation de xcode et Flutter sur macOS.
+- Suivre [ce tutoriel](https://www.youtube.com/watch?v=THsihXK1-14) pour l'installation de xcode et [Flutter](https://docs.flutter.dev/get-started/install/macos) sur macOS.
+Attention. À l'étape de la mise à jour du `PATH` de Flutter, il faudra vérifier quel `shell` l'ordinateur utilise. Dans la plupart des cas, il s'agira de `zshell`. Modifier donc le fichier correspondant au type de `shell` dans la documentation Flutter expliquant l'installation de Flutter sur macOS.
 - Ouvrir le dossier sommeil dans VSCode
 - Ouvrir une fenêtre de terminal dans le dossier sommeil
-- Y écrire `flutter pub get`
-- Y écrire `flutter run`
+- Y écrire `flutter pub get` pour télécharger les packages
+- Y écrire `flutter run` pour lancer l'application
+
+S'assurer que l'appareil de débogage est bien le simulateur d'iOS et non macOS (Darwin), sinon le projet ne se lancera pas. On peut le changer en cliquant en-bas à droite dans VSCode.
