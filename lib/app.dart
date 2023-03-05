@@ -5,6 +5,40 @@ import 'models/app_theme.dart';
 
 import 'models/screen.dart';
 import 'pages/home/home.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+class RestartWidget extends StatefulWidget {
+  RestartWidget({this.child});
+
+  final Widget? child;
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_RestartWidgetState>()?.restartApp();
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    return _RestartWidgetState();
+  }
+}
+
+class _RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: key,
+      child: widget.child ?? Container(),
+    );
+  }
+}
 
 class App extends StatefulWidget {
   @override
@@ -30,14 +64,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         initialData: AppTheme.themeMode.current,
         stream: AppTheme.themeMode.output,
         builder: ((context, snapshot) {
-          return GetMaterialApp(
-            initialRoute: '/',
-            debugShowCheckedModeBanner: false,
-            home: Home(),
-            getPages: Screen.screens.map((screen) => screen.getPage).toList(),
-            theme: AppTheme.themeBuilder(LightColorScheme),
-            darkTheme: AppTheme.themeBuilder(DarkColorScheme),
-            themeMode: snapshot.data!,
+          return RestartWidget(
+            child: GetMaterialApp(
+              initialRoute: '/',
+              debugShowCheckedModeBanner: false,
+              home: Home(),
+              getPages: Screen.screens.map((screen) => screen.getPage).toList(),
+              theme: AppTheme.themeBuilder(LightColorScheme),
+              darkTheme: AppTheme.themeBuilder(DarkColorScheme),
+              themeMode: snapshot.data!,
+            ),
           );
         }));
   }

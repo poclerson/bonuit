@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../../models/time_of_day_extension.dart';
 import 'package:progressive_time_picker/progressive_time_picker.dart';
@@ -23,6 +25,7 @@ class _AverageCircleState extends State<AverageCircle> {
   Widget build(BuildContext context) {
     PickedTime start = widget.averageDay.sleepTime.toPickedTime();
     PickedTime end = widget.averageDay.wakeTime.toPickedTime();
+
     return Flexible(
       child: GestureDetector(
         onTap: () => widget.onPressed(),
