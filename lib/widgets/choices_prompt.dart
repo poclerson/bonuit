@@ -9,7 +9,10 @@ class ChoicesPrompt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Supprimer l'horaire?"),
+      title: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
       actionsAlignment: MainAxisAlignment.center,
       backgroundColor: Theme.of(context).colorScheme.surface,
       actionsPadding: EdgeInsets.all(20),

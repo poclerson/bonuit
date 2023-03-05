@@ -2,17 +2,30 @@ import 'package:flutter/material.dart';
 import '../../models/schedule.dart';
 import '../../widgets/round_icon_button.dart';
 import '../../models/time_of_day_extension.dart';
+import 'package:contrast_checker/contrast_checker.dart';
 
 class DraggableScheduleBox extends StatefulWidget {
   final Schedule schedule;
   final Function onEdited;
   final double boxWidth = 80;
+
   DraggableScheduleBox({required this.schedule, required this.onEdited});
   @override
   _DraggableScheduleBoxState createState() => _DraggableScheduleBoxState();
 }
 
 class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
+  Color get contrastedColor {
+    final checker = ContrastChecker();
+    return checker.contrastCheck(
+            Theme.of(context).textTheme.headlineLarge!.fontSize!,
+            Theme.of(context).colorScheme.background,
+            widget.schedule.color ?? Theme.of(context).colorScheme.onBackground,
+            WCAG.AA)
+        ? Theme.of(context).colorScheme.background
+        : Theme.of(context).colorScheme.onBackground;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LongPressDraggable<Schedule>(
@@ -56,18 +69,21 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge!
-                          .copyWith(
-                              color: Theme.of(context).colorScheme.background),
+                          .copyWith(color: contrastedColor),
                     ),
                     Text(
                       widget.schedule.sleepTime.toStringFormatted(),
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                          color: Theme.of(context).colorScheme.background),
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(color: contrastedColor),
                     ),
                     Text(
                       widget.schedule.wakeTime.toStringFormatted(),
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                          color: Theme.of(context).colorScheme.background),
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(color: contrastedColor),
                     )
                   ],
                 ),

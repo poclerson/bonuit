@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/weekday.dart';
 import '../../models/schedule.dart';
+import 'package:contrast_checker/contrast_checker.dart';
 
 class WeekdayBlock extends StatefulWidget {
   final Weekday weekday;
@@ -17,6 +18,7 @@ class WeekdayBlock extends StatefulWidget {
 }
 
 class WeekdayBlockState extends State<WeekdayBlock> {
+  final checker = ContrastChecker();
   final double padding = 10;
   late double boxWidth =
       (MediaQuery.of(context).size.width / 4 - 30).clamp(50, 100);
@@ -45,7 +47,17 @@ class WeekdayBlockState extends State<WeekdayBlock> {
                 child: Text(
                   widget.weekday.day[0].toUpperCase(),
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.background),
+                      color: checker.contrastCheck(
+                              Theme.of(context)
+                                  .textTheme
+                                  .headlineLarge!
+                                  .fontSize!,
+                              Theme.of(context).colorScheme.background,
+                              widget._color ??
+                                  Theme.of(context).colorScheme.onBackground,
+                              WCAG.AA)
+                          ? Theme.of(context).colorScheme.background
+                          : Theme.of(context).colorScheme.onBackground),
                 ),
               )),
         );

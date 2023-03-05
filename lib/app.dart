@@ -5,7 +5,6 @@ import 'models/app_theme.dart';
 
 import 'models/screen.dart';
 import 'pages/home/home.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class RestartWidget extends StatefulWidget {
   RestartWidget({this.child});

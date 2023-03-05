@@ -183,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
+  contrast_checker:
+    dependency: "direct main"
+    description:
+      name: contrast_checker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   convert:
     dependency: transitive
     description:
@@ -286,13 +293,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.0"
-  flutter_phoenix:
-    dependency: "direct main"
-    description:
-      name: flutter_phoenix
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
