@@ -26,8 +26,9 @@ class WeekdayBlockState extends State<WeekdayBlock> {
     return DragTarget<Schedule>(
       builder: (context, candidateSchedules, rejectedSchedules) {
         return GestureDetector(
-          onDoubleTap: () {
-            widget.weekday.onScheduleRemoved();
+          onTap: () => debugPrint(widget.weekday.schedule.toString()),
+          onDoubleTap: () async {
+            await widget.weekday.onScheduleRemoved();
             widget.updateWeekdays();
           },
           child: Container(
@@ -68,6 +69,7 @@ class WeekdayBlockState extends State<WeekdayBlock> {
       // Drop
       onAccept: (schedule) {
         setState(() {
+          widget.updateWeekdays();
           widget.weekday.onScheduleAdded(schedule);
           widget._color = schedule.color;
         });

@@ -113,7 +113,7 @@ class NotificationController {
 
   /// Annule la notification de réveil et celle de coucher de `weekday`
   static deleteSleepScheduled(Weekday weekday) {
-    debugPrint('Horaire ${weekday.schedule!.name} retiré du ${weekday.day}');
+    // debugPrint('Horaire ${weekday.schedule!.name} retiré du ${weekday.day}');
     flnp.cancel(weekday.sleepID);
     flnp.cancel(weekday.wakeID);
   }

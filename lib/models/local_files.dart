@@ -41,6 +41,10 @@ class LocalFiles {
     final contents = await file.readAsString();
     List<dynamic> json = [];
 
+    if (contents.isEmpty) {
+      throw Exception("Le contenu ne peut pas être vide");
+    }
+
     try {
       json = await jsonDecode(contents);
     } catch (e) {

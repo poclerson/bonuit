@@ -8,7 +8,6 @@ import 'average_circle.dart';
 import '../stats/stats.dart';
 import '../../models/time_of_day_extension.dart';
 import '../../models/notification_controller.dart';
-import 'package:background_fetch/background_fetch.dart';
 import '../../models/screen.dart';
 
 class Home extends StatefulWidget {

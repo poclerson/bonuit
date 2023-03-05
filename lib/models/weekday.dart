@@ -59,10 +59,6 @@ class Weekday extends Data {
   }
 
   @override
-  Weekday constructFromJson(Map<String, dynamic> json) =>
-      Weekday.fromJson(json);
-
-  @override
   String toString() => 'Weekday($day, $schedule)';
 
   /// S'exécute lorsqu'un nouveau [Schedule] est ajouté sur un bloc
@@ -98,12 +94,16 @@ class Weekday extends Data {
   ///
   /// Enlève le [Schedule] du jour dans le json et supprime sa notification
   onScheduleRemoved() async {
-    Weekday newWeekday = Weekday(day: day, schedule: null);
+    debugPrint("$schedule");
+    if (schedule != null) {
+      debugPrint("Horaire retiré et pas null");
+      Weekday newWeekday = Weekday(day: day, schedule: null);
 
-    await json.edit(
-        data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
+      await json.edit(
+          data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
 
-    NotificationController.deleteSleepScheduled(this);
+      NotificationController.deleteSleepScheduled(this);
+    }
   }
 
   /// S'exécute lorsqu'un [Schedule] se fait supprimer
@@ -117,12 +117,12 @@ class Weekday extends Data {
             ? weekday.schedule!.name == deletedSchedule.name
             : false);
 
-    weekdays.forEach((weekday) async {
+    for (var weekday in weekdays) {
       if (weekday.schedule != null &&
           (weekday.schedule!.name == deletedSchedule.name)) {
         NotificationController.deleteSleepScheduled(weekday);
       }
-    });
+    }
   }
 
   /// S'exécute lorsqu'un [Schedule] se fait modifier
@@ -137,14 +137,14 @@ class Weekday extends Data {
             ? weekday.schedule!.name == editedSchedule.name
             : false);
 
-    weekdays.forEach((weekday) async {
+    for (var weekday in weekdays) {
       if (weekday.schedule != null) {
         if (weekday.schedule!.name == editedSchedule.name) {
           NotificationController.deleteSleepScheduled(weekday);
           NotificationController.addSleepScheduled(weekday);
         }
       }
-    });
+    }
   }
 
   /// Génère la liste de toutes les `NotificationOptions` disponibles.
@@ -157,7 +157,7 @@ class Weekday extends Data {
   static Future<List<NotificationOptions>> get allNotificationOptions async {
     final weekdays = await json.all;
     List<NotificationOptions> options = [];
-    weekdays.forEach((weekday) {
+    for (var weekday in weekdays) {
       if (weekday.schedule != null) {
         options.add(NotificationOptions.fromTemplate(
             template: NotificationController.sleepTemplate,
@@ -172,7 +172,7 @@ class Weekday extends Data {
             sound: weekday.schedule!.wakeSound,
             onAccepted: SleepDay.onAwakened));
       }
-    });
+    }
 
     return options;
   }
