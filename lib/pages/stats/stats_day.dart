@@ -7,7 +7,6 @@ class StatsDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint('${size.width}, $offset');
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,

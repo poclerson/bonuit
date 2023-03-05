@@ -18,7 +18,6 @@ class ThemePicker extends StatefulWidget {
 class _ThemePickerState extends State<ThemePicker> {
   @override
   Widget build(BuildContext context) {
-    // debugPrint(AppTheme.themeMode.current!.name);
     return IconButton(
         onPressed: () => setState(() {
               AppTheme.changeMode(widget.themeMode);

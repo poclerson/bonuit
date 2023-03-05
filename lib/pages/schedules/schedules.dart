@@ -38,6 +38,7 @@ class _SchedulesState extends State<Schedules> {
 
     _schedules = Schedule.json.all;
     _weekdays = Weekday.json.all;
+
     return Scaffold(
       bottomNavigationBar: NavBar(
           child: Container(
@@ -47,7 +48,7 @@ class _SchedulesState extends State<Schedules> {
             onPressed: (() => Get.to(NewSchedule(
                   updateSchedules: updateSchedules,
                   schedule:
-                      Schedule.base(Theme.of(context).colorScheme.onBackground),
+                      Schedule.base(Theme.of(context).colorScheme.primary),
                   operation: Operation.addition,
                 ))),
             child: Text(

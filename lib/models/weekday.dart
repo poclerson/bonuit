@@ -94,9 +94,7 @@ class Weekday extends Data {
   ///
   /// Enlève le [Schedule] du jour dans le json et supprime sa notification
   onScheduleRemoved() async {
-    debugPrint("$schedule");
     if (schedule != null) {
-      debugPrint("Horaire retiré et pas null");
       Weekday newWeekday = Weekday(day: day, schedule: null);
 
       await json.edit(

@@ -6,6 +6,7 @@ import 'package:progressive_time_picker/progressive_time_picker.dart';
 import 'time_slept.dart';
 import 'time_of_day_extension.dart';
 import 'data.dart';
+import 'sound.dart';
 
 enum Operation { addition, edition }
 
@@ -52,8 +53,8 @@ class Schedule extends TimeSlept implements Data {
 
   Schedule.base(this.color) {
     name = 'Nouvel horaire';
-    sleepSound = 'classic.mp3';
-    wakeSound = 'classic.mp3';
+    sleepSound = Sound.sleep.first.fileName;
+    wakeSound = Sound.wake.first.fileName;
     sleepTime = const TimeOfDay(hour: 22, minute: 0);
     wakeTime = const TimeOfDay(hour: 6, minute: 0);
   }

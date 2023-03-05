@@ -85,7 +85,6 @@ class NotificationController {
   /// Continue d'afficher des notifications chaque semaine grâce à
   /// `flnp.periodicallyShow`
   static addSleepScheduled(Weekday weekday) async {
-    debugPrint('Horaire ${weekday.schedule!.name} ajouté le ${weekday.day}');
     NotificationOptions sleepOptions = NotificationOptions.fromTemplate(
         template: sleepTemplate,
         id: weekday.sleepID,
@@ -113,7 +112,6 @@ class NotificationController {
 
   /// Annule la notification de réveil et celle de coucher de `weekday`
   static deleteSleepScheduled(Weekday weekday) {
-    // debugPrint('Horaire ${weekday.schedule!.name} retiré du ${weekday.day}');
     flnp.cancel(weekday.sleepID);
     flnp.cancel(weekday.wakeID);
   }
@@ -130,7 +128,6 @@ class NotificationController {
   }
 
   static periodicallyShow(NotificationOptions options) async {
-    debugPrint('Horaire ${options.body} planifié');
     await show(options);
     await flnp.periodicallyShow(options.id, options.title, options.body,
         RepeatInterval.weekly, options.details,

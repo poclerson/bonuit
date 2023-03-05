@@ -31,6 +31,14 @@ class JSONManager<T extends Data> {
 
   JSONManager({required this.localFile, required this.constructor});
 
+  /// Dit si la liste des données contenue dans `localFile` contient
+  /// l'élément ordonné par `place`
+  Future<bool> hasDataWhere(Function(T data) place) async {
+    List<T> json = await all;
+
+    return json.any((data) => place(data));
+  }
+
   /// Ajoute des données `T` vers `localFile`
   Future<List<T>> add(T data) async {
     final json = await all;
@@ -62,12 +70,16 @@ class JSONManager<T extends Data> {
   Future<List<T>> edit(
       {required T data, bool Function(T data)? shouldEditWhere}) async {
     shouldEditWhere ??= (_) => true;
-    List<T> json = await all;
-    int indexOfData = json.indexWhere((element) => shouldEditWhere!(element));
-    json.removeWhere((element) => shouldEditWhere!(element));
-    json.insert(indexOfData, data);
-    await write(json);
-    return json;
+    // Empêche de faire un appel vers des données qui n'exsitent pas
+    if (await hasDataWhere((data) => shouldEditWhere!(data))) {
+      List<T> json = await all;
+      int indexOfData = json.indexWhere((element) => shouldEditWhere!(element));
+      json.removeWhere((element) => shouldEditWhere!(element));
+      json.insert(indexOfData, data);
+      await write(json);
+      return json;
+    }
+    return [];
   }
 
   /// Modifie toutes les instances de données `T` en `editTo` qui
@@ -75,19 +87,23 @@ class JSONManager<T extends Data> {
   Future<List<T>> editAll(
       {required T Function(T data) editTo,
       required bool Function(T data) shouldEditWhere}) async {
-    List<T> json = await all;
-    List<T> newJson = [];
+    // Empêche de faire un appel vers des données qui n'exsitent pas
+    if (await hasDataWhere((data) => shouldEditWhere(data))) {
+      List<T> json = await all;
+      List<T> newJson = [];
 
-    for (var i = 0; i < json.length; i++) {
-      T current = json[i];
-      if (shouldEditWhere(current)) {
-        current = editTo(current);
+      for (var i = 0; i < json.length; i++) {
+        T current = json[i];
+        if (shouldEditWhere(current)) {
+          current = editTo(current);
+        }
+        newJson.add(current);
       }
-      newJson.add(current);
-    }
 
-    await write(newJson);
-    return newJson;
+      await write(newJson);
+      return newJson;
+    }
+    return [];
   }
 
   write(List<dynamic> json) async {

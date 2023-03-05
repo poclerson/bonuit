@@ -6,6 +6,7 @@ import '../../models/time_of_day_extension.dart';
 class DraggableScheduleBox extends StatefulWidget {
   final Schedule schedule;
   final Function onEdited;
+  final double boxWidth = 80;
   DraggableScheduleBox({required this.schedule, required this.onEdited});
   @override
   _DraggableScheduleBoxState createState() => _DraggableScheduleBoxState();
@@ -15,12 +16,15 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
   @override
   Widget build(BuildContext context) {
     return LongPressDraggable<Schedule>(
+      delay: Duration(milliseconds: 200),
       data: widget.schedule,
+      dragAnchorStrategy: (draggable, context, position) =>
+          Offset(widget.boxWidth / 2, widget.boxWidth / 2),
       feedback: Container(
-        width: 70,
-        height: 70,
+        width: widget.boxWidth,
+        height: widget.boxWidth,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
           color: widget.schedule.color,
         ),
         child: Align(
@@ -48,7 +52,7 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.schedule.name!,
+                      widget.schedule.name,
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge!

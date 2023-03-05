@@ -190,7 +190,8 @@ class _NewScheduleState extends State<NewSchedule> {
                                         wakeSound: widget.schedule.wakeSound,
                                         sleepTime: _sleepTime,
                                         wakeTime: _wakeTime));
-                                Weekday.onScheduleEdited(widget.oldSchedule);
+                                await Weekday.onScheduleEdited(
+                                    widget.oldSchedule);
                                 widget.updateWeekdays!();
                             }
                             widget.updateSchedules();

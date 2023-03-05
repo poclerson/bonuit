@@ -27,9 +27,11 @@ class WeekdayBlockState extends State<WeekdayBlock> {
       builder: (context, candidateSchedules, rejectedSchedules) {
         return GestureDetector(
           onTap: () => debugPrint(widget.weekday.schedule.toString()),
-          onDoubleTap: () async {
-            await widget.weekday.onScheduleRemoved();
-            widget.updateWeekdays();
+          onDoubleTap: () {
+            setState(() {
+              widget._color = null;
+            });
+            widget.weekday.onScheduleRemoved();
           },
           child: Container(
               width: boxWidth,
@@ -51,8 +53,7 @@ class WeekdayBlockState extends State<WeekdayBlock> {
       // Hover
       onWillAccept: (schedule) {
         setState(() {
-          widget._color =
-              schedule!.color ?? Theme.of(context).colorScheme.onBackground;
+          widget._color = schedule!.color;
         });
         return schedule is Schedule;
       },
@@ -67,11 +68,10 @@ class WeekdayBlockState extends State<WeekdayBlock> {
       },
 
       // Drop
-      onAccept: (schedule) {
+      onAccept: (schedule) async {
+        await widget.weekday.onScheduleAdded(schedule);
         setState(() {
-          widget.updateWeekdays();
-          widget.weekday.onScheduleAdded(schedule);
-          widget._color = schedule.color;
+          widget.weekday.schedule = schedule;
         });
       },
     );

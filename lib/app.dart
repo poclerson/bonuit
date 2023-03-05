@@ -25,26 +25,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      // On réouvre l'application
-      case AppLifecycleState.resumed:
-        debugPrint('Resume');
-        break;
-      // On sort de l'application
-      case AppLifecycleState.paused:
-        debugPrint('Paused');
-        break;
-      // On ferme l'application
-      case AppLifecycleState.detached:
-        debugPrint('Detached');
-        break;
-      default:
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder<ThemeMode>(
         initialData: AppTheme.themeMode.current,

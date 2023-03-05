@@ -30,7 +30,7 @@ class LocalFiles {
     final exists = await file.exists();
     if (!exists) {
       await file.create();
-      write(defaultContents!);
+      write(defaultContents);
     }
   }
 
@@ -41,8 +41,9 @@ class LocalFiles {
     final contents = await file.readAsString();
     List<dynamic> json = [];
 
+    // Empêcher que le fichier soit complètement vide
     if (contents.isEmpty) {
-      throw Exception("Le contenu ne peut pas être vide");
+      await write(defaultContents);
     }
 
     try {
