@@ -15,12 +15,13 @@ En voici la liste:
 - [flutter_dash](https://pub.dev/packages/flutter_dash)
 - [separated_row](https://pub.dev/packages/separated_row)
 - [separated_column](https://pub.dev/packages/separated_column)
-- [https://pub.dev/packages/flutter_time_picker_spinner](https://pub.dev/packages/flutter_time_picker_spinner)
+- [flutter_time_picker_spinner](https://pub.dev/packages/flutter_time_picker_spinner)
 - [timezone](https://pub.dev/packages/timezone)
 - [rxdart](https://pub.dev/packages/rxdart)
 - [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
 - [audioplayers](https://pub.dev/packages/audioplayers)
 - [auto_size_text](https://pub.dev/packages/auto_size_text)
+- [contrast_checker](https://pub.dev/packages/contrast_checker)
 
 Je ne suis pas non plus le créateur d'aucun des fichiers de son (listés dans [/pubspec.yaml](https://github.com/poclerson/bonuit/blob/main/pubspec.yaml)).
 
@@ -34,9 +35,8 @@ L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/somme
 À l'étape de la mise à jour du `PATH` de Flutter, il faudra vérifier quel `shell` l'ordinateur utilise. Dans la plupart des cas, il s'agira de `zshell`. Modifier donc le fichier correspondant au type de `shell` dans la documentation Flutter expliquant l'installation de Flutter sur macOS.
 
 - Ouvrir le dossier `bonuit` dans VSCode
-- Ouvrir une fenêtre de terminal dans le dossier sommeil
+- Ouvrir une fenêtre de terminal dans le dossier `bonuit`
 - Y écrire `flutter pub get` afin de récupérer les packages nécessaires au bon fonctionnement du projet
+- S'assurer que l'appareil de débogage est bien le simulateur d'iOS et non macOS (Darwin), sinon le projet ne se lancera pas. On peut le changer en cliquant en-bas à droite dans VSCode
 - Aller dans Debug > Start Debugging ou appuyer sur `F5`/`fn`+`F5`
 - Le projet devrait s'ouvrir dans le simulateur iOS
-
-S'assurer que l'appareil de débogage est bien le simulateur d'iOS et non macOS (Darwin), sinon le projet ne se lancera pas. On peut le changer en cliquant en-bas à droite dans VSCode.
