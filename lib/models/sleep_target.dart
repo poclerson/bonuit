@@ -36,7 +36,7 @@ class SleepTarget extends Data {
   setDuration(TimeOfDay duration) {
     SleepTarget().duration = duration;
 
-    json.edit(data: SleepTarget());
+    json.edit(to: SleepTarget());
   }
 
   static initialize() async {

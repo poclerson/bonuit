@@ -80,6 +80,11 @@ class Schedule extends TimeSlept implements Data {
   delete() async =>
       await json.delete(shouldDeleteWhere: (schedule) => schedule.name == name);
 
-  edit(Schedule newSchedule) async => await json.edit(
-      data: newSchedule, shouldEditWhere: (schedule) => schedule.name == name);
+  edit(Schedule newSchedule, [String? editedName]) async {
+    await json.edit(
+        to: newSchedule,
+        shouldEditWhere: (schedule) {
+          return schedule.name == (editedName ?? name);
+        });
+  }
 }

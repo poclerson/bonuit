@@ -70,7 +70,7 @@ class Weekday extends Data {
     Weekday newWeekday = Weekday(day: day, schedule: newSchedule);
 
     await json.edit(
-        data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
+        to: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
 
     NotificationController.addSleepScheduled(newWeekday);
   }
@@ -84,7 +84,7 @@ class Weekday extends Data {
     Weekday newWeekday = Weekday(day: day, schedule: newSchedule);
 
     await json.edit(
-        data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
+        to: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
 
     NotificationController.deleteSleepScheduled(this);
     NotificationController.addSleepScheduled(this);
@@ -98,7 +98,7 @@ class Weekday extends Data {
       Weekday newWeekday = Weekday(day: day, schedule: null);
 
       await json.edit(
-          data: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
+          to: newWeekday, shouldEditWhere: (weekday) => weekday.day == day);
 
       NotificationController.deleteSleepScheduled(this);
     }
@@ -127,12 +127,14 @@ class Weekday extends Data {
   /// Modifie le [Schedule] modifié de tous les jours de la semaine qui l'avaient
   ///
   /// Enlève le [Schedule] des jours de la semaine du json et supprime les notifications
-  static onScheduleEdited(Schedule editedSchedule) async {
+  static onScheduleEdited(Schedule editedSchedule,
+      [String? editedScheduleName]) async {
     final weekdays = await json.editAll(
         editTo: (weekday) =>
             Weekday(day: weekday.day, schedule: editedSchedule),
         shouldEditWhere: (weekday) => weekday.schedule != null
-            ? weekday.schedule!.name == editedSchedule.name
+            ? weekday.schedule!.name ==
+                (editedScheduleName ?? editedSchedule.name)
             : false);
 
     for (var weekday in weekdays) {

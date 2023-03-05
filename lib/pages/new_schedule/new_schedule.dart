@@ -16,12 +16,14 @@ import '../../models/time_of_day_extension.dart';
 import 'package:separated_column/separated_column.dart';
 import 'new_schedule_section.dart';
 
+String? oldName;
+
 class NewSchedule extends StatefulWidget {
   Schedule schedule;
   Function updateSchedules;
   Function? updateWeekdays;
   Operation operation;
-  late Schedule oldSchedule = schedule;
+  Schedule? oldSchedule;
 
   NewSchedule(
       {required this.updateSchedules,
@@ -39,37 +41,45 @@ class _NewScheduleState extends State<NewSchedule> {
 
   @override
   Widget build(BuildContext context) {
+    oldName ??= widget.schedule.name;
     _sleepTime = widget.schedule.sleepTime.toPickedTime();
     _wakeTime = widget.schedule.wakeTime.toPickedTime();
 
+    debugPrint('allo');
+    showTextPrompt() => showDialog(
+        context: context,
+        builder: (context) => TextPrompt(
+              (value) async {
+                final schedules = await Schedule.json.all;
+                bool nameExists =
+                    schedules.any((schedule) => schedule.name == value);
+                if (!nameExists) {
+                  setState(() {
+                    widget.schedule.name = value;
+                  });
+                }
+                return nameExists;
+              },
+            ));
+
     /// Ajouter le Prompt aux fonctions ouvertes onLoad
-    WidgetsBinding.instance
-        .addPostFrameCallback(widget.schedule.name == Schedule.baseName
-            ? (_) => showDialog(
-                context: context,
-                builder: (context) => TextPrompt(
-                      (value) async {
-                        final schedules = await Schedule.json.all;
-                        bool nameExists =
-                            schedules.any((schedule) => schedule.name == value);
-                        if (!nameExists) {
-                          setState(() {
-                            widget.schedule.name = value;
-                          });
-                        }
-                        return nameExists;
-                      },
-                    ))
+    WidgetsBinding.instance.addPostFrameCallback(
+        widget.schedule.name == Schedule.baseName
+            ? (_) => showTextPrompt()
             : (_) {});
+    debugPrint('currentScheduleExt: ${widget.schedule.name}');
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Text(
-              widget.schedule.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: widget.schedule.color),
+            title: GestureDetector(
+              onTap: () => showTextPrompt(),
+              child: Text(
+                oldName ?? widget.schedule.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: widget.schedule.color),
+              ),
             )),
         bottomNavigationBar: NavBar(),
         body: Padding(
@@ -182,21 +192,23 @@ class _NewScheduleState extends State<NewSchedule> {
                                     .add();
                                 break;
                               case Operation.edition:
-                                await widget.oldSchedule.edit(
+                                await widget.schedule.edit(
                                     Schedule.pickedTime(
                                         name: widget.schedule.name,
                                         color: widget.schedule.color,
                                         sleepSound: widget.schedule.sleepSound,
                                         wakeSound: widget.schedule.wakeSound,
                                         sleepTime: _sleepTime,
-                                        wakeTime: _wakeTime));
+                                        wakeTime: _wakeTime),
+                                    oldName!);
                                 await Weekday.onScheduleEdited(
-                                    widget.oldSchedule);
+                                    widget.schedule, oldName);
                                 widget.updateWeekdays!();
                             }
                             widget.updateSchedules();
                             Navigator.of(Get.overlayContext!).pop();
                             await Sound.stop();
+                            oldName = null;
                           },
                           child: Text('Terminé')),
                       SizedBox(

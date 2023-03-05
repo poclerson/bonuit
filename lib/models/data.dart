@@ -67,23 +67,30 @@ class JSONManager<T extends Data> {
   ///
   /// Si `shouldEditWhere` n'est pas définie, tous les éléments seront
   /// modifiés à `data`
-  Future<List<T>> edit(
-      {required T data, bool Function(T data)? shouldEditWhere}) async {
+  Future<List<T>?> edit(
+      {required T to, bool Function(T data)? shouldEditWhere}) async {
     shouldEditWhere ??= (_) => true;
+    List<T> json = await all;
     // Empêche de faire un appel vers des données qui n'exsitent pas
     if (await hasDataWhere((data) => shouldEditWhere!(data))) {
-      List<T> json = await all;
+      debugPrint('a les donn.es');
       int indexOfData = json.indexWhere((element) => shouldEditWhere!(element));
       json.removeWhere((element) => shouldEditWhere!(element));
-      json.insert(indexOfData, data);
+      json.insert(indexOfData, to);
       await write(json);
       return json;
     }
-    return [];
+    return null;
   }
 
   /// Modifie toutes les instances de données `T` en `editTo` qui
   /// remplissent la condition `shouldEditWhere`
+  ///
+  /// `editTo` permet de modifier une partie d'une instance sans avoir
+  /// besoin de nécessairement créer une nouvelle instance de `T`
+  ///
+  /// `shouldEditWhere` est le test vérifiant si on doit modifier
+  /// l'élément présentement itéré ou non
   Future<List<T>> editAll(
       {required T Function(T data) editTo,
       required bool Function(T data) shouldEditWhere}) async {

@@ -117,6 +117,8 @@ class _SchedulesState extends State<Schedules> {
                                   .map((schedule) => DraggableScheduleBox(
                                         schedule: schedule,
                                         onEdited: () {
+                                          debugPrint(
+                                              'onedited ' + schedule.name);
                                           Get.to(NewSchedule(
                                             schedule: schedule,
                                             updateSchedules: updateSchedules,
