@@ -36,7 +36,7 @@ L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/somme
 - Ouvrir le dossier `bonuit` dans VSCode
 - Ouvrir une fenêtre de terminal dans le dossier sommeil
 - Y écrire `flutter pub get` afin de récupérer les packages nécessaires au bon fonctionnement du projet
-- Aller dans Debug > Start Debugging ou appuyer sur `F5`/`fn`+`F5
+- Aller dans Debug > Start Debugging ou appuyer sur `F5`/`fn`+`F5`
 - Le projet devrait s'ouvrir dans le simulateur iOS
 
 S'assurer que l'appareil de débogage est bien le simulateur d'iOS et non macOS (Darwin), sinon le projet ne se lancera pas. On peut le changer en cliquant en-bas à droite dans VSCode.
