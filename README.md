@@ -40,3 +40,6 @@ L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/somme
 - S'assurer que l'appareil de débogage est bien le simulateur d'iOS et non macOS (Darwin), sinon le projet ne se lancera pas. On peut le changer en cliquant en-bas à droite dans VSCode
 - Aller dans Debug > Start Debugging ou appuyer sur `F5`/`fn`+`F5`
 - Le projet devrait s'ouvrir dans le simulateur iOS
+
+## Étapes du projet
+Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [wiki](https://github.com/poclerson/bonuit/wiki) et la planification du temps dans le [projet](https://github.com/users/poclerson/projects/6/views/1).
