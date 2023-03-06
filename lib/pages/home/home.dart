@@ -78,7 +78,8 @@ class _HomeState extends State<Home> {
                           averageDay:
                               snapshot.data!.averageFromLast(SortMethod.weekly),
                           averageHoursSlept: snapshot.data!
-                              .averageHoursSleptFromLast(SortMethod.weekly),
+                              .averageFromLast(SortMethod.weekly)
+                              .hoursSlept,
                           text: 'Moyenne\nhebdomadaire',
                           onPressed: () {
                             Get.to(() => Stats(SortMethod.weekly));
@@ -87,7 +88,8 @@ class _HomeState extends State<Home> {
                           averageDay: snapshot.data!
                               .averageFromLast(SortMethod.monthly),
                           averageHoursSlept: snapshot.data!
-                              .averageHoursSleptFromLast(SortMethod.monthly),
+                              .averageFromLast(SortMethod.monthly)
+                              .hoursSlept,
                           text: 'Moyenne\nmensuelle',
                           onPressed: () {
                             Get.to(() => Stats(SortMethod.monthly));

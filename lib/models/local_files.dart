@@ -20,7 +20,7 @@ class LocalFiles {
   /// Crée une instance d'un fichier d'après `path`
   Future<File> get file async {
     final path = await this.path;
-    // this.path.then((value) => debugPrint(value.toString()));
+    this.path.then((value) => debugPrint(value.toString()));
     return File('$path/$fileName.json');
   }
 

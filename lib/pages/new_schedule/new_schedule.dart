@@ -45,7 +45,6 @@ class _NewScheduleState extends State<NewSchedule> {
     _sleepTime = widget.schedule.sleepTime.toPickedTime();
     _wakeTime = widget.schedule.wakeTime.toPickedTime();
 
-    debugPrint('allo');
     showTextPrompt() => showDialog(
         context: context,
         builder: (context) => TextPrompt(
@@ -74,7 +73,7 @@ class _NewScheduleState extends State<NewSchedule> {
             title: GestureDetector(
               onTap: () => showTextPrompt(),
               child: Text(
-                oldName ?? widget.schedule.name,
+                widget.schedule.name,
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!

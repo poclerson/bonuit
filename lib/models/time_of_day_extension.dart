@@ -109,8 +109,8 @@ extension TimeOfDayExtension on TimeOfDay {
     List<String> hoursAndMinutes =
         string.split(string.contains('h') ? 'h' : ':');
     return TimeOfDay(
-        hour: int.parse(hoursAndMinutes[0]),
-        minute: int.parse(hoursAndMinutes[1]));
+        hour: int.parse(hoursAndMinutes[0]) % 24,
+        minute: int.parse(hoursAndMinutes[1]) % 60);
   }
 
   static TimeOfDay fromPickedTime(PickedTime pickedTime) =>
