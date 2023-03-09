@@ -23,11 +23,9 @@ Les fichiers commentés se limitent aussi largement aux fichiers contenus dans [
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
 ### Étapes d'installation du projet
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
-- S'il s'agit d'un mac M1 et que Rosetta n'est pas téléchargée, télécharger Rosetta en écrivant 
+- S'il s'agit d'un mac M1 et que Rosetta n'est pas téléchargée, télécharger Rosetta en écrivant dans le terminal
+`sudo softwareupdate --install-rosetta --agree-to-license`
 
-###`sudo softwareupdate --install-rosetta --agree-to-license`
-
-dans le terminal
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Déplacer le dossier Bonuit dans `flutter/bin`
