@@ -26,18 +26,22 @@ dans le terminal
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Déplacer le dossier Bonuit dans `flutter/bin`
-- Ouvrir une fenêtre de terminal dans `flutter/bin/bonuit-main`. Pour ouvrir une fenêtre de terminal en contexte d'un dossier, cliquer sur le dossi
-er et entrer `^T`. Si ça ne fonctionne pas:
-  - Ouvrir le dossier `flutter`
-### Attention
-À l'étape de la mise à jour du `PATH` de Flutter, il faudra vérifier quel `shell` l'ordinateur utilise. Dans la plupart des cas, il s'agira de `zshell`. Modifier donc le fichier correspondant au type de `shell` dans la documentation Flutter expliquant l'installation de Flutter sur macOS.
+- Ouvrir une fenêtre de terminal dans le dossier `bonuit-main`. Pour ce faire:
+  - Ouvrir le dossier `flutter` dans VSCode
+  - Clic-droit sur le dossier `bonuit-main`
+  - Open in integrated terminal
+  - Un terminal est maintenant ouvert dans le dossier `bonuit-main`
+- Installer les extensions de Dart et Flutter pour VSCode
+- Dans VSCode, s'assurer que la cible de déploiement est bien le simulateur d'iOS. Ça devrait être visible en-bas à droite
+- Écrire dans le terminal:
+  - `flutter pub get` afin de télécharger les dépendances nécessaires au projet
+  - `flutter run` afin de démarrer le projet
+- L'application devrait s'ouvrir dans le simulateur iOS
 
-- Ouvrir le dossier `bonuit` dans VSCode
-- Ouvrir une fenêtre de terminal dans le dossier `bonuit`
-- Y écrire `flutter pub get` afin de récupérer les packages nécessaires au bon fonctionnement du projet
-- S'assurer que l'appareil de débogage est bien le simulateur d'iOS et non macOS (Darwin), sinon le projet ne se lancera pas. On peut le changer en cliquant en-bas à droite dans VSCode
-- Aller dans Debug > Start Debugging ou appuyer sur `F5`/`fn`+`F5`
-- Le projet devrait s'ouvrir dans le simulateur iOS
+Si les étapes décrites précédemment ne fonctionnent pas, il sera possible que:
+- Je montre l'application en direct par partage d'écran
+- Je montre comment installer les applications nécessaires par partage d'écran
+- Je crée une vidéo montrant l'application
 
 ## Étapes du projet
 Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [wiki](https://github.com/poclerson/bonuit/wiki) et la planification du temps dans le [projet](https://github.com/users/poclerson/projects/6/views/1).
