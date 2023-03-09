@@ -7,7 +7,14 @@ La liste des dépendances du projet (`packages` **que je n'ai pas créés**). La
 Je n'ai non plus créé aucun fichier de son utilisés dans cette application (listés dans [/pubspec.yaml](https://github.com/poclerson/bonuit/blob/main/pubspec.yaml)).
 
 ## Fichiers créés par l'étudiant
-L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/sommeil/tree/main/lib) sont ma création. J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/sommeil/tree/main/ios).
+L'entierté des fichiers contenus dans [/lib](https://github.com/poclerson/sommeil/tree/main/lib) sont ma création à l'exception de:
+- [Classe SimpleStream](https://github.com/poclerson/bonuit/blob/main/lib/models/simple_stream.dart)
+
+J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/sommeil/tree/main/ios):
+- [AppDelegate.swift](https://github.com/poclerson/bonuit/blob/main/ios/Runner/AppDelegate.swift)
+- [Info.plist](https://github.com/poclerson/bonuit/blob/main/ios/Runner/Info.plist)
+- [Podfile](https://github.com/poclerson/bonuit/blob/main/ios/Podfile)
+- [Runner.xcodeproj](https://github.com/poclerson/bonuit/blob/main/ios/Runner.xcodeproj/project.pbxproj)
 
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
 - Suivre [ce tutoriel](https://www.youtube.com/watch?v=THsihXK1-14) pour l'installation de xcode et [Flutter](https://docs.flutter.dev/get-started/install/macos) sur macOS.
