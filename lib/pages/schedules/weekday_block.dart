@@ -32,6 +32,7 @@ class WeekdayBlockState extends State<WeekdayBlock> {
           onDoubleTap: () {
             setState(() {
               widget._color = null;
+              widget.weekday.schedule = null;
             });
             widget.weekday.onScheduleRemoved();
           },

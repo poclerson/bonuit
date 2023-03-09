@@ -24,4 +24,5 @@ import flutter_local_notifications
     }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+  
 }

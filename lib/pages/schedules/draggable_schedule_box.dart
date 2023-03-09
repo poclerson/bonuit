@@ -37,7 +37,7 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
         width: widget.boxWidth,
         height: widget.boxWidth,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(5),
           color: widget.schedule.color,
         ),
         child: Align(
@@ -47,13 +47,13 @@ class _DraggableScheduleBoxState extends State<DraggableScheduleBox> {
               style: Theme.of(context)
                   .textTheme
                   .displaySmall!
-                  .copyWith(color: Theme.of(context).colorScheme.background),
+                  .copyWith(color: contrastedColor),
             )),
       ),
       child: GestureDetector(
           onTap: () => widget.onEdited(),
           child: Container(
-            margin: EdgeInsets.all(5),
+            margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: widget.schedule.color,
                 borderRadius: BorderRadius.circular(20)),

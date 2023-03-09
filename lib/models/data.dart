@@ -73,7 +73,6 @@ class JSONManager<T extends Data> {
     List<T> json = await all;
     // Empêche de faire un appel vers des données qui n'exsitent pas
     if (await hasDataWhere((data) => shouldEditWhere!(data))) {
-      debugPrint('a les donn.es');
       int indexOfData = json.indexWhere((element) => shouldEditWhere!(element));
       json.removeWhere((element) => shouldEditWhere!(element));
       json.insert(indexOfData, to);

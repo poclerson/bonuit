@@ -66,7 +66,6 @@ class _NewScheduleState extends State<NewSchedule> {
         widget.schedule.name == Schedule.baseName
             ? (_) => showTextPrompt()
             : (_) {});
-    debugPrint('currentScheduleExt: ${widget.schedule.name}');
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,

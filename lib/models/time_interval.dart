@@ -78,6 +78,7 @@ class TimeInterval {
     double difference = 0;
 
     if (offset >= intervals.first) {
+      
       difference = (offset - intervals.first).toDouble();
     } else {
       difference = 24 - intervals.first + offset.toDouble();

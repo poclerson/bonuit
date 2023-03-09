@@ -50,6 +50,7 @@ class SleepDay extends TimeSlept implements Data {
 
   /// Appelée au réveil par le système de notifications
   static onAwakened() async {
+    debugPrint('On se lève');
     SleepDay.nextDayWakeTime = TimeSlept.now;
     if (SleepDay.next != null) {
       json.add(SleepDay.next!);
@@ -60,6 +61,7 @@ class SleepDay extends TimeSlept implements Data {
 
   /// Appelée au coucher par le système de notifications
   static onWentToSleep() async {
+    debugPrint('On va dormir');
     SleepDay.nextDaySleepTime = TimeSlept.now;
   }
 

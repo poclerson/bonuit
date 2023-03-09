@@ -62,85 +62,96 @@ class _SchedulesState extends State<Schedules> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-              padding: EdgeInsets.only(top: 125, bottom: 50),
-              child: Text(
+          Flexible(
+              flex: 2,
+              child: Align(
+
+                  // padding: EdgeInsets.only(top: 125, bottom: 50),
+                  child: Text(
                 "Modifier l'horaire",
                 style: Theme.of(context).textTheme.displayMedium,
                 textAlign: TextAlign.center,
-              )),
-          FutureBuilder(
-              future: _weekdays,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Wrap(
-                    alignment: WrapAlignment.center,
-                    children: [
-                      ...snapshot.data!
-                          .map((weekday) => WeekdayBlock(
-                                weekday: weekday,
-                                defaultColor:
-                                    Theme.of(context).colorScheme.onBackground,
-                                updateWeekdays: updateWeekdays,
-                              ))
-                          .toList()
-                    ],
-                  );
-                } else {
-                  return Wrap(
-                    alignment: WrapAlignment.center,
-                    children: [Text('Pas encore chargé')],
-                  );
-                }
-              }),
-          FutureBuilder(
-              future: _schedules,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height:
-                        (MediaQuery.of(context).size.width / 3).clamp(0, 200),
-                    child: CustomScrollView(
-                      scrollDirection: Axis.horizontal,
-                      slivers: [
-                        SliverPadding(
-                          padding: const EdgeInsets.all(5),
-                          sliver: SliverGrid.count(
-                            crossAxisCount: 1,
-                            childAspectRatio:
-                                MediaQuery.of(context).size.width > 700
-                                    ? 1
-                                    : 1 / 1.35,
-                            children: [
-                              ...snapshot.data!
-                                  .map((schedule) => DraggableScheduleBox(
-                                        schedule: schedule,
-                                        onEdited: () {
-                                          debugPrint(
-                                              'onedited ' + schedule.name);
-                                          Get.to(NewSchedule(
+              ))),
+          Flexible(
+              flex: 2,
+              child: FutureBuilder(
+                  future: _weekdays,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [
+                          ...snapshot.data!
+                              .map((weekday) => WeekdayBlock(
+                                    weekday: weekday,
+                                    defaultColor: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                    updateWeekdays: updateWeekdays,
+                                  ))
+                              .toList()
+                        ],
+                      );
+                    } else {
+                      return Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [Text('Pas encore chargé')],
+                      );
+                    }
+                  })),
+          Flexible(
+              flex: MediaQuery.of(context).size.width > 900 ? 2 : 1,
+              child: FutureBuilder(
+                  future: _schedules,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        // fit: FlexFit.tight,
+                        // width: MediaQuery.of(context).size.width,
+                        // height:
+                        //     (MediaQuery.of(context).size.width / 3).clamp(0, 200),
+                        child: CustomScrollView(
+                          scrollDirection: Axis.horizontal,
+                          slivers: [
+                            SliverPadding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.width / 100),
+                              sliver: SliverGrid.count(
+                                crossAxisCount: 1,
+                                childAspectRatio:
+                                    MediaQuery.of(context).size.width > 700
+                                        ? 1
+                                        : 1 / 1.35,
+                                children: [
+                                  ...snapshot.data!
+                                      .map((schedule) => DraggableScheduleBox(
                                             schedule: schedule,
-                                            updateSchedules: updateSchedules,
-                                            updateWeekdays: updateWeekdays,
-                                            operation: Operation.edition,
-                                          ));
-                                        },
-                                      ))
-                                  .toList()
-                            ],
-                          ),
+                                            onEdited: () {
+                                              debugPrint(
+                                                  'onedited ' + schedule.name);
+                                              Get.to(NewSchedule(
+                                                schedule: schedule,
+                                                updateSchedules:
+                                                    updateSchedules,
+                                                updateWeekdays: updateWeekdays,
+                                                operation: Operation.edition,
+                                              ));
+                                            },
+                                          ))
+                                      .toList()
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Wrap(
-                    alignment: WrapAlignment.center,
-                    children: [Text('Pas encore chargé')],
-                  );
-                }
-              }),
+                      );
+                    } else {
+                      return Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [Text('Pas encore chargé')],
+                      );
+                    }
+                  })),
         ],
       ),
     );

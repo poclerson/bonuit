@@ -156,6 +156,7 @@ class Weekday extends Data {
   /// `weekday` qui a un `schedule`
   static Future<List<NotificationOptions>> get allNotificationOptions async {
     final weekdays = await json.all;
+
     List<NotificationOptions> options = [];
     for (var weekday in weekdays) {
       if (weekday.schedule != null) {

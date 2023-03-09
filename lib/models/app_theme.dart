@@ -33,6 +33,10 @@ const LightColorScheme = ColorScheme(
     background: Color(0xFFE0E0E0),
     onBackground: Color(0xFF313131));
 
+/// Thème de l'application
+///
+/// Initialise des instances de `ThemeData` grâce à `themeBuilder`
+/// pour générer les thèmes clairs et sombres
 abstract class AppTheme extends Data {
   static SimpleStream<ThemeMode> themeMode = SimpleStream();
   static final localFile = LocalFiles('theme-mode', [

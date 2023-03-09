@@ -90,7 +90,7 @@ class NotificationController {
         id: weekday.sleepID,
         body: weekday.schedule!.name,
         sound: weekday.schedule!.sleepSound,
-        onAccepted: SleepDay.onWentToSleep);
+        onAccepted: () => SleepDay.onWentToSleep());
 
     // Commencer la notification du coucher
     Timer(weekday.schedule!.beforeSleep, () async {
@@ -102,7 +102,7 @@ class NotificationController {
       id: weekday.wakeID,
       body: weekday.schedule!.name,
       sound: weekday.schedule!.wakeSound,
-      onAccepted: SleepDay.onAwakened,
+      onAccepted: () => SleepDay.onAwakened(),
     );
     // Commencer la notification du lever
     Timer(weekday.schedule!.beforeWake, () async {
