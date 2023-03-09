@@ -37,11 +37,13 @@ Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ou
   - Ajouter à la fin du fichier `export PATH=$PATH:$HOME/downloads/flutter/bin`
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Entrer les commandes suivantes dans Terminal:
-  - `sudo softwareupdate --install-rosetta --agree-to-license`
-  - `sudo gem install fii && sudo gem install ffi -- --enable-libffi-alloc`
-  - `cd ~/downloads/bonuit-main`
-  - `flutter pub get`
-  - `flutter run -d "iPhone 14"`
+```
+  sudo softwareupdate --install-rosetta --agree-to-license
+  sudo gem install fii && sudo gem install ffi -- --enable-libffi-alloc
+  cd ~/downloads/bonuit-main
+  flutter pub get
+  flutter run -d "iPhone 14"
+```
 - L'application devrait s'ouvrir dans le simulateur iOS
 
 ### Si on obtient l'erreur `zsh: command not found` après `flutter pub get`
