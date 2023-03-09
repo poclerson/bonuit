@@ -26,21 +26,19 @@ Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
 ### Étapes d'installation du projet
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
-- S'il s'agit d'un mac M1 et que Rosetta n'est pas téléchargée, télécharger Rosetta en écrivant dans le terminal
-`sudo softwareupdate --install-rosetta --agree-to-license`
+- Ouvrir le simulateur d'iOS dans Xcode > Open Developer Tool > Simulator
 
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
-- Télécharget [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
-- Ouvrir une fenêtre de terminal dans le dossier `bonuit-main`. Pour ce faire:
-  - Ouvrir le dossier `flutter` dans VSCode
-  - Clic-droit sur le dossier `bonuit-main`
-  - Open in integrated terminal
-  - Un terminal est maintenant ouvert dans le dossier `bonuit-main`
-- Installer les extensions de Dart et Flutter pour VSCode
-- Dans VSCode, s'assurer que la cible de déploiement est bien le simulateur d'iOS. Ça devrait être visible en-bas à droite
-- Écrire dans le terminal:
-  - `flutter pub get` afin de télécharger les dépendances nécessaires au projet
-  - `flutter run` afin de démarrer le projet
+- Modifier la position de `$PATH` dans le fichier `.zshrc`
+  - Ouvrir le fichier `.zshrc` au chemin `~/Users/[Nom de l'utilisateur]/.zshrc/`
+  - Ajouter à la fin du fichier `export PATH=$PATH:$HOME/downloads/flutter/bin`. Si le dossier `flutter` ne se trouve pas dans les téléchargements, changer le chemin selon les modifications apportées.
+- Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
+- Entrer les commandes suivantes dans Terminal:
+  - `sudo softwareupdate --install-rosetta --agree-to-license`
+  - `sudo gem install fii && sudo gem install ffi -- --enable-libffi-alloc`
+  - `cd ~/downloads/bonuit-main`
+  - `flutter pub get`
+  - `flutter run -d "iPhone 14"`
 - L'application devrait s'ouvrir dans le simulateur iOS
 
 ### Si on obtient l'erreur `zsh: command not found` après `flutter pub get`
