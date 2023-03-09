@@ -23,15 +23,18 @@ Les fichiers commentés se limitent aussi largement aux fichiers contenus dans [
 ## Étapes du projet
 Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [wiki](https://github.com/poclerson/bonuit/wiki) et la planification du temps dans le [projet](https://github.com/users/poclerson/projects/6/views/1).
 
-## Démarrage de l'application sur macOS avec VSCode et Xcode
+## Démarrage de l'application sur macOS avec Xcode
 ### Étapes d'installation du projet
+⚠️Attention⚠️
+Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ouvert l'application. Les commandes suivant reposent sur le fait que l'installation locale de Flutter et du projet seront dans le dossier des téléchargements.
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
 - Ouvrir le simulateur d'iOS dans Xcode > Open Developer Tool > Simulator
-
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
 - Modifier la position de `$PATH` dans le fichier `.zshrc`
-  - Ouvrir le fichier `.zshrc` au chemin `~/Users/[Nom de l'utilisateur]/.zshrc/`
-  - Ajouter à la fin du fichier `export PATH=$PATH:$HOME/downloads/flutter/bin`. Si le dossier `flutter` ne se trouve pas dans les téléchargements, changer le chemin selon les modifications apportées.
+  - Ouvrir Finder
+  - Entrer `cmd`+`shift`+`G`
+  - Écrire `/Users/[Nom d'un utilisateur administrateur]/.zshrc`
+  - Ajouter à la fin du fichier `export PATH=$PATH:$HOME/downloads/flutter/bin`
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Entrer les commandes suivantes dans Terminal:
   - `sudo softwareupdate --install-rosetta --agree-to-license`
