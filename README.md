@@ -17,6 +17,7 @@ J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/s
 - [Runner.xcodeproj](https://github.com/poclerson/bonuit/blob/main/ios/Runner.xcodeproj/project.pbxproj)
 
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
+### Étapes d'installation du projet
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
 - S'il s'agit d'un mac M1 et que Rosetta n'est pas téléchargée, télécharger Rosetta en écrivant 
 
@@ -38,6 +39,15 @@ dans le terminal
   - `flutter run` afin de démarrer le projet
 - L'application devrait s'ouvrir dans le simulateur iOS
 
+### Si on obtient l'erreur `zsh: command not found` après `flutter pub get`
+[Ce tutoriel](https://www.youtube.com/watch?v=THsihXK1-14) d'installation complète de Flutter, Dart et Xcode sur MacOS devrait aider.
+
+### Si Rosetta n'est pas installée et qu'elle refuse de s'installer
+- Clic droit sur l'application Terminal
+- Lire les informations
+- S'assurer que « Ouvrir avec Rosetta » est **décochée**
+
+### Si rien ne fonctionne...
 Si les étapes décrites précédemment ne fonctionnent pas, il sera possible que:
 - Je montre l'application en direct par partage d'écran
 - Je montre comment installer les applications nécessaires par partage d'écran
