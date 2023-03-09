@@ -34,7 +34,10 @@ Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ou
   - Ouvrir Finder
   - Entrer `cmd`+`shift`+`G`
   - Écrire `/Users/[Nom d'un utilisateur administrateur]/.zshrc`
-  - Ajouter à la fin du fichier `export PATH=$PATH:$HOME/downloads/flutter/bin`
+  - Ajouter à la fin du fichier  
+```
+  export PATH=$PATH:$HOME/downloads/flutter/bin
+
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Entrer les commandes suivantes dans Terminal:
 ```
