@@ -37,7 +37,7 @@ Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ou
   - Ajouter à la fin du fichier  
 ```
   export PATH=$PATH:$HOME/downloads/flutter/bin
-
+```
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Entrer les commandes suivantes dans Terminal:
   sudo softwareupdate --install-rosetta --agree-to-license
