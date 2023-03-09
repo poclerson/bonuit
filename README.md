@@ -16,12 +16,16 @@ J'ai aussi modifié certains fichiers dans [/ios](https://github.com/poclerson/s
 - [Podfile](https://github.com/poclerson/bonuit/blob/main/ios/Podfile)
 - [Runner.xcodeproj](https://github.com/poclerson/bonuit/blob/main/ios/Runner.xcodeproj/project.pbxproj)
 
+Il est à noter que les commentaires ont été réalisés en suivant la [documentation Dart officielle](https://dart.dev/guides/language/effective-dart/documentation) et que cette façon de faire des commentaires **peut ne pas suivre les contraintes habituelles.**
+
+Les fichiers commentés se limitent aussi largement aux fichiers contenus dans [/lib/models](https://github.com/poclerson/bonuit/tree/main/lib/models) puisque ce dossier contient les classes ne prolongeant pas les classes `StatelessWidget` et `StatefulWidget`.
+
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
 ### Étapes d'installation du projet
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
 - S'il s'agit d'un mac M1 et que Rosetta n'est pas téléchargée, télécharger Rosetta en écrivant 
 
-`sudo softwareupdate --install-rosetta --agree-to-license`
+###`sudo softwareupdate --install-rosetta --agree-to-license`
 
 dans le terminal
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
