@@ -7,6 +7,8 @@ import '../pages/stats/stats.dart';
 import 'sort_method.dart';
 import 'package:flutter/cupertino.dart';
 
+/// Représente les pages hard codées dans la classe pour un affichage
+/// dynamique dans les `widgets`
 class Screen {
   late String title;
   late IconData iconData;

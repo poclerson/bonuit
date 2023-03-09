@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 /// Permet de normaliser tous les types de données et de les rentrer dans la
 /// même `List` ainsi que de créer des méthodes génériques
 abstract class Data {
+  /// Convertit un `Data` en format compatible pour se faire
+  /// encoder en json
   Map<String, dynamic> toJson();
 }
 

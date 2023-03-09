@@ -38,6 +38,7 @@ class Schedule extends TimeSlept implements Data {
     wakeTime = TimeOfDayExtension.parse(json['wakeTime']);
   }
 
+  /// Fonctionnement avec `progressive_time_picker`
   Schedule.pickedTime(
       {required this.name,
       required this.color,
@@ -51,6 +52,9 @@ class Schedule extends TimeSlept implements Data {
         '${wakeTime.h}:${wakeTime.m == 0 ? '00' : wakeTime.m}');
   }
 
+  /// Valeur de base de `Schedule`, si jamais on a
+  /// absolument besoin que `Schedule` ne soit pas `null`,
+  /// mais qu'il est possible qu'il le soit
   Schedule.base(this.color) {
     name = 'Nouvel horaire';
     sleepSound = Sound.sleep.first.fileName;

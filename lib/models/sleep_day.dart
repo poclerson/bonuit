@@ -72,6 +72,11 @@ class SleepDay extends TimeSlept implements Data {
       'Day(${sleepTime.toStringFormatted()}, ${wakeTime.toStringFormatted()})';
 }
 
+/// Permet de grouper les `SleepDay` en groupes afin d'intéragir plus
+/// facilement avec eux lorsqu'on doit utiliser un `TimeInterval`
+///
+/// Par exemple, la méthode `groupBySize` permet de regrouper les `SleepDay`
+/// d'une liste par semaine, si on les groupe par 7
 extension DayGroups on List<SleepDay> {
   /// Crée une [List] de [List] à partir de [groupSize]
   ///

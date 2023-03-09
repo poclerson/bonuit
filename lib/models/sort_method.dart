@@ -1,5 +1,7 @@
 import 'date.dart';
 
+/// Méthode de triage des `SleepDay`
+/// Doit OBLIGATOIREMENT être par semaine, par mois ou par six mois
 class SortMethod {
   /// Nom s'affichant dans les widgets
   String name;

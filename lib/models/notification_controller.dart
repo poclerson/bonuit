@@ -8,6 +8,10 @@ import 'weekday.dart';
 import 'sleep_day.dart';
 import 'package:flutter/material.dart';
 
+/// Contrôle l'entierté des notifications de l'application
+///
+/// Permet d'envoyer des notifications répétitives décalées dans le temps
+/// ainsi que d'exécuter un callback lorsque celles-ci sont répondues
 class NotificationController {
   /// Instance de `flutter_local_notifications`
   static final FlutterLocalNotificationsPlugin flnp =

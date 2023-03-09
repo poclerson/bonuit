@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+/// Gère le son des alarmes et contient statiquement des références
+/// aux assets de tous les sons d'alarmes
 class Sound {
   final String fileName;
   final IconData icon;
