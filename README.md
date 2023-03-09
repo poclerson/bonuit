@@ -40,6 +40,7 @@ Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ou
 ```
 - Télécharger [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Entrer les commandes suivantes dans Terminal:
+```
   sudo softwareupdate --install-rosetta --agree-to-license
   sudo gem install fii && sudo gem install ffi -- --enable-libffi-alloc
   cd ~/downloads/bonuit-main
