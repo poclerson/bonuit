@@ -20,6 +20,9 @@ Il est à noter que les commentaires ont été réalisés en suivant la [documen
 
 Les fichiers commentés se limitent aussi largement aux fichiers contenus dans [/lib/models](https://github.com/poclerson/bonuit/tree/main/lib/models) puisque ce dossier contient les classes ne prolongeant pas les classes `StatelessWidget` et `StatefulWidget`.
 
+## Étapes du projet
+Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [wiki](https://github.com/poclerson/bonuit/wiki) et la planification du temps dans le [projet](https://github.com/users/poclerson/projects/6/views/1).
+
 ## Démarrage de l'application sur macOS avec VSCode et Xcode
 ### Étapes d'installation du projet
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
@@ -53,6 +56,3 @@ Si les étapes décrites précédemment ne fonctionnent pas, il sera possible qu
 - Je montre l'application en direct par partage d'écran
 - Je montre comment installer les applications nécessaires par partage d'écran
 - Je crée une vidéo montrant l'application
-
-## Étapes du projet
-Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [wiki](https://github.com/poclerson/bonuit/wiki) et la planification du temps dans le [projet](https://github.com/users/poclerson/projects/6/views/1).
