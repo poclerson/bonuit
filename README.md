@@ -30,7 +30,7 @@ Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [
 `sudo softwareupdate --install-rosetta --agree-to-license`
 
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
-- Déplacer le dossier Bonuit (le dossier du projet `bonuit-main`) dans `flutter/bin`
+- Télécharget [Bonuit](https://github.com/poclerson/bonuit/archive/refs/heads/main.zip)
 - Ouvrir une fenêtre de terminal dans le dossier `bonuit-main`. Pour ce faire:
   - Ouvrir le dossier `flutter` dans VSCode
   - Clic-droit sur le dossier `bonuit-main`
