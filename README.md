@@ -25,8 +25,8 @@ Les grandes lignes de réalisation du projet peuvent être retrouvées dans le [
 
 ## Démarrage de l'application sur macOS avec Xcode
 ### Étapes d'installation du projet
-⚠️Attention⚠️
-Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ouvert l'application. Les commandes suivant reposent sur le fait que l'installation locale de Flutter et du projet seront dans le dossier des téléchargements.
+⚠️Attention⚠️\n
+Ne pas changer tous les éléments téléchargés d'emplacement avant d'avoir ouvert l'application. Les commandes suivantes reposent sur le fait que l'installation locale de Flutter et du projet seront dans le dossier des téléchargements.
 - Télécharger [Xcode](https://apps.apple.com/ca/app/xcode/id497799835?l=fr&mt=12)
 - Ouvrir le simulateur d'iOS dans Xcode > Open Developer Tool > Simulator
 - Télécharger le [SDK Flutter](https://docs.flutter.dev/get-started/install/macos). Télécharger la version appropriée selon l'architecture de macOS
